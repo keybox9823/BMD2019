@@ -22,21 +22,21 @@
 %
 Physical design features of ground vehicles can affect their lateral handling
 qualities. Geometry, mass, and mass distribution of the vehicle's primary
-components as well as tire characteristics are primary contributors to poor and good
-handling due to their important influence on the vehicle's dynamics. In past
-work, we have presented a theoretical and computational framework for assessing
-the lateral task-independent handling qualities of simplified single track
-vehicle designs~\cite{Hess2012,Moore2012}. In subsequent work, we showed
-that minimizing the HQM can produce theoretically optimal handling designs when
-only four geometric parameters are explored as the optimization
-variables~\cite{Moore2016}. The present work's goal is to expand this
-optimization problem to 24 geometry, mass, and inertial parameters as the
-optimization variables so that a broader search space of optimal bicycle
+components as well as tire characteristics are primary contributors to poor and
+good handling due to their important influence on the vehicle's dynamics. In
+past work, we have presented a theoretical and computational framework for
+assessing the lateral task-independent handling qualities of simplified single
+track vehicle designs~\cite{Hess2012,Moore2012}. In subsequent work, we showed
+that minimizing our handling quality metric (HQM) can produce theoretically
+optimal handling designs when only four geometric parameters are explored as
+the optimization variables~\cite{Moore2016}. The present work's goal is to
+expand this optimization problem to 24 geometry, mass, and inertial parameters
+as the optimization variables so that a broader search space of optimal bicycle
 designs is considered. This task is complicated by the fact that we desire to
-limit the search space to physically realizable designs. Doing so
-introduces 35 linear and non-linear constraint equations on the optimization
-variables. We formulate a constrained optimization problem and use nonlinear
-programming to discover optimal, yet realizable, bicycle designs.
+limit the search space to physically realizable designs. Doing so introduces 35
+linear and non-linear constraint equations on the optimization variables. We
+formulate a constrained optimization problem and use nonlinear programming to
+discover optimal, yet realizable, bicycle designs.
 
 Our formulation exposes 24 optimization variables
 $\mathbf{p}\in\mathbb{R}^{24}$ that are both reformulations of and additions to
@@ -69,31 +69,33 @@ collection thereof:
         ground plane.
       \item Both bicycle and rider are symmetric about the sagittal
         plane.
-      \item The mass of each bicycle rigid body is positive and greater than a
-        minimum value and the total below a reasonably lift-able amount.
+      \item The mass of each bicycle rigid body is positive, greater than a
+        minimum value, and the total mass is below a reasonably lift-able
+        amount.
       \item The wheels cannot overlap, i.e. wheelbase > front radius + rear
         radius.
       \item The bicycle cannot topple forward during hard braking or backward
-        during hard acceleration, i.e. when -g < acceleration < g.
+        during hard acceleration, i.e. -1 g < acceleration < 1 g.
     \end{itemize}
 
   \item[Wheels] Both front and rear wheels have identical constraints.
     \begin{itemize}
       \itemsep0em
       \item Wheel radius must be greater than a minimum value.
-      \item Wheels are inertially wheel-like, i.e.
-        $I_{rot}=mr^2, I_{rad}=I_{rot}/2$.
+      \item Wheels are inertially wheel-like, i.e.  $I_{rot}=mr^2,
+        I_{rad}=I_{rot}/2$.
     \end{itemize}
 
   \item[Frames] Both front and rear frames have identical constraints.
     \begin{itemize}
       \itemsep0em
       \item A pair of principal directions lie in the roll/yaw
-        plane and one of these axes is within $\pm \pi/4$ of the ground plane.   Why?????
-      \item The mass and inertia of the frames are positive and
-        large enough to be constructed from materials in a space frame
-        of specified minimal density.
-      \item The bicycle???? is essentially of a planar nature, i.e.
+        plane to maintain symmetry and one of these axes is within $\pm \pi/4$
+        rad of the ground plane.
+      \item The mass and inertia of the frames are positive and large enough to
+        be constructed from materials in a space frame of specified minimal
+        density.
+      \item The frames are planar in nature, i.e.
         $k_{lateral}^2=k_{longitudinal}^2+k_{vertical}^2$, where $k$ is the
         radius of gyration.
     \end{itemize}
@@ -102,28 +104,31 @@ collection thereof:
     \begin{itemize}
       \itemsep0em
       \item Rider mass is that of an average person.
-      \item The rider's joint angles are fixed in a nominal configuration typical of upright bicycling and the resulting mass distribution is derived from standard body segment estimation methods.
-      \item One rider principal axis is parallel with the bicycle pitch axis. Why??????
+      \item The rider's joint angles are fixed in a nominal configuration
+        typical of upright bicycling and the resulting mass distribution is
+        derived from standard body segment estimation methods.
+      \item One rider principal axis is parallel with the bicycle pitch axis to
+        enforce symmetry.
     \end{itemize}
 
 \end{description}
 
 The constraint statements above translate into upper and lower bounds on 12 of
 the 24 variables $\mathbf{p}^U,\mathbf{p}^L$ and 14 linear and 21 nonlinear
-constraints among the variables $\mathbf{g}(\mathbf{p})$ and thus can be
+constraint $\mathbf{g}(\mathbf{p})$ among the variables and thus can be
 expressed in the standard non-linear programming form.
 %
 \begin{equation}
   \begin{aligned}
     & \underset{\mathbf{p}}{\text{minimize}} & & max(\textrm{HQM}(\mathbf{p})) \\
     & \text{subject to} & & \\
-    & & & \mathbf{g}^L \leq \mathbf{g}(\mathbf{p}) \leq \mathbf{g}^U \\
     & & & \mathbf{p}^L \leq \mathbf{p} \leq \mathbf{p}^U \\
+    & & & \mathbf{g}^L \leq \mathbf{g}(\mathbf{p}) \leq \mathbf{g}^U \\
   \end{aligned}
 \end{equation}
 
 We make use of the interior-point optimizer IPOPT~\cite{Wachter2006} to find
-solutions to this nonlinear programming problem at variety of bicycle speeds
+solutions to this nonlinear programming problem at a variety of vehicle speeds
 and will present the resulting discovered optimal bicycle designs in the full
 conference paper.
 
