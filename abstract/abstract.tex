@@ -21,19 +21,19 @@
 \section*{Abstract}
 %
 Physical design features of ground vehicles can affect their lateral handling
-qualities. The geometry, mass, mass distribution, of the vehicle's primary
-components and tire characteristics are primary contributors to poor and good
+qualities. Geometry, mass, and mass distribution of the vehicle's primary
+components as well as tire characteristics are primary contributors to poor and good
 handling due to their important influence on the vehicle's dynamics. In past
 work, we have presented a theoretical and computational framework for assessing
 the lateral task-independent handling qualities of simplified single track
-vehicle designs~\cite{Hess2012,Moore2012}. It subsequent work, we have shown
-that minimizing the HQM can produce theoretically optimal handling designs with
-just four geometric parameters are explored as the optimization
+vehicle designs~\cite{Hess2012,Moore2012}. In subsequent work, we showed
+that minimizing the HQM can produce theoretically optimal handling designs when
+only four geometric parameters are explored as the optimization
 variables~\cite{Moore2016}. The present work's goal is to expand this
 optimization problem to 24 geometry, mass, and inertial parameters as the
 optimization variables so that a broader search space of optimal bicycle
 designs is considered. This task is complicated by the fact that we desire to
-limit the search space to physically realizable bicycle designs. Doing so
+limit the search space to physically realizable designs. Doing so
 introduces 35 linear and non-linear constraint equations on the optimization
 variables. We formulate a constrained optimization problem and use nonlinear
 programming to discover optimal, yet realizable, bicycle designs.
@@ -48,14 +48,14 @@ benchmark's four rigid bodies. The variables are as follows;
 \begin{itemize}
   \itemsep-0.25em
   \item wheelbase, trail, steer axis tilt, wheel radii
-  \item somersault angle of the person (same direction as the bicycle pitch)
-  \item mass of each of the front frame, rear frame, front wheel, and rear wheel
-  \item mass center of the front frame, rear frame, and rider
-  \item principal central radii of gyration of both the front and rear frames
-  \item principal inertia pitch angle of the front frame, rear frame, and rider
+  \item somersault angle of the person (same direction as bicycle pitch)
+  \item masses of the front frame, rear frame, front wheel, and rear wheel
+  \item mass center locations of the front frame, rear frame, and rider
+  \item principal central radii of gyration of front and rear frames
+  \item principal inertia axis pitch angles of the front frame, rear frame, and rider
 \end{itemize}
 
-We formulate a bounds on the variables as well as linear and nonlinear
+We formulate bounds on the variables as well as linear and nonlinear
 constraints among the variables to ensure a physically realizable bicycle.
 Below the constraints are defined and grouped by the associated rigid body or
 collection thereof:
@@ -67,46 +67,43 @@ collection thereof:
       \itemsep0em
       \item The physical extents of the bicycle and rider must exist above the
         ground plane.
-      \item The bicycle and rider are symmetric about the rider's sagittal
+      \item Both bicycle and rider are symmetric about the sagittal
         plane.
       \item The mass of each bicycle rigid body is positive and greater than a
         minimum value and the total below a reasonably lift-able amount.
       \item The wheels cannot overlap, i.e. wheelbase > front radius + rear
         radius.
       \item The bicycle cannot topple forward during hard braking or backward
-        during hard acceleration, i.e. -g < acceleration < g.
+        during hard acceleration, i.e. when -g < acceleration < g.
     \end{itemize}
 
-  \item[Wheels] Both the front and rear wheels have the same constraints.
+  \item[Wheels] Both front and rear wheels have identical constraints.
     \begin{itemize}
       \itemsep0em
-      \item The radius must be greater than a minimum value.
-      \item The bicycle wheels should be inertially wheel-like, i.e.
+      \item Wheel radius must be greater than a minimum value.
+      \item Wheels are inertially wheel-like, i.e.
         $I_{rot}=mr^2, I_{rad}=I_{rot}/2$.
     \end{itemize}
 
-  \item[Frames] Both the front and rear frames have the same constraints.
+  \item[Frames] Both front and rear frames have identical constraints.
     \begin{itemize}
       \itemsep0em
-      \item We limit a pair of principal directions to lie in the roll/yaw
-        plane and that one of the axes must be within $\pm \pi/4$ with respect
-        to the ground plane.
-      \item We require the mass and inertia of the frames to be positive and of
-        large enough values to be constructed from materials in a space frame
-        of a specified minimal density.
-      \item We enforce that the body is of a planar nature, i.e.
+      \item A pair of principal directions lie in the roll/yaw
+        plane and one of these axes is within $\pm \pi/4$ of the ground plane.   Why?????
+      \item The mass and inertia of the frames are positive and
+        large enough to be constructed from materials in a space frame
+        of specified minimal density.
+      \item The bicycle???? is essentially of a planar nature, i.e.
         $k_{lateral}^2=k_{longitudinal}^2+k_{vertical}^2$, where $k$ is the
         radius of gyration.
     \end{itemize}
 
-  \item[Rider] A single rigid body representing the rider.
+  \item[Rider] A single rigid body represents the rider.
     \begin{itemize}
       \itemsep0em
-      \item The mass of the rider is that of an average person.
-      \item The rider's joint angles are in a fixed nominal configuration that
-        is typical for upright bicycling and the resulting mass distribution of
-        the rider is derived from standard body segment estimation methods.
-      \item One principal axis must be parallel with the bicycle's pitch axis.
+      \item Rider mass is that of an average person.
+      \item The rider's joint angles are fixed in a nominal configuration typical of upright bicycling and the resulting mass distribution is derived from standard body segment estimation methods.
+      \item One rider principal axis is parallel with the bicycle pitch axis. Why??????
     \end{itemize}
 
 \end{description}
