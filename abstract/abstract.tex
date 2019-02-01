@@ -1,0 +1,136 @@
+\documentclass{bmd2019a}
+
+\begin{document}
+
+\begin{flushleft}
+{\fontsize{16pt}{20pt}\selectfont%
+  Expanded Optimization for Discovering\\}
+{\fontsize{16pt}{20pt}\selectfont%
+  Optimal Lateral Handling Bicycles}
+\end{flushleft}
+
+%%%%%%%%%%%%%%%% authors %%%%%%%%%%%%%%%
+\begin{flushleft}
+  {\fontsize{12}{14}{Jason K. Moore, Mont Hubbard, and Ronald A. Hess}\\}
+  \textit{Mechanical and Aerospace Engineering\\
+          University of California, Davis\\
+          One Shields Avenue, Davis, CA, USA 95817\\
+          e-mail: jkm@ucdavis.edu, mhubbard@ucdavis.edu, rahess@ucdavis.edu}
+\end{flushleft}
+
+\section*{Abstract}
+%
+Physical design features of ground vehicles can affect their lateral handling
+qualities. The geometry, mass, mass distribution, of the vehicle's primary
+components and tire characteristics are primary contributors to poor and good
+handling due to their important influence on the vehicle's dynamics. In past
+work, we have presented a theoretical and computational framework for assessing
+the lateral task-independent handling qualities of simplified single track
+vehicle designs~\cite{Hess2012,Moore2012}. It subsequent work, we have shown
+that minimizing the HQM can produce theoretically optimal handling designs with
+just four geometric parameters are explored as the optimization
+variables~\cite{Moore2016}. The present work's goal is to expand this
+optimization problem to 24 geometry, mass, and inertial parameters as the
+optimization variables so that a broader search space of optimal bicycle
+designs is considered. This task is complicated by the fact that we desire to
+limit the search space to physically realizable bicycle designs. Doing so
+introduces 35 linear and non-linear constraint equations on the optimization
+variables. We formulate a constrained optimization problem and use nonlinear
+programming to discover optimal, yet realizable, bicycle designs.
+
+Our formulation exposes 24 optimization variables
+$\mathbf{p}\in\mathbb{R}^{24}$ that are both reformulations of and additions to
+the parameters of the benchmark bicycle~\cite{Meijaard2007}. We separate the
+rider's inertial parameters from the rear frame of the bicycle for the purposes
+of rider/bicycle relative configuration but do not introduce any more than the
+benchmark's four rigid bodies. The variables are as follows;
+%
+\begin{itemize}
+  \itemsep-0.25em
+  \item wheelbase, trail, steer axis tilt, wheel radii
+  \item somersault angle of the person (same direction as the bicycle pitch)
+  \item mass of each of the front frame, rear frame, front wheel, and rear wheel
+  \item mass center of the front frame, rear frame, and rider
+  \item principal central radii of gyration of both the front and rear frames
+  \item principal inertia pitch angle of the front frame, rear frame, and rider
+\end{itemize}
+
+We formulate a bounds on the variables as well as linear and nonlinear
+constraints among the variables to ensure a physically realizable bicycle.
+Below the constraints are defined and grouped by the associated rigid body or
+collection thereof:
+%
+\begin{description}
+
+  \item[Vehicle] The resulting combination of the five rigid bodies.
+    \begin{itemize}
+      \itemsep0em
+      \item The physical extents of the bicycle and rider must exist above the
+        ground plane.
+      \item The bicycle and rider are symmetric about the rider's sagittal
+        plane.
+      \item The mass of each bicycle rigid body is positive and greater than a
+        minimum value and the total below a reasonably lift-able amount.
+      \item The wheels cannot overlap, i.e. wheelbase > front radius + rear
+        radius.
+      \item The bicycle cannot topple forward during hard braking or backward
+        during hard acceleration, i.e. -g < acceleration < g.
+    \end{itemize}
+
+  \item[Wheels] Both the front and rear wheels have the same constraints.
+    \begin{itemize}
+      \itemsep0em
+      \item The radius must be greater than a minimum value.
+      \item The bicycle wheels should be inertially wheel-like, i.e.
+        $I_{rot}=mr^2, I_{rad}=I_{rot}/2$.
+    \end{itemize}
+
+  \item[Frames] Both the front and rear frames have the same constraints.
+    \begin{itemize}
+      \itemsep0em
+      \item We limit a pair of principal directions to lie in the roll/yaw
+        plane and that one of the axes must be within $\pm \pi/4$ with respect
+        to the ground plane.
+      \item We require the mass and inertia of the frames to be positive and of
+        large enough values to be constructed from materials in a space frame
+        of a specified minimal density.
+      \item We enforce that the body is of a planar nature, i.e.
+        $k_{lateral}^2=k_{longitudinal}^2+k_{vertical}^2$, where $k$ is the
+        radius of gyration.
+    \end{itemize}
+
+  \item[Rider] A single rigid body representing the rider.
+    \begin{itemize}
+      \itemsep0em
+      \item The mass of the rider is that of an average person.
+      \item The rider's joint angles are in a fixed nominal configuration that
+        is typical for upright bicycling and the resulting mass distribution of
+        the rider is derived from standard body segment estimation methods.
+      \item One principal axis must be parallel with the bicycle's pitch axis.
+    \end{itemize}
+
+\end{description}
+
+The constraint statements above translate into upper and lower bounds on 12 of
+the 24 variables $\mathbf{p}^U,\mathbf{p}^L$ and 14 linear and 21 nonlinear
+constraints among the variables $\mathbf{g}(\mathbf{p})$ and thus can be
+expressed in the standard non-linear programming form.
+%
+\begin{equation}
+  \begin{aligned}
+    & \underset{\mathbf{p}}{\text{minimize}} & & max(\textrm{HQM}(\mathbf{p})) \\
+    & \text{subject to} & & \\
+    & & & \mathbf{g}^L \leq \mathbf{g}(\mathbf{p}) \leq \mathbf{g}^U \\
+    & & & \mathbf{p}^L \leq \mathbf{p} \leq \mathbf{p}^U \\
+  \end{aligned}
+\end{equation}
+
+We make use of the interior-point optimizer IPOPT~\cite{Wachter2006} to find
+solutions to this nonlinear programming problem at variety of bicycle speeds
+and will present the resulting discovered optimal bicycle designs in the full
+conference paper.
+
+\bibliographystyle{acm}
+\bibliography{BMD2019}
+
+\end{document}
