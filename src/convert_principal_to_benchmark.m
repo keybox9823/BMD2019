@@ -1,12 +1,26 @@
 function benchmark_par = convert_principal_to_benchmark(principal_par)
-
-
+    % EVAL_RHS - Returns a structure containing the benchmark bicycle
+    % parameters as defined in Meijaard2007 which are converted from the
+    % principal parameters as defined in MooreHubbard2019.
+    %
+    % Syntax: benchmark_par = convert_principal_to_benchmark(principal_par)
+    %
+    % Inputs:
+    %   principal_par - Structure containing parameter names mapped to
+    %   doubles.
+    % Outputs:
+    %   benchmark_par - Structure containing parameters names mapped to
+    %   doubls.
+    %
+    % Explanation of the principal parameters:
+    %
     % primary geometry, gravity, and speed
     % w : wheelbase [m]
     % c : trail [m]
     % lam : steer axis tilt [m]
     % g : acceleration due to gravity [m/s^2]
     % v : forward speed [m/s]
+    %
     % rear frame
     % mD : mass of the rear frame (without rider) [kg]
     % xD : X CoM location [m]
@@ -16,6 +30,7 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
     % kD22 : Central principal radius of gyration
     % kD33 : Central principal radius of gyration
     % alphaD : Angle between the X and 1 axes, positive about Y
+    %
     % person
     % mP
     % xP
@@ -25,6 +40,7 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
     % kP22
     % kP33
     % alphaP
+    %
     % front frame
     % mH
     % xH
@@ -34,6 +50,7 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
     % kH22
     % kH33
     % alphaH
+    %
     % rear wheel
     % rR
     % mR
@@ -41,6 +58,7 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
     % case of the wheels
     % kR22 : Intermediate principal radius of gyration
     % kR33 : Minimal principal radius of gyration
+    %
     % front wheel
     % rF
     % mF
