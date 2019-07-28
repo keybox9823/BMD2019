@@ -1,7 +1,8 @@
 function benchmark_par = convert_principal_to_benchmark(principal_par)
-    % EVAL_RHS - Returns a structure containing the benchmark bicycle
-    % parameters as defined in Meijaard2007 which are converted from the
-    % principal parameters as defined in MooreHubbard2019.
+    % CONVERT_PRINCIPAL_TO_BENCHMARK - Returns a structure containing the
+    % benchmark bicycle parameters as defined in Meijaard2007 which are
+    % converted from the principal parameters as defined in
+    % MooreHubbard2019.
     %
     % Syntax: benchmark_par = convert_principal_to_benchmark(principal_par)
     %
@@ -91,7 +92,7 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
     IP123 = mP*diag([kP11^2, p.kP22^2, p.kP33^2]);
     IP = rotate_inerita_about_y(IP123, alphaP);
     ID = rotate_inerita_about_y(ID123, alphaD);
-    IB = sum_central_inertias(ID123, [xD, yD, zD], IP, [xP, yP, zP]);
+    IB = sum_central_inertias(p.mD, [xD; yD; zD], ID123, p.mP, [xP; yP; zP], IP);
     b.IBxx = IB(1, 1);
     b.IByy = IB(2, 2);
     b.IBzz = IB(3, 3);
