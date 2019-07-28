@@ -1,52 +1,63 @@
 function benchmark_par = convert_principal_to_benchmark(principal_par)
 
+
+    % primary geometry, gravity, and speed
+    % w : wheelbase [m]
+    % c : trail [m]
+    % lam : steer axis tilt [m]
+    % g : acceleration due to gravity [m/s^2]
+    % v : forward speed [m/s]
+    % rear frame
+    % mD : mass of the rear frame (without rider) [kg]
+    % xD : X CoM location [m]
+    % yD : Y CoM location [m]
+    % zD : Z CoM location [m]
+    % kD11 : Central principal radius of gyration
+    % kD22 : Central principal radius of gyration
+    % kD33 : Central principal radius of gyration
+    % alphaD : Angle between the X and 1 axes, positive about Y
+    % person
+    % mP
+    % xP
+    % yP
+    % zP
+    % kP11
+    % kP22
+    % kP33
+    % alphaP
+    % front frame
+    % mH
+    % xH
+    % yH
+    % zH
+    % kH11
+    % kH22
+    % kH33
+    % alphaH
+    % rear wheel
+    % rR
+    % mR
+    % kR11 : Maximal principal radius of gyration, aligned with Y in the
+    % case of the wheels
+    % kR22 : Intermediate principal radius of gyration
+    % kR33 : Minimal principal radius of gyration
+    % front wheel
+    % rF
+    % mF
+    % kF11
+    % kF22
+    % kF33
+
     p = principal_par;
 
-    % other
-    p.g
-    p.v
-    % primary geometry
-    p.w
-    p.c
-    p.lam
-    % rear frame
-    p.mD
-    p.xD
-    p.yD
-    p.zD
-    p.kD11
-    p.kD22
-    p.kD33
-    p.alphaD
-    % person
-    p.xP
-    p.yP
-    p.zP
-    p.alphaP
-    % front frame
-    p.mH
-    p.xH
-    p.yH
-    p.zH
-    p.kH11
-    p.kH22
-    p.kH33
-    p.alphaH
-    % rear wheel
-    p.rR
-    p.mR
-    % front wheel
-    p.rF
-    p.mF
-
-
-    % other
-    b.g = p.g
-    b.v = p.v
-    % primary geometry
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % primary geometry, gravity, and speed
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     b.w = p.w;
     b.c = p.c;
     b.lam = p.lam;
+    b.g = p.g
+    b.v = p.v
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % rear frame [B]
@@ -89,18 +100,22 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     b.rR = p.rR
     b.mR = p.mR
-    % wheel is symmetric about XY, YZ, and XZ planes
-    b.IRxx =
-    b.IRyy =
-    b.IRzz =
+    % wheel is symmetric about XY, YZ, and XZ planes, thus no prodcuts of
+    % inertia, wheel is ring or disc like, thus Ixx=Izz and Iyy > Ixx
+    b.IRxx = p.mR * p.kD22^2;
+    b.IRyy = p.mR * p.kD11^2;
+    b.IRzz = p.mR * p.kD33^2;
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % front wheel [F]
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     b.rF = p.rR;
     b.mF = p.mR;
-    b.IFxx =
-    b.IFyy =
-    b.IFzz =
+    % wheel is symmetric about XY, YZ, and XZ planes, thus no prodcuts of
+    % inertia, wheel is always ring or disc like, thus Ixx=Izz and Iyy > Ixx
+    b.IFxx = p.mF * p.kD22^2;
+    b.IFyy = p.mF * p.kD11^2;
+    b.IFzz = p.mF * p.kD33^2;
 
+    % return the benchmark parameters
     benchmark = b;
