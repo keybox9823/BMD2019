@@ -1,4 +1,4 @@
-function rotated_inertia = rotate_inertia_about_y(inertia, angle):
+function rotated_inertia = rotate_inertia_about_y(inertia, angle)
 
     %Returns inertia tensor rotated through angle about the Y axis.
 %
@@ -10,9 +10,9 @@ function rotated_inertia = rotate_inertia_about_y(inertia, angle):
         %Angle in radians about the positive Y axis of which to rotate the
         %inertia tensor.
 
-    ca = cos(angle)
-    sa = sin(angle)
+    ca = cos(angle);
+    sa = sin(angle);
     C = [ca, 0.0, -sa;
          0.0, 1., 0.0;
          sa, 0.0, ca];
-    rotated_inertia = C * I * C.T
+    rotated_inertia = C * inertia * C';

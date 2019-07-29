@@ -1,25 +1,25 @@
-function lb, ub = bounds()
+function [lb, ub] = bounds()
 % BOUNDS - Returns the lower and upper bounds of the free parameters.
 
 lb = [
- nan; % w
- nan; % c
+ -inf; % w
+ -inf; % c
  -pi/2; % lam
  0.0; % mD
- nan; % xD
- nan; % zD
- nan; % kDxx
- nan; % kDzz
+ -inf; % xD
+ -inf; % zD
+ -inf; % kDxx
+ -inf; % kDzz
  -pi/2; % alphaD
- nan; % xP
- nan; % zP
+ -inf; % xP
+ -inf; % zP
  -pi/2; % alphaP
  0.0; % mH
- nan; % xH
- nan; % zH
- nan; % kHxx
- nan; % kHyy
- nan; % kHzz
+ -inf; % xH
+ -inf; % zH
+ -inf; % kHxx
+ -inf; % kHyy
+ -inf; % kHzz
  -pi/2; % alphaH
  0.127; % rR (10" OD wheel)
  1.0; % mR
@@ -27,26 +27,26 @@ lb = [
  1.0]; % mF
 
 ub = [
- nan; % w
- nan; % c
+ inf; % w
+ inf; % c
  pi/2; % lam
- nan; % mD
- nan; % xD
+ inf; % mD
+ inf; % xD
  0.0; % zD
- nan; % kDxx
- nan; % kDzz
+ inf; % kDxx
+ inf; % kDzz
  pi/2; % alphaD
- nan; % xP
+ inf; % xP
  0.0; % zP
  pi/2; % alphaP
- nan; % mH
- nan; % xH
+ inf; % mH
+ inf; % xH
  0.0; % zH
- nan; % kHxx
- nan; % kHyy
- nan; % kHzz
+ inf; % kHxx
+ inf; % kHyy
+ inf; % kHzz
  pi/2; % alphaH
- nan; % rR
- nan; % mR
- nan; % rF
- nan]; % mF
+ inf; % rR
+ inf; % mR
+ inf; % rF
+ inf]; % mF
