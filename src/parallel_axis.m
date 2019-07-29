@@ -16,5 +16,5 @@ b = d(2, 1);
 c = d(3, 1);
 dMat = [b**2 + c**2,      -a * b,      -a * c;
              -a * b, c**2 + a**2,      -b * c;
-             -a * c,      -b * c, a**2 + b**2]
-I = Ic + m * dMat
+             -a * c,      -b * c, a**2 + b**2];
+I = Ic + m * dMat;
