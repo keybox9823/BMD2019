@@ -57,7 +57,7 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
 % kR22 : Intermediate principal radius of gyration
 % kR33 : Minimal principal radius of gyration
 %
-% front wheel
+% front  wheel
 % rF
 % mF
 % kF11
