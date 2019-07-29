@@ -19,6 +19,7 @@ b = convert_principal_to_benchmark(p);
 % if this was equality the handelbar would be XZ planar, but if we want
 % some IHzz and IHxx (protruding handle bars in Y direction) then this:
 % TODO : need better explanation of this.
+% TODO : Should we express in terms of kH11, kH22, kH33?
 c(1, 1) = b.IHyy - sqrt(b.IHxx^2 + b.IHzz^2);
 % the person does not penetrate the ground
 c(1, 2) = p.zP + p.lP / 2 * cos(p.alphaP);
