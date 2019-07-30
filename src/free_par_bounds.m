@@ -32,4 +32,4 @@ bounds = [
    1.0, inf]; % mF
 
 lower = bounds(:, 1);
-upper = bounds(:, 1);
+upper = bounds(:, 2);
