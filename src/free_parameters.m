@@ -1,6 +1,12 @@
 function x = free_parameters(principal_parameters)
 % FREE_PARAMETERS - Returns the free parameter vector, x, given the full set
 % of principal parameters.
+%
+% Inputs
+%   principal_parameters - Structure containing all of the principal
+%   parameters.
+% Outputs
+%   x - 23x1 double, vector of free parameters
 
 p = principal_parameters;
 
