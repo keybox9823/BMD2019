@@ -26,14 +26,14 @@ p.IFzz = p.IFxx;
 % TODO : pick some reasonable values for these two.
 p.lP = 1.728;  % estimated from the BicycleParameters figure
 p.wP = 0.483;  % estimated from the BicycleParameters figure
-mP = 72.0
-xP = 0.2909
-yP = 0.0
-zP = -1.1091
-IPxx = 7.9985
-IPxz = -1.9272
-IPyy = 8.0689
-IPzz = 2.3624
+p.mP = 83.50000000000001
+p.xP = 0.3157679154070924
+p.yP = 0.0
+p.zP = -1.0989885659819278
+p.IPxx = 10.985244511152501
+p.IPyy = 11.257100519570363
+p.IPzz = 2.2692214245606905
+p.IPxz = -1.7021081054955438
 
 % TODO : Put into principal radius of gyration form.
 p.mH = 3.22
