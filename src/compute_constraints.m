@@ -37,9 +37,16 @@ zT = comT(3, 1);
 c(1, 6) = 4*xT/abs(zT) - 1
 c(1, 7) = (xT - p.w) / abs(zT) + 1
 % real part of closed loop eigenvalues must be negative
-% TODO : Correct the two following lines to use the proper syntax.
-stuff = generate_data(b);
-real_evals = real(eig(stuff.something.A));
+[A, B, C, D] = whipple_pull_force_abcd(b, b.v);
+data = generate_data('Browser', b.v, ...
+                     'simulate', false, ...
+                     'forceTransfer', {}, ...
+                     'fullSystem', false, ...
+                     'stateSpace', {A, B, C, D}, ...
+                     'display', 0);
+lateral_dev_loop = minreal(tf(data.closedLoops.Y.num,
+                              data.closedLoops.Y.den));
+real_evals = real(pole(lateral_dev_loop));
 c(1, 8) = real_evals(1);
 c(1, 9) = real_evals(2);
 c(1, 10) = real_evals(3);
@@ -53,7 +60,7 @@ c(1, 15) = p.mD + p.mH + p.mR + p.mF - 25.0;  % bicycle mass (D,H,R,F) no more t
 
 % Equality constraints
 % ceq(x) = 0
-ceq(1, 1) = p.kDyy - sqrt(p.kDxx^2 + p.kDzz^2)  % frame is planar
+ceq(1, 1) = p.kD11 - sqrt(p.kD22^2 + p.kD33^2)  % frame is planar
 ceq(2, 1) = b.IRyy - b.mR*b.rR^2  % wheel is a ring
 ceq(3, 1) = b.IRxx - b.IRyy / 2  % wheel is a ring
 ceq(4, 1) = b.IRzz - b.IRyy / 2  % wheel is a ring
