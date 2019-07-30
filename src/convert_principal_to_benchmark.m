@@ -79,7 +79,8 @@ b.v = p.v
 % rear frame [B]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 b.mB = p.mD + p.mP;
-Bcom = com_from_two(p.mD, [p.xD, p.yD, p.zD], p.mP, [p.xP, p.yD, p.zP]);
+Bcom = combine_mass_centers([p.mD, p.mP],
+                            [[p.xD; p.yD; p.zD], [p.xP; p.yD; p.zP]]);
 b.xB = Bcom(1);
 b.yB = Bcom(2);
 b.zB = Bcom(3);

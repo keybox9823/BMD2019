@@ -12,5 +12,5 @@ function I = sum_central_inertias(m1, com1, I1, m2, com2, I2)
 %   I2 - 3x3 double, central inertia tensor of the second body
 % Outputs:
 %   I - combined central inertia tensor of both bodies
-com = com_from_two(m1, com1, m2, com2);
+com = combine_mass_centers([m1, m2], [com1, com2]);
 I = parallel_axis(I1, m1, com-com1) +  parallel_axis(I2, m2, com-com2);

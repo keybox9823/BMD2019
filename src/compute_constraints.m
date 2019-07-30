@@ -27,10 +27,11 @@ c(1, 3) = p.zP + p.wP / 2 * sin(p.alphaP);
 c(1, 4) = p.zP - p.lP / 2 * cos(p.alphaP);
 c(1, 5) = p.zP - p.wP / 2 * sin(p.alphaP);
 % the bike doesn't tip forward and backward when braking and accelerating
-comT = com_from_two(b.mB + b.mH, ...
-    com_from_two(b.mB, [b.xB; b.yB; b.zB], b.mH, [b.xH; b.yH; b.zH]), ...
-    b.mR + b.mF, ...
-    com_from_two(b.mR, [b.xR; b.yR; b.zR], b.mF, [b.xF; b.yF; b.zF]))
+comT = combine_mass_centers([b.mB, b.mH, b.mR, b.mF],
+                            [[b.xB; b.yB; b.zB],
+                             [b.xH; b.yH; b.zH],
+                             [b.xR; b.yR; b.zR],
+                             [b.xF; b.yF; b.zF]]);
 xT = comT(1, 1);
 zT = comT(3, 1);
 c(1, 6) = 4*xT/abs(zT) - 1
