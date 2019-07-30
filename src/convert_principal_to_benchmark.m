@@ -30,28 +30,30 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
 % alphaD : Angle between the X and 1 axes, positive about Y
 %
 % person
-% mP
-% xP
-% yP
-% zP
-% kP11
-% kP22
-% kP33
-% alphaP
+% lP : length of person [m]
+% wP : longitudinal width of person [m]
+% mP : mass of person [kg]
+% xP : mass center [m]
+% yP : mass center [m]
+% zP : mass center [m]
+% kP11 : maximal central principal radius of gyration of person [m]
+% kP22 : intermediate central principal radius of gyration of person [m]
+% kP33 : minimal central principal radius of gyration of person [m]
+% alphaP : Angle between the X axis and the maximal principal axis [rad]
 %
 % front frame
-% mH
-% xH
-% yH
-% zH
+% mH : mass of front frame (handlebar/fork)
+% xH : X mass center [m]
+% yH : Y mass center [m]
+% zH : Z mass center [m]
 % kH11
 % kH22
 % kH33
 % alphaH
 %
 % rear wheel
-% rR
-% mR
+% rR : radius of rear wheel [m]
+% mR : mass of rear wheel [kg]
 % kR11 : Maximal principal radius of gyration, aligned with Y in the
 % case of the wheels
 % kR22 : Intermediate principal radius of gyration
