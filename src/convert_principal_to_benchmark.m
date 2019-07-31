@@ -120,11 +120,11 @@ b.IHxz = IH(1, 3);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 b.rR = p.rR;
 b.mR = p.mR;
-% wheel is symmetric about XY, YZ, and XZ planes, thus no prodcuts of
+% wheel is symmetric about XY, YZ, and XZ planes, thus no products of
 % inertia, wheel is ring or disc like, thus Ixx=Izz and Iyy > Ixx
-b.IRxx = p.mR * p.kD22^2;
-b.IRyy = p.mR * p.kD11^2;
-b.IRzz = p.mR * p.kD33^2;
+b.IRxx = p.mR * p.kR22^2;
+b.IRyy = p.mR * p.kR11^2;
+b.IRzz = p.mR * p.kR33^2;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % front wheel [F]
@@ -133,9 +133,9 @@ b.rF = p.rR;
 b.mF = p.mR;
 % wheel is symmetric about XY, YZ, and XZ planes, thus no prodcuts of
 % inertia, wheel is always ring or disc like, thus Ixx=Izz and Iyy > Ixx
-b.IFxx = p.mF * p.kD22^2;
-b.IFyy = p.mF * p.kD11^2;
-b.IFzz = p.mF * p.kD33^2;
+b.IFxx = p.mF * p.kF22^2;
+b.IFyy = p.mF * p.kF11^2;
+b.IFzz = p.mF * p.kF33^2;
 
 % return the benchmark parameters
 benchmark_par = b;
