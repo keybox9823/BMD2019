@@ -43,19 +43,19 @@ p.mP = 83.50000000000001;
 p.xP = 0.3157679154070924;
 p.yP = 0.0;
 p.zP = -1.0989885659819278;
-p.kP11 = 0.36796654;
+p.kPaa = 0.36796654;
+p.kPbb = 0.15276369;
 p.kPyy = 0.36717241;  % aligned with the Y axis
-p.kP33 = 0.15276369;
-p.alphaP = -0.18617531745505142;
+p.alphaP = -0.18617531745505142;  % angle between X and the max of kPa and kpB
 
 % front frame
 p.mH = 3.22;
 p.xH = 0.866949640247;
 p.yH = 0.0;
 p.zH = -0.748236400835;
-p.kH11 = 0.29556015;
-p.kH22 = 0.27630431;  % aligned with the Y axis
-p.kH33 = 0.14493343;
+p.kHaa = 0.29556015;
+p.kHbb = 0.14493343;
+p.kHyy = 0.27630431;  % aligned with the Y axis
 p.alphaH = -0.3699481738478786;
 
 % rear frame (only) parameters
@@ -63,7 +63,7 @@ p.mD = 9.86;
 p.xD = 0.275951285677;
 p.yD = 0.0;
 p.zD = -0.537842424305;
-p.kD11 = 0.36538846;  % this is aligned with the Y axis
-p.kD22 = 0.28586689;
-p.kD33 = 0.22079007;
+p.kDaa = 0.28586689;
+p.kDbb = 0.22079007;
+p.kDyy = 0.36538846;  % this is aligned with the Y axis
 p.alphaD = -1.1722101094171953;

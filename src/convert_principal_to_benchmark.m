@@ -24,9 +24,9 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
 % xD : X CoM location [m]
 % yD : Y CoM location [m]
 % zD : Z CoM location [m]
-% kD11 : Central principal radius of gyration
-% kD22 : Central principal radius of gyration
-% kD33 : Central principal radius of gyration
+% kDaa : Central principal radius of gyration
+% kDbb : Central principal radius of gyration
+% kDyy : Central principal radius of gyration
 % alphaD : Angle between the X and 1 axes, positive about Y
 %
 % person
@@ -36,9 +36,9 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
 % xP : mass center [m]
 % yP : mass center [m]
 % zP : mass center [m]
-% kP11 : maximal central principal radius of gyration of person [m]
-% kP22 : intermediate central principal radius of gyration of person [m]
-% kP33 : minimal central principal radius of gyration of person [m]
+% kPaa : maximal central principal radius of gyration of person [m]
+% kPbb : intermediate central principal radius of gyration of person [m]
+% kPyy : minimal central principal radius of gyration of person [m]
 % alphaP : Angle between the X axis and the maximal principal axis [rad]
 %
 % front frame
@@ -46,9 +46,9 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
 % xH : X mass center [m]
 % yH : Y mass center [m]
 % zH : Z mass center [m]
-% kH11
-% kH22
-% kH33
+% kHaa
+% kHbb
+% kHyy
 % alphaH
 %
 % rear wheel
@@ -88,16 +88,17 @@ b.yB = Bcom(2, 1);
 b.zB = Bcom(3, 1);
 
 % symmetry is assumed about the XZ plane
-% NOTE : with the order of ID123 we have to ensure that the largest inertia
-% is pointing along the Y direction
-ID123 = p.mD*diag([p.kD22^2, p.kD11^2, p.kD33^2]);
-ID = rotate_inertia_about_y(ID123, -p.alphaD);
+ID_principal = p.mD*diag([max(p.kDaa, p.kDbb)^2, p.kDyy^2, min(p.kDaa, p.kDbb)^2]);
+% TODO : I thought that I'd need to five -p.alphaD here, but I don't. Check.
+ID = rotate_inertia_about_y(ID_principal, p.alphaD);
 
-IP123 = p.mP*diag([p.kP11^2, p.kP22^2, p.kP33^2]);
-IP = rotate_inertia_about_y(IP123, -p.alphaP);
+% person
+IP_principal = p.mP*diag([max(p.kPaa, p.kPbb)^2, p.kPyy^2, min(p.kPaa, p.kPbb)^2]);
+% TODO : I thought that I'd need to five -p.alphaP here, but I don't. Check.
+IP = rotate_inertia_about_y(IP_principal, p.alphaP);
 
 IB = sum_central_inertias(p.mD, [p.xD; p.yD; p.zD], ID, ...
-                          p.mP, [p.xP; p.yP; p.zP], IP)
+                          p.mP, [p.xP; p.yP; p.zP], IP);
 b.IBxx = IB(1, 1);
 b.IByy = IB(2, 2);
 b.IBzz = IB(3, 3);
@@ -112,8 +113,9 @@ b.yH = p.yH;
 b.zH = p.zH;
 
 % symmetry is assumed about the XZ plane
-IH123 = p.mH*diag([p.kH11^2, p.kH22^2, p.kH33^2]);
-IH = rotate_inertia_about_y(IH123, -p.alphaH);
+IH123 = p.mH*diag([max(p.kHaa, p.kHbb)^2, p.kHyy^2, min(p.kHaa, p.kHbb)^2]);
+% TODO : I thought that I'd need to five -p.alphaH here, but I don't. Check.
+IH = rotate_inertia_about_y(IH123, p.alphaH);
 b.IHxx = IH(1, 1);
 b.IHyy = IH(2, 2);
 b.IHzz = IH(3, 3);
