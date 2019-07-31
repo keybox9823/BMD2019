@@ -82,17 +82,17 @@ b.v = p.v;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 b.mB = p.mD + p.mP;
 Bcom = combine_mass_centers([p.mD, p.mP], ...
-                            [[p.xD; p.yD; p.zD], [p.xP; p.yD; p.zP]]);
-b.xB = Bcom(1);
-b.yB = Bcom(2);
-b.zB = Bcom(3);
+                            [[p.xD; p.yD; p.zD], [p.xP; p.yP; p.zP]]);
+b.xB = Bcom(1, 1);
+b.yB = Bcom(2, 1);
+b.zB = Bcom(3, 1);
 
 % symmetry is assumed about the XZ plane
 ID123 = p.mD*diag([p.kD11^2, p.kD22^2, p.kD33^2]);
 IP123 = p.mP*diag([p.kP11^2, p.kP22^2, p.kP33^2]);
 IP = rotate_inertia_about_y(IP123, -p.alphaP);
 ID = rotate_inertia_about_y(ID123, -p.alphaD);
-IB = sum_central_inertias(p.mD, [p.xD; p.yD; p.zD], ID123, ...
+IB = sum_central_inertias(p.mD, [p.xD; p.yD; p.zD], ID, ...
                           p.mP, [p.xP; p.yP; p.zP], IP);
 b.IBxx = IB(1, 1);
 b.IByy = IB(2, 2);
@@ -129,8 +129,8 @@ b.IRzz = p.mR * p.kR33^2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % front wheel [F]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-b.rF = p.rR;
-b.mF = p.mR;
+b.rF = p.rF;
+b.mF = p.mF;
 % wheel is symmetric about XY, YZ, and XZ planes, thus no prodcuts of
 % inertia, wheel is always ring or disc like, thus Ixx=Izz and Iyy > Ixx
 b.IFxx = p.mF * p.kF22^2;
