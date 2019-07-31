@@ -27,15 +27,16 @@ c(1, 3) = p.zP + p.wP / 2 * sin(p.alphaP);
 c(1, 4) = p.zP - p.lP / 2 * cos(p.alphaP);
 c(1, 5) = p.zP - p.wP / 2 * sin(p.alphaP);
 % the bike doesn't tip forward and backward when braking and accelerating
-comT = combine_mass_centers([b.mB, b.mH, b.mR, b.mF],
-                            [[b.xB; b.yB; b.zB],
-                             [b.xH; b.yH; b.zH],
-                             [b.xR; b.yR; b.zR],
-                             [b.xF; b.yF; b.zF]]);
+comT = combine_mass_centers([p.mD, p.mP, p.mH, p.mR, p.mF], ...
+                            [[p.xD; p.yD; p.zD], ...
+                             [p.xP; p.yP; p.zP], ...
+                             [p.xH; p.yH; p.zH], ...
+                             [p.xR; p.yR; p.zR], ...
+                             [p.xF; p.yF; p.zF]]);
 xT = comT(1, 1);
 zT = comT(3, 1);
-c(1, 6) = 4*xT/abs(zT) - 1
-c(1, 7) = (xT - p.w) / abs(zT) + 1
+c(1, 6) = 4*xT/abs(zT) - 1;
+c(1, 7) = (xT - p.w) / abs(zT) + 1;
 % real part of closed loop eigenvalues must be negative
 [A, B, C, D] = whipple_pull_force_abcd(b, b.v);
 data = generate_data('Browser', b.v, ...
@@ -60,10 +61,10 @@ c(1, 15) = p.mD + p.mH + p.mR + p.mF - 25.0;  % bicycle mass (D,H,R,F) no more t
 
 % Equality constraints
 % ceq(x) = 0
-ceq(1, 1) = p.kD11 - sqrt(p.kD22^2 + p.kD33^2)  % frame is planar
-ceq(2, 1) = b.IRyy - b.mR*b.rR^2  % wheel is a ring
-ceq(3, 1) = b.IRxx - b.IRyy / 2  % wheel is a ring
-ceq(4, 1) = b.IRzz - b.IRyy / 2  % wheel is a ring
-ceq(5, 1) = b.IFyy - b.mF*b.rF^2  % wheel is a ring
-ceq(6, 1) = b.IFxx - b.IFyy / 2  % wheel is a ring
-ceq(7, 1) = b.IFzz - b.IFyy / 2  % wheel is a ring
+ceq(1, 1) = p.kD11 - sqrt(p.kD22^2 + p.kD33^2);  % frame is planar
+ceq(2, 1) = b.IRyy - b.mR*b.rR^2;  % wheel is a ring
+ceq(3, 1) = b.IRxx - b.IRyy / 2;  % wheel is a ring
+ceq(4, 1) = b.IRzz - b.IRyy / 2;  % wheel is a ring
+ceq(5, 1) = b.IFyy - b.mF*b.rF^2;  % wheel is a ring
+ceq(6, 1) = b.IFxx - b.IFyy / 2;  % wheel is a ring
+ceq(7, 1) = b.IFzz - b.IFyy / 2;  % wheel is a ring
