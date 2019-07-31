@@ -3,8 +3,8 @@ function [lower, upper] = free_par_bounds()
 % parameters.
 %
 % Outputs:
-%   lower - 23x1 double
-%   upper - 23x1 double
+%   lower - 24x1 double
+%   upper - 24x1 double
 
 bounds = [
   -inf, inf;  % w
@@ -13,8 +13,9 @@ bounds = [
    0.0, inf;  % mD
   -inf, inf;  % xD
   -inf, 0.0;  % zD
-  -inf, inf;  % kDxx
-  -inf, inf;  % kDzz
+  -inf, inf;  % kDaa
+  -inf, inf;  % kDbb
+  -inf, inf;  % kDyy
  -pi/2, pi/2; % alphaD
   -inf, inf;  % xP
   -inf, 0.0;  % zP
@@ -22,9 +23,9 @@ bounds = [
    0.0, inf;  % mH
   -inf, inf;  % xH
   -inf, 0.0;  % zH
-  -inf, inf;  % kHxx
+  -inf, inf;  % kHaa
+  -inf, inf;  % kHbb
   -inf, inf;  % kHyy
-  -inf, inf;  % kHzz
  -pi/2, pi/2; % alphaH
  0.127, inf;  % rR (10" OD wheel)
    1.0, inf;  % mR

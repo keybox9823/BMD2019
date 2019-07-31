@@ -6,7 +6,7 @@ function x = free_parameters(principal_parameters)
 %   principal_parameters - Structure containing all of the principal
 %   parameters.
 % Outputs
-%   x - 23x1 double, vector of free parameters
+%   x - 24x1 double, vector of free parameters
 
 p = principal_parameters;
 
@@ -16,8 +16,9 @@ x = [p.w;
      p.mD;
      p.xD;
      p.zD;
-     p.kD11;
-     p.kD33;
+     p.kDaa;
+     p.kDbb;
+     p.kDyy;
      p.alphaD;
      p.xP;
      p.zP;
@@ -25,9 +26,9 @@ x = [p.w;
      p.mH;
      p.xH;
      p.zH;
-     p.kH11;
-     p.kH22;
-     p.kH33;
+     p.kHaa;
+     p.kHbb;
+     p.kHyy;
      p.alphaH;
      p.rR;
      p.mR;
