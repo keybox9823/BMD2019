@@ -19,7 +19,7 @@ p.zR = -p.rR;
 IRxx = 0.0904114316323;
 IRyy = 0.152391250767;
 IRzz = IRxx;
-p.kR11 = sqrt(IRyy/p.mR);
+p.kR11 = sqrt(IRyy/p.mR);  % aligned with Y axis
 p.kR22 = sqrt(IRxx/p.mR);
 p.kR33 = sqrt(IRzz/p.mR);
 
@@ -32,7 +32,7 @@ p.zF = -p.rF;
 IFxx = 0.0883826870796;
 IFyy = 0.149221207336;
 IFzz = IFxx;
-p.kF11 = sqrt(IFyy/p.mF);
+p.kF11 = sqrt(IFyy/p.mF);  % aligned with Y axis
 p.kF22 = sqrt(IFxx/p.mF);
 p.kF33 = sqrt(IFzz/p.mF);
 
@@ -44,7 +44,7 @@ p.xP = 0.3157679154070924;
 p.yP = 0.0;
 p.zP = -1.0989885659819278;
 p.kP11 = 0.36796654;
-p.kP22 = 0.36717241;
+p.kPyy = 0.36717241;  % aligned with the Y axis
 p.kP33 = 0.15276369;
 p.alphaP = -0.18617531745505142;
 
@@ -54,7 +54,7 @@ p.xH = 0.866949640247;
 p.yH = 0.0;
 p.zH = -0.748236400835;
 p.kH11 = 0.29556015;
-p.kH22 = 0.27630431;
+p.kH22 = 0.27630431;  % aligned with the Y axis
 p.kH33 = 0.14493343;
 p.alphaH = -0.3699481738478786;
 
@@ -63,7 +63,7 @@ p.mD = 9.86;
 p.xD = 0.275951285677;
 p.yD = 0.0;
 p.zD = -0.537842424305;
-p.kD11 = 0.36538846;
+p.kD11 = 0.36538846;  % this is aligned with the Y axis
 p.kD22 = 0.28586689;
 p.kD33 = 0.22079007;
 p.alphaD = -1.1722101094171953;
