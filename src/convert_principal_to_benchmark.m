@@ -74,8 +74,8 @@ p = principal_par;
 b.w = p.w;
 b.c = p.c;
 b.lam = p.lam;
-b.g = p.g
-b.v = p.v
+b.g = p.g;
+b.v = p.v;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % rear frame [B]
@@ -88,11 +88,12 @@ b.yB = Bcom(2);
 b.zB = Bcom(3);
 
 % symmetry is assumed about the XZ plane
-ID123 = mD*diag([kD11^2, p.kD22^2, p.kD33^2]);
-IP123 = mP*diag([kP11^2, p.kP22^2, p.kP33^2]);
-IP = rotate_inerita_about_y(IP123, alphaP);
-ID = rotate_inerita_about_y(ID123, alphaD);
-IB = sum_central_inertias(p.mD, [xD; yD; zD], ID123, p.mP, [xP; yP; zP], IP);
+ID123 = p.mD*diag([p.kD11^2, p.kD22^2, p.kD33^2]);
+IP123 = p.mP*diag([p.kP11^2, p.kP22^2, p.kP33^2]);
+IP = rotate_inertia_about_y(IP123, -p.alphaP);
+ID = rotate_inertia_about_y(ID123, -p.alphaD);
+IB = sum_central_inertias(p.mD, [p.xD; p.yD; p.zD], ID123, ...
+                          p.mP, [p.xP; p.yP; p.zP], IP);
 b.IBxx = IB(1, 1);
 b.IByy = IB(2, 2);
 b.IBzz = IB(3, 3);
@@ -102,13 +103,13 @@ b.IBxz = IB(1, 3);
 % front frame [H]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 b.mH = p.mH;
-b.xH = p.xH:
+b.xH = p.xH;
 b.yH = p.yH;
-b.zH = p.zH:
+b.zH = p.zH;
 
 % symmetry is assumed about the XZ plane
-IH123 = mH*diag([kH11^2, p.kH22^2, p.kH33^2]);
-IH = rotate_inertia_about_y(IH123, alphaH);
+IH123 = p.mH*diag([p.kH11^2, p.kH22^2, p.kH33^2]);
+IH = rotate_inertia_about_y(IH123, -p.alphaH);
 b.IHxx = IH(1, 1);
 b.IHyy = IH(2, 2);
 b.IHzz = IH(3, 3);
@@ -117,8 +118,8 @@ b.IHxz = IH(1, 3);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % rear wheel [R]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-b.rR = p.rR
-b.mR = p.mR
+b.rR = p.rR;
+b.mR = p.mR;
 % wheel is symmetric about XY, YZ, and XZ planes, thus no prodcuts of
 % inertia, wheel is ring or disc like, thus Ixx=Izz and Iyy > Ixx
 b.IRxx = p.mR * p.kD22^2;
@@ -137,4 +138,4 @@ b.IFyy = p.mF * p.kD11^2;
 b.IFzz = p.mF * p.kD33^2;
 
 % return the benchmark parameters
-benchmark = b;
+benchmark_par = b;
