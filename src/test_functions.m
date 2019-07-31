@@ -26,10 +26,12 @@ expd_b.mF = 2.02;
 expd_b.rF = 0.34352982332;
 expd_b.IFxx = 0.0883826870796;
 expd_b.IFyy = 0.149221207336;
+expd_b.IFzz = 0.0883826870796;
 expd_b.mR = 3.11;
 expd_b.rR = 0.340958858855;
 expd_b.IRxx = 0.0904114316323;
 expd_b.IRyy = 0.152391250767;
+expd_b.IRzz = 0.0904114316323;
 expd_b.v = 3.0;
 
 fields = fieldnames(b);
