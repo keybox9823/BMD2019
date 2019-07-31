@@ -88,12 +88,16 @@ b.yB = Bcom(2, 1);
 b.zB = Bcom(3, 1);
 
 % symmetry is assumed about the XZ plane
-ID123 = p.mD*diag([p.kD11^2, p.kD22^2, p.kD33^2]);
+% NOTE : with the order of ID123 we have to ensure that the largest inertia
+% is pointing along the Y direction
+ID123 = p.mD*diag([p.kD22^2, p.kD11^2, p.kD33^2]);
+ID = rotate_inertia_about_y(ID123, -p.alphaD);
+
 IP123 = p.mP*diag([p.kP11^2, p.kP22^2, p.kP33^2]);
 IP = rotate_inertia_about_y(IP123, -p.alphaP);
-ID = rotate_inertia_about_y(ID123, -p.alphaD);
+
 IB = sum_central_inertias(p.mD, [p.xD; p.yD; p.zD], ID, ...
-                          p.mP, [p.xP; p.yP; p.zP], IP);
+                          p.mP, [p.xP; p.yP; p.zP], IP)
 b.IBxx = IB(1, 1);
 b.IByy = IB(2, 2);
 b.IBzz = IB(3, 3);
