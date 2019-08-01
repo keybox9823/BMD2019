@@ -32,10 +32,11 @@ comT = combine_mass_centers([p.mD, p.mP, p.mH, p.mR, p.mF], ...
                              [p.xH; p.yH; p.zH], ...
                              [p.xR; p.yR; p.zR], ...
                              [p.xF; p.yF; p.zF]]);
-xT = comT(1, 1);
-zT = comT(3, 1);
-c(6, 1) = 4*xT/abs(zT) - 1;
-c(7, 1) = (xT - p.w) / abs(zT) + 1;
+xT = comT(1, 1)
+zT = comT(3, 1)
+% zT is a negative value, thus the abs
+c(6, 1) = 1*abs(zT)/4 - xT;  % handle max 1/4 accel
+c(7, 1) = 3*abs(zT)/4 - p.w + xT;  % handle max 3/4 g braking
 % real part of closed loop eigenvalues must be negative
 [A, B, C, D] = whipple_pull_force_abcd(b, b.v);
 data = generate_data('Browser', b.v, ...
@@ -47,6 +48,7 @@ data = generate_data('Browser', b.v, ...
 lateral_dev_loop = minreal(tf(data.closedLoops.Y.num, ...
                               data.closedLoops.Y.den));
 real_evals = real(pole(lateral_dev_loop));
+% There are only supposed to be 8 eigenvalues
 num_evals = length(real_evals);
 c(8:8+num_evals-1, 1) = real_evals;
 % linear
