@@ -3,8 +3,8 @@ function [lower, upper] = free_par_bounds()
 % parameters.
 %
 % Outputs:
-%   lower - 24x1 double
-%   upper - 24x1 double
+%   lower - 23x1 double
+%   upper - 23x1 double
 
 bounds = [
   -inf, inf;  % w
