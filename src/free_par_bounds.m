@@ -15,7 +15,6 @@ bounds = [
   -inf, 0.0;  % zD
   -inf, inf;  % kDaa
   -inf, inf;  % kDbb
-  -inf, inf;  % kDyy
  -pi/2, pi/2; % alphaD
   -inf, inf;  % xP
   -inf, 0.0;  % zP

@@ -61,10 +61,4 @@ c(1, 15) = p.mD + p.mH + p.mR + p.mF - 25.0;  % bicycle mass (D,H,R,F) no more t
 
 % Equality constraints
 % ceq(x) = 0
-ceq(1, 1) = p.IDyy - sqrt(p.IDaa^2 + p.IDbb^2);  % frame is planar
-ceq(2, 1) = b.IRyy - b.mR*b.rR^2;  % wheel is a ring
-ceq(3, 1) = b.IRxx - b.IRyy / 2;  % wheel is a ring
-ceq(4, 1) = b.IRzz - b.IRyy / 2;  % wheel is a ring
-ceq(5, 1) = b.IFyy - b.mF*b.rF^2;  % wheel is a ring
-ceq(6, 1) = b.IFxx - b.IFyy / 2;  % wheel is a ring
-ceq(7, 1) = b.IFzz - b.IFyy / 2;  % wheel is a ring
+ceq = [];

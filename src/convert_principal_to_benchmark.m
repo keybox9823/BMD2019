@@ -88,21 +88,21 @@ b.yB = Bcom(2, 1);
 b.zB = Bcom(3, 1);
 
 % symmetry is assumed about the XZ plane
+% TODO : Probably do not need the max() min() call here.
 ID_principal = p.mD*diag([max(p.kDaa, p.kDbb)^2, p.kDyy^2, min(p.kDaa, p.kDbb)^2]);
-% TODO : I thought that I'd need to five -p.alphaD here, but I don't. Check.
-ID = rotate_inertia_about_y(ID_principal, p.alphaD);
+IDxyz = rotate_inertia_about_y(ID_principal, -p.alphaD);
 
 % person
 IP_principal = p.mP*diag([max(p.kPaa, p.kPbb)^2, p.kPyy^2, min(p.kPaa, p.kPbb)^2]);
-% TODO : I thought that I'd need to five -p.alphaP here, but I don't. Check.
-IP = rotate_inertia_about_y(IP_principal, p.alphaP);
+IPxyz = rotate_inertia_about_y(IP_principal, -p.alphaP);
 
-IB = sum_central_inertias(p.mD, [p.xD; p.yD; p.zD], ID, ...
-                          p.mP, [p.xP; p.yP; p.zP], IP);
-b.IBxx = IB(1, 1);
-b.IByy = IB(2, 2);
-b.IBzz = IB(3, 3);
-b.IBxz = IB(1, 3);
+% combined rear frame and person
+IBxyz = sum_central_inertias(p.mD, [p.xD; p.yD; p.zD], IDxyz, ...
+                             p.mP, [p.xP; p.yP; p.zP], IPxyz);
+b.IBxx = IBxyz(1, 1);
+b.IByy = IBxyz(2, 2);
+b.IBzz = IBxyz(3, 3);
+b.IBxz = IBxyz(1, 3);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % front frame [H]
@@ -114,8 +114,7 @@ b.zH = p.zH;
 
 % symmetry is assumed about the XZ plane
 IH123 = p.mH*diag([max(p.kHaa, p.kHbb)^2, p.kHyy^2, min(p.kHaa, p.kHbb)^2]);
-% TODO : I thought that I'd need to five -p.alphaH here, but I don't. Check.
-IH = rotate_inertia_about_y(IH123, p.alphaH);
+IH = rotate_inertia_about_y(IH123, -p.alphaH);
 b.IHxx = IH(1, 1);
 b.IHyy = IH(2, 2);
 b.IHzz = IH(3, 3);
