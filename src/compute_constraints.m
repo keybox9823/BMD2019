@@ -7,8 +7,8 @@ function [c, ceq] = compute_constraints(x, p)
 %   p - structure, default principal parameters
 %
 % Outputs:
-%   c - 15x1 double, inequality constraint values
-%   ceq - 7x1 double, equality constraint values
+%   c - 21x1 double, inequality constraint values
+%   ceq - 0x0 double, equality constraint values
 
 p = update_principal_parameters(p, x);
 b = convert_principal_to_benchmark(p);
@@ -32,8 +32,8 @@ comT = combine_mass_centers([p.mD, p.mP, p.mH, p.mR, p.mF], ...
                              [p.xH; p.yH; p.zH], ...
                              [p.xR; p.yR; p.zR], ...
                              [p.xF; p.yF; p.zF]]);
-xT = comT(1, 1)
-zT = comT(3, 1)
+xT = comT(1, 1);
+zT = comT(3, 1);
 % zT is a negative value, thus the abs
 c(6, 1) = 1*abs(zT)/4 - xT;  % handle max 1/4 accel
 c(7, 1) = 3*abs(zT)/4 - p.w + xT;  % handle max 3/4 g braking
@@ -48,7 +48,7 @@ data = generate_data('Browser', b.v, ...
 lateral_dev_loop = minreal(tf(data.closedLoops.Y.num, ...
                               data.closedLoops.Y.den));
 real_evals = real(pole(lateral_dev_loop));
-% There are only supposed to be 8 eigenvalues
+% There are only supposed to be 8 eigenvalues, but getting 12 here.
 num_evals = length(real_evals);
 c(8:8+num_evals-1, 1) = real_evals;
 % linear
