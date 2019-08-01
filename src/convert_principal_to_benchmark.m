@@ -8,7 +8,7 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
 % Inputs:
 %   principal_par - Structure containing parameter names mapped to doubles.
 % Outputs:
-%   benchmark_par - Structure containing parameters names mapped to doubls.
+%   benchmark_par - Structure containing parameters names mapped to doubles.
 %
 % Explanation of the principal parameters:
 %
