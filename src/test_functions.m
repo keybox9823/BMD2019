@@ -41,8 +41,15 @@ end
 
 x = free_parameters(p);
 
+size(x)
+
 p_updated = update_principal_parameters(p, nan*ones(23,1));
 
 [lb, ub] = free_par_bounds();
 
+size(lb)
+size(ub)
+
 [c, ceq] = compute_constraints(x, p);
+
+size(c)
