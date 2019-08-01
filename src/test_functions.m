@@ -1,6 +1,6 @@
-p = default_principal_parameters();
+p = default_principal_parameters()
 
-b = convert_principal_to_benchmark(p);
+b = convert_principal_to_benchmark(p)
 
 expd_b.w = 1.121;
 expd_b.c = 0.0685808540382;
@@ -39,17 +39,10 @@ for i = 1:length(fields)
     is_equal(b.(fields{i}), expd_b.(fields{i}), fields{i})
 end
 
-x = free_parameters(p);
+x = free_parameters(p)
 
-size(x)
+p_updated = update_principal_parameters(p, nan*ones(23,1))
 
-p_updated = update_principal_parameters(p, nan*ones(23,1));
+[lb, ub] = free_par_bounds()
 
-[lb, ub] = free_par_bounds();
-
-size(lb)
-size(ub)
-
-[c, ceq] = compute_constraints(x, p);
-
-size(c)
+[c, ceq] = compute_constraints(x, p)
