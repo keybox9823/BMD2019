@@ -38,10 +38,10 @@ p.xF = p.w;
 p.zF = -p.rF;
 p.kDyy = (p.kDaa^4 + p.kDbb^4)^(1/4);  % frame is planar
 % rear wheel is a ring
-p.kR11 = b.rR;
-p.kR22 = p.kRyy/2;
-p.kR33 = p.kRyy/2;
+p.kR11 = p.rR;
+p.kR22 = p.kR11/2;
+p.kR33 = p.kR11/2;
 % front wheel is a ring
-p.kF11 = b.rF;
-p.kF22 = p.kFyy/2;
-p.kF33 = p.kFyy/2;
+p.kF11 = p.rF;
+p.kF22 = p.kF11/2;
+p.kF33 = p.kF11/2;
