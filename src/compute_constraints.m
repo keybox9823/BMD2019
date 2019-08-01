@@ -19,13 +19,12 @@ b = convert_principal_to_benchmark(p);
 % if this was equality the handelbar would be XZ planar, but if we want
 % some IHzz and IHxx (protruding handle bars in Y direction) then this:
 % TODO : need better explanation of this.
-% TODO : Should we express in terms of kH11, kH22, kH33?
 c(1, 1) = b.IHyy - sqrt(b.IHxx^2 + b.IHzz^2);
 % the person does not penetrate the ground
-c(1, 2) = p.zP + p.lP / 2 * cos(p.alphaP);
-c(1, 3) = p.zP + p.wP / 2 * sin(p.alphaP);
-c(1, 4) = p.zP - p.lP / 2 * cos(p.alphaP);
-c(1, 5) = p.zP - p.wP / 2 * sin(p.alphaP);
+c(2, 1) = p.zP + p.lP / 2 * cos(p.alphaP);
+c(3, 1) = p.zP + p.wP / 2 * sin(p.alphaP);
+c(4, 1) = p.zP - p.lP / 2 * cos(p.alphaP);
+c(5, 1) = p.zP - p.wP / 2 * sin(p.alphaP);
 % the bike doesn't tip forward and backward when braking and accelerating
 comT = combine_mass_centers([p.mD, p.mP, p.mH, p.mR, p.mF], ...
                             [[p.xD; p.yD; p.zD], ...
@@ -35,8 +34,8 @@ comT = combine_mass_centers([p.mD, p.mP, p.mH, p.mR, p.mF], ...
                              [p.xF; p.yF; p.zF]]);
 xT = comT(1, 1);
 zT = comT(3, 1);
-c(1, 6) = 4*xT/abs(zT) - 1;
-c(1, 7) = (xT - p.w) / abs(zT) + 1;
+c(6, 1) = 4*xT/abs(zT) - 1;
+c(7, 1) = (xT - p.w) / abs(zT) + 1;
 % real part of closed loop eigenvalues must be negative
 [A, B, C, D] = whipple_pull_force_abcd(b, b.v);
 data = generate_data('Browser', b.v, ...
@@ -48,17 +47,15 @@ data = generate_data('Browser', b.v, ...
 lateral_dev_loop = minreal(tf(data.closedLoops.Y.num, ...
                               data.closedLoops.Y.den));
 real_evals = real(pole(lateral_dev_loop));
-c(1, 8) = real_evals(1);
-c(1, 9) = real_evals(2);
-c(1, 10) = real_evals(3);
-c(1, 11) = real_evals(4);
-c(1, 12) = real_evals(5);
-c(1, 13) = real_evals(6);
+num_evals = length(real_evals);
+c(8:8+num_evals-1, 1) = real_evals;
 % linear
 % TODO : Should these be formulated as Ax<=b for fmincon, does it matter?
-c(1, 14) = p.rR + p.rF - p.w;  % wheels can't over lap
-c(1, 15) = p.mD + p.mH + p.mR + p.mF - 25.0;  % bicycle mass (D,H,R,F) no more than 25 kg
+c(8+num_evals, 1) = p.rR + p.rF - p.w;  % wheels can't over lap
+c(8+num_evals+1, 1) = p.mD + p.mH + p.mR + p.mF - 25.0;  % bicycle mass (D,H,R,F) no more than 25 kg
 
 % Equality constraints
 % ceq(x) = 0
+% These are baked into update_principal_parameters() to reduce the number of
+% free parameters.
 ceq = [];
