@@ -1,10 +1,8 @@
 function [peak_hqm] = calculate_peak_hqm(x, p)
-% CALCULATE_PEAK_HQM - Returns the maximum value of the HQM transfer function
-% magnitude if the system is closed loop stable or an order of magnitude
-% larger value based on the largest closed loop poles are if the system is
-% closed loop unstable.
+% CALCULATE_PEAK_HQM - Returns the maximum value of the HQM transfer
+% function magnitude.
 %
-% Syntax: peak_hqm = objective(unknowns, bicycle, speed)
+% Syntax: peak_hqm = calculate_peak_hqm(x,p)
 %
 % Inputs:
 %   x - Vector of the optimization parameters
@@ -28,17 +26,11 @@ data = generate_data('Browser', b.v, ...
                      'stateSpace', {A, B, C, D}, ...
                      'display', 0);
 
-lateral_dev_loop = minreal(tf(data.closedLoops.Y.num, data.closedLoops.Y.den));
-
-if ~isstable(lateral_dev_loop)
-    peak_hqm = max(10, 100 * max(real(pole(lateral_dev_loop))));
-else
-    num = data.handlingMetric.num;
-    den = data.handlingMetric.den;
-    freqs = linspace(0.01, 40, 200);
-    [mag, ~, ~] = bode(tf(num, den), freqs);
-    peak_hqm = max(mag);
-end
+num = data.handlingMetric.num;
+den = data.handlingMetric.den;
+freqs = linspace(0.01, 40, 200);
+[mag, ~, ~] = bode(tf(num, den), freqs);
+peak_hqm = max(mag);
 
 display('Value of the objective function:')
 peak_hqm
