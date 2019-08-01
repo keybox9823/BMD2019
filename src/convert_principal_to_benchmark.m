@@ -88,12 +88,11 @@ b.yB = Bcom(2, 1);
 b.zB = Bcom(3, 1);
 
 % symmetry is assumed about the XZ plane
-% TODO : Probably do not need the max() min() call here.
-ID_principal = p.mD*diag([max(p.kDaa, p.kDbb)^2, p.kDyy^2, min(p.kDaa, p.kDbb)^2]);
+ID_principal = p.mD*diag([p.kDaa^2, p.kDyy^2, p.kDbb^2]);
 IDxyz = rotate_inertia_about_y(ID_principal, -p.alphaD);
 
 % person
-IP_principal = p.mP*diag([max(p.kPaa, p.kPbb)^2, p.kPyy^2, min(p.kPaa, p.kPbb)^2]);
+IP_principal = p.mP*diag([p.kPaa^2, p.kPyy^2, p.kPbb^2]);
 IPxyz = rotate_inertia_about_y(IP_principal, -p.alphaP);
 
 % combined rear frame and person
