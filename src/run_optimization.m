@@ -4,4 +4,7 @@ A = []; b = []; Aeq = []; beq = [];
 [lb, ub] = free_par_bounds();
 fun = @(x) calculate_peak_hqm(x, p);
 nonlcon = @(x) compute_constraints(x, p);
+options = optimoptions('fmincon', ...
+                       'Display','iter', ...
+                       'UseParallel', true);
 x = fmincon(fun,x0,A,b,Aeq,beq,lb,ub,nonlcon);
