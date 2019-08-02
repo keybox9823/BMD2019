@@ -31,6 +31,8 @@ lateral_dev_loop = minreal(tf(data.closedLoops.Y.num, ...
 real_evals = real(pole(lateral_dev_loop));
 
 constraints = compute_constraints(x, p, real_evals);
+display('Constraints:')
+constraints'
 
 if any(constraints > 0.0)
     % NOTE : This is a cheat to try to enforce the constraints. If any
