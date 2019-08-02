@@ -1,10 +1,12 @@
-function [c, ceq] = compute_constraints(x, p)
+function [c, ceq] = compute_constraints(x, p, varargin)
 % COMPUTE_CONSTRAINTS - Returns the nonlinear inequality and equality
 % constraints.
 %
 % Inputs:
 %   x - 23x1 double, free parameters
 %   p - structure, default principal parameters
+%   real_evals - optional, 12x1 double, real parts of the closed loop
+%   (lateral deviation) eigenvalues.
 %
 % Outputs:
 %   c - 21x1 double, inequality constraint values
@@ -37,17 +39,21 @@ zT = comT(3, 1);
 % zT is a negative value, thus the abs
 c(6, 1) = 1*abs(zT)/4 - xT;  % handle max 1/4 accel
 c(7, 1) = 3*abs(zT)/4 - p.w + xT;  % handle max 3/4 g braking
-% real part of closed loop eigenvalues must be negative
-[A, B, C, D] = whipple_pull_force_abcd(b, b.v);
-data = generate_data('Browser', b.v, ...
-                     'simulate', false, ...
-                     'forceTransfer', {}, ...
-                     'fullSystem', false, ...
-                     'stateSpace', {A, B, C, D}, ...
-                     'display', 0);
-lateral_dev_loop = minreal(tf(data.closedLoops.Y.num, ...
-                              data.closedLoops.Y.den));
-real_evals = real(pole(lateral_dev_loop));
+if (size(varargin, 2) > 0)
+    real_evals = varargin{1};
+else
+    % real part of closed loop eigenvalues must be negative
+    [A, B, C, D] = whipple_pull_force_abcd(b, b.v);
+    data = generate_data('Browser', b.v, ...
+                         'simulate', false, ...
+                         'forceTransfer', {}, ...
+                         'fullSystem', false, ...
+                         'stateSpace', {A, B, C, D}, ...
+                         'display', 0);
+    lateral_dev_loop = minreal(tf(data.closedLoops.Y.num, ...
+                                  data.closedLoops.Y.den));
+    real_evals = real(pole(lateral_dev_loop));
+end
 % There are only supposed to be 8 eigenvalues, but getting 12 here.
 num_evals = length(real_evals);
 c(8:8+num_evals-1, 1) = real_evals;
