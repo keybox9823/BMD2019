@@ -9,7 +9,7 @@ x0 = free_parameters(p);
 opts.LBounds = lb;
 opts.UBounds = ub;
 
-% TODO : Probably want to set sigma manually.
-sigma = sqrt(var(x0')');
+%sigma = sqrt(var(x0')');
+sigma = free_parameter_std();
 
 [x, hqm] = cmaes('calculate_peak_hqm_cmaes', x0, sigma, opts, p);
