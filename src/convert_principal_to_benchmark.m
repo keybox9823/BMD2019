@@ -8,7 +8,7 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
 % Inputs:
 %   principal_par - Structure containing parameter names mapped to doubles.
 % Outputs:
-%   benchmark_par - Structure containing parameters names mapped to doubles.
+%   benchmark_par - Structure containing parameter names mapped to doubles.
 %
 % Explanation of the principal parameters:
 %
@@ -92,7 +92,10 @@ ID_principal = p.mD*diag([p.kDaa^2, p.kDyy^2, p.kDbb^2]);
 IDxyz = rotate_inertia_about_y(ID_principal, -p.alphaD);
 
 % person
-IP_principal = p.mP*diag([p.kPaa^2, p.kPyy^2, p.kPbb^2]);
+% NOTE : The max/min calls ensure that alphaP is always measured wrt to the
+% maximum principal axes in the xz plane. This has bearing on whether the
+% constraint that ensures the rider is above the ground functions correctly.
+IP_principal = p.mP*diag([max(p.kPaa, p.kPbb)^2, p.kPyy^2, min(p.kPaa, p.kPbb)^2]);
 IPxyz = rotate_inertia_about_y(IP_principal, -p.alphaP);
 
 % combined rear frame and person
@@ -112,7 +115,7 @@ b.yH = p.yH;
 b.zH = p.zH;
 
 % symmetry is assumed about the XZ plane
-IH123 = p.mH*diag([max(p.kHaa, p.kHbb)^2, p.kHyy^2, min(p.kHaa, p.kHbb)^2]);
+IH123 = p.mH*diag([p.kHaa^2, p.kHyy^2, p.kHbb^2]);
 IH = rotate_inertia_about_y(IH123, -p.alphaH);
 b.IHxx = IH(1, 1);
 b.IHyy = IH(2, 2);
