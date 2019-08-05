@@ -61,6 +61,8 @@ c(8:8+num_evals-1, 1) = real_evals;
 % TODO : Should these be formulated as Ax<=b for fmincon, does it matter?
 c(8+num_evals, 1) = p.rR + p.rF - p.w;  % wheels can't over lap
 c(8+num_evals+1, 1) = p.mD + p.mH + p.mR + p.mF - 25.0;  % bicycle mass (D,H,R,F) no more than 25 kg
+c(8+num_evals+2, 1) = 1.4*p.kDyy - abs(p.zD); % mass can't spread below the ground
+c(8+num_evals+3, 1) = 1.4*p.kHyy - abs(p.zH); % mass can't spread below the ground
 
 % Equality constraints
 % ceq(x) = 0
