@@ -63,6 +63,11 @@ c(8+num_evals, 1) = p.rR + p.rF - p.w;  % wheels can't over lap
 c(8+num_evals+1, 1) = p.mD + p.mH + p.mR + p.mF - 25.0;  % bicycle mass (D,H,R,F) no more than 25 kg
 c(8+num_evals+2, 1) = 1.4*p.kDyy - abs(p.zD); % mass can't spread below the ground
 c(8+num_evals+3, 1) = 1.4*p.kHyy - abs(p.zH); % mass can't spread below the ground
+% These constraints ensure that if the mass centers are far from the
+% associated wheels, that there is sufficient inertial distribution that a
+% frame could be constructed between the two points.
+c(8+num_evals+4, 1) = sqrt((p.xH - p.w)^2 + (p.zH + p.rF)^2) - 2*p.kHyy;
+c(8+num_evals+5, 1) = sqrt((p.xD - 0.0)^2 + (p.zD + p.rF)^2) - 2*p.kDyy;
 
 % Equality constraints
 % ceq(x) = 0
