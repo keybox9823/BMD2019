@@ -41,7 +41,12 @@ if any(constraints > 0.0)
     % larger HQMs if the constraints are very positive. This means the
     % optimizer must find that all constraints are negative to get anything
     % below the initial HQM value.
-    peak_hqm = max(12.4, 10*sqrt(sum(constraints(constraints > 0).^2)));
+    mag_con = 10*sqrt(sum(constraints(constraints > 0).^2));
+    if (mag_con < 30.0)
+    	peak_hqm = 30.0 + mag_con/10;
+    else
+	peak_hqm = mag_con;
+    end
 else
     hqm_num = data.handlingMetric.num;
     hqm_den = data.handlingMetric.den;
