@@ -9,62 +9,6 @@ function benchmark_par = convert_principal_to_benchmark(principal_par)
 %   principal_par - Structure containing parameter names mapped to doubles.
 % Outputs:
 %   benchmark_par - Structure containing parameter names mapped to doubles.
-%
-% Explanation of the principal parameters:
-%
-% primary geometry, gravity, and speed
-% w : wheelbase [m]
-% c : trail [m]
-% lam : steer axis tilt [m]
-% g : acceleration due to gravity [m/s^2]
-% v : forward speed [m/s]
-%
-% rear frame
-% mD : mass of the rear frame (without rider) [kg]
-% xD : X CoM location [m]
-% yD : Y CoM location [m]
-% zD : Z CoM location [m]
-% kDaa : Central principal radius of gyration
-% kDbb : Central principal radius of gyration
-% kDyy : Central principal radius of gyration
-% alphaD : Angle between the X and 1 axes, positive about Y
-%
-% person
-% lP : length of person [m]
-% wP : longitudinal width of person [m]
-% mP : mass of person [kg]
-% xP : mass center [m]
-% yP : mass center [m]
-% zP : mass center [m]
-% kPaa : maximal central principal radius of gyration of person [m]
-% kPbb : intermediate central principal radius of gyration of person [m]
-% kPyy : minimal central principal radius of gyration of person [m]
-% alphaP : Angle between the X axis and the maximal principal axis [rad]
-%
-% front frame
-% mH : mass of front frame (handlebar/fork)
-% xH : X mass center [m]
-% yH : Y mass center [m]
-% zH : Z mass center [m]
-% kHaa
-% kHbb
-% kHyy
-% alphaH
-%
-% rear wheel
-% rR : radius of rear wheel [m]
-% mR : mass of rear wheel [kg]
-% kR11 : Maximal principal radius of gyration, aligned with Y in the
-% case of the wheels
-% kR22 : Intermediate principal radius of gyration
-% kR33 : Minimal principal radius of gyration
-%
-% front  wheel
-% rF
-% mF
-% kF11
-% kF22
-% kF33
 
 p = principal_par;
 
