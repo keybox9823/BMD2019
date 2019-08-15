@@ -1,0 +1,57 @@
+parameterization: principal
+parameters: extended3a
+rider: True
+description: |
+  Optimal result @ 3 m/s for the initial parameters of Browser + Jason. The
+  best manually found solution from the CMA-ES solver. Forgot to check the mat
+  file for the bestever. Used BMD2019 commit
+  3c1873df2ada2e397a2101c70b925f73724bcaaa.
+extended_opt_solution:
+values:
+  alphaD: 0.66300
+  alphaH: 0.57150
+  alphaP: -0.66130
+  c: 0.68780
+  g: 9.8100
+  kDaa: 1.4491
+  kDbb: 0.72360
+  kDyy: 1.4711
+  kF11: 0.70990
+  kF22: 0.35495
+  kF33: 0.35495
+  kHaa: 0.18620
+  kHbb: 1.2578
+  kHyy: 0.63610
+  kPaa: 0.36797
+  kPbb: 0.15276
+  kPyy: 0.36717
+  kR11: 0.95820
+  kR22: 0.47910
+  kR33: 0.47910
+  lP: 1.7280
+  lam: -0.21250
+  mD: 3.2233
+  mF: 1.6211
+  mH: 0.25000
+  mP: 83.500
+  mR: 12.625
+  rF: 0.70990
+  rR: 0.95820
+  v: 3.0
+  w: 2.8655
+  wP: 0.48300
+  xD: 0.95820
+  xF: 2.8655
+  xH: 2.3561
+  xP: 0.76460
+  xR: 0.0
+  yD: 0.0
+  yF: 0.0
+  yH: 0.0
+  yP: 0.0
+  yR: 0.0
+  zD: -2.6050
+  zF: -0.70990
+  zH: -1.2977
+  zP: -3.1937
+  zR: -0.95820

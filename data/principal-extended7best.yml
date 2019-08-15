@@ -1,0 +1,56 @@
+parameterization: principal
+parameters: extended7best
+rider: True
+description: |
+  Optimal result @ 7 m/s for the initial parameters of Browser + Jason. The
+  bestever solution from the CMA-ES solver. Used BMD201 commit
+  3c1873df2ada2e397a2101c70b925f73724bcaaa.
+extended_opt_solution:
+values:
+  alphaD: 1.1228
+  alphaH: 1.5708
+  alphaP: -0.83627
+  c: 0.0010500
+  g: 9.8100
+  kDaa: 1.3242
+  kDbb: 1.2903
+  kDyy: 1.5550
+  kF11: 0.12700
+  kF22: 0.063500
+  kF33: 0.063500
+  kHaa: 0.0
+  kHbb: 2.0055
+  kHyy: 0.81835
+  kPaa: 0.36797
+  kPbb: 0.15276
+  kPyy: 0.36717
+  kR11: 0.14619
+  kR22: 0.073095
+  kR33: 0.073095
+  lP: 1.7280
+  lam: -0.027560
+  mD: 10.315
+  mF: 2.6441
+  mH: 0.49309
+  mP: 83.500
+  mR: 6.3080
+  rF: 0.12700
+  rR: 0.14619
+  v: 7.0
+  w: 1.1570
+  wP: 0.48300
+  xD: 0.42710
+  xF: 1.1570
+  xH: 1.1449
+  xP: 0.52614
+  xR: 0.0
+  yD: 0.0
+  yF: 0.0
+  yH: 0.0
+  yP: 0.0
+  yR: 0.0
+  zD: -2.9764
+  zF: -0.12700
+  zH: -1.3399
+  zP: -0.58632
+  zR: -0.14619
