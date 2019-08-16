@@ -42,7 +42,7 @@ c(7, 1) = 3*abs(zT)/4 - p.w + xT;  % handle max 3/4 g braking
 % associated wheels, that there is sufficient inertial distribution that a
 % frame could be constructed between the two points.
 c(8, 1) = sqrt((p.xH - p.w)^2 + (p.zH + p.rF)^2) - 2*p.kHyy;
-c(9, 1) = sqrt((p.xD - 0.0)^2 + (p.zD + p.rF)^2) - 2*p.kDyy;
+c(9, 1) = sqrt((p.xD - 0.0)^2 + (p.zD + p.rR)^2) - 2*p.kDyy;
 c(10, 1) = p.rR + p.rF - p.w;  % wheels can't over lap
 c(11, 1) = p.mD + p.mH + p.mR + p.mF - 25.0;  % bicycle mass (D,H,R,F) no more than 25 kg
 c(12, 1) = 1.4*p.kDyy - abs(p.zD); % mass can't spread below the ground
