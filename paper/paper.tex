@@ -1,69 +1,385 @@
-\documentclass{article}
+\documentclass{bmd2019a}
 
 \usepackage{siunitx}
 \usepackage{amsmath}
+\usepackage{booktabs}
 
 \begin{document}
 
-\begin{center}
-  \fontsize{14}{20}{\bf Expanded Optimization for Discovering Optimal Lateral
-  Handling Bicycles}
-\end{center}
+\begin{flushleft}
+{\fontsize{16pt}{20pt}\selectfont%
+  Expanded Optimization for Discovering\\}
+{\fontsize{16pt}{20pt}\selectfont%
+  Optimal Lateral Handling Bicycles}
+\end{flushleft}
 
-\begin{center}
-  \normalsize{\bf{Jason K. Moore, Mont Hubbard,  Ronald A. Hess}}
-\end{center}
+%%%%%%%%%%%%%%%% authors %%%%%%%%%%%%%%%
+\begin{flushleft}
+  {\fontsize{12}{14}{Jason K. Moore, Mont Hubbard, and Ronald A. Hess}\\}
+  \textit{Mechanical and Aerospace Engineering\\
+          University of California, Davis\\
+          One Shields Avenue, Davis, CA, USA 95817\\
+          e-mail: jkm@ucdavis.edu, mhubbard@ucdavis.edu, rahess@ucdavis.edu}
+\end{flushleft}
 
-\begin{center}
-  \begin{tabular}{c}
-    Department of Mechanical and Aerospace Engineering\\
-    University of California, Davis\\
-    One Shields Avenue, Davis, CA, USA 95616\\
-    e-mail: jkm@ucdavis.edu, mhubbard@ucdavis.edu, rahess@ucdavis.edu\\
+\section*{Abstract}
+%
+Physical design features of ground vehicles can affect their lateral handling
+qualities. Geometry, mass, and mass distribution of the vehicle's primary
+components as well as tire characteristics are primary contributors to poor and
+good handling due to their important influence on the vehicle's dynamics. In
+past work, we have presented a theoretical and computational framework for
+assessing the lateral task-independent handling qualities of simplified single
+track vehicle designs~\cite{Hess2012,Moore2012}. In subsequent work, we showed
+that minimizing our handling quality metric (HQM) can produce theoretically
+optimal handling designs when only four geometric parameters are explored as
+the optimization variables~\cite{Moore2016}. The present work's goal is to
+expand this optimization problem to 24 geometry, mass, and inertial parameters
+as the optimization variables so that a broader search space of optimal bicycle
+designs is considered. This task is complicated by the fact that we desire to
+limit the search space to physically realizable designs. Doing so introduces 35
+linear and non-linear constraint equations on the optimization variables. We
+formulate a constrained optimization problem and use nonlinear programming to
+discover optimal, yet realizable, bicycle designs.
+
+\section*{Introduction}
+%
+We introduced a method of optimizing four geometric parameters of a bicycle's
+design to minimize the so called Handling Quality Metric
+(HQM)~\cite{Moore2016}. Here we expand that method to optimize all X geometric
+and inertial parameters of the benchmark parameterimization of the linear
+Whipple-Carvallo bicycle model under constraints that guarantee a physically
+realizable bicycle. This improves over the prior work by expanding the search
+space with many more parameters and the guarntee of realizability.
+
+\section*{Problem Definition}
+
+We search for 24 optimization variables that minimize the Handling Quality
+Metric defined in ~\cite{Hess2012}.
+
+Our formulation exposes 24 optimization variables
+$\mathbf{p}\in\mathbb{R}^{24}$ that are both reformulations of and additions to
+the parameters of the benchmark bicycle~\cite{Meijaard2007}. We separate the
+rider's inertial parameters from the rear frame of the bicycle for the purposes
+of rider/bicycle relative configuration but do not introduce any more than the
+benchmark's four rigid bodies. The variables are as follows;
+%
+\begin{itemize}
+  \itemsep-0.25em
+  \item wheelbase, trail, steer axis tilt, wheel radii
+  \item somersault angle of the person (same direction as bicycle pitch)
+  \item masses of the front frame, rear frame, front wheel, and rear wheel
+  \item mass center locations of the front frame, rear frame, and rider
+  \item principal central radii of gyration of front and rear frames
+  \item principal inertia axis pitch angles of the front frame, rear frame, and rider
+\end{itemize}
+
+We formulate bounds on the variables as well as equality and inequality
+constraints among the variables to ensure a physically realizable bicycle.
+Below the constraints are defined and grouped by the associated rigid body or
+collection thereof:
+%
+\begin{description}
+
+  \item[Vehicle] The resulting combination of the five rigid bodies.
+    \begin{itemize}
+      \itemsep0em
+      \item The physical extents of the bicycle and rider must exist above the
+        ground plane.
+      \item Both bicycle and rider are symmetric about the sagittal
+        plane.
+      \item The mass of each bicycle rigid body is positive, greater than a
+        minimum value, and the total mass is below a reasonably lift-able
+        amount.
+      \item The wheels cannot overlap, i.e. wheelbase > front radius + rear
+        radius.
+      \item The bicycle cannot topple forward during hard braking or backward
+        during hard acceleration, i.e. -1 g < acceleration < 1 g.
+    \end{itemize}
+
+  \item[Wheels] Both front and rear wheels have identical constraints.
+    \begin{itemize}
+      \itemsep0em
+      \item Wheel radius must be greater than a minimum value.
+      \item Wheels are inertially wheel-like, i.e.  $I_{rot}=mr^2,
+        I_{rad}=I_{rot}/2$.
+    \end{itemize}
+
+  \item[Frames] Both front and rear frames have identical constraints.
+    \begin{itemize}
+      \itemsep0em
+      \item A pair of principal directions lie in the roll/yaw
+        plane to maintain symmetry and one of these axes is within $\pm \pi/4$
+        rad of the ground plane.
+      \item The mass and inertia of the frames are positive and large enough to
+        be constructed from materials in a space frame of specified minimal
+        density.
+      \item The frames are planar in nature, i.e.
+        $k_{lateral}^2=k_{longitudinal}^2+k_{vertical}^2$, where $k$ is the
+        radius of gyration.
+    \end{itemize}
+
+  \item[Rider] A single rigid body represents the rider.
+    \begin{itemize}
+      \itemsep0em
+      \item Rider mass is that of an average person.
+      \item The rider's joint angles are fixed in a nominal configuration
+        typical of upright bicycling and the resulting mass distribution is
+        derived from standard body segment estimation methods.
+      \item One rider principal axis is parallel with the bicycle pitch axis to
+        enforce symmetry.
+    \end{itemize}
+
+\end{description}
+
+The constraint statements above translate into upper and lower bounds on 12 of
+the 24 variables $\mathbf{p}^U,\mathbf{p}^L$ and 14 linear and 21 nonlinear
+constraint $\mathbf{g}(\mathbf{p})$ among the variables and thus can be
+expressed in the standard non-linear programming form.
+%
+\begin{equation}
+  \begin{aligned}
+    & \underset{\mathbf{p}}{\text{minimize}} & & max(\textrm{HQM}(\mathbf{p})) \\
+    & \text{subject to} & & \\
+    & & & \mathbf{p}^L \leq \mathbf{p} \leq \mathbf{p}^U \\
+    & & & \mathbf{g}^L \leq \mathbf{g}(\mathbf{p}) \leq \mathbf{g}^U \\
+  \end{aligned}
+\end{equation}
+
+\subsection*{Parameters}
+%
+We introduce a new parameterization of the linear Whipple-Carvallo bicycle
+model. This parameterization differs from the benchmark
+parameterization~\cite{Meijaard2007} in that the person and rear frame are
+separate rigid bodies each with their on inertial parameters and that the
+inertial parameters of all bodies are expressed in terms of principal central
+radii of gyration so that the mass is decoupled from the inertia. We also
+introduce two simple dimensional parameters that define the geometric extents
+of the person. Table~\ref{tab:parameters} provides the parameters and the
+initial values which are derived from.
+
+% TODO : Create a table of the parameters and values.
+\begin{table}
+  \caption{Parameters and their default values.}
+  \begin{tabular}{llll}
+    \toprule
+    Variable & Value & Units & Description \\
+    \midrule
+    $c$ &  0.068581 & \si{\meter} & Trail \\
+    $w$ &  1.1210 & \si{\meter} & Wheelbase \\
+    $\lambda$ &  0.39968 & \si{\radian} & Steer axis tilt \\
+    $g$ &  9.81 & \si{\meter\per\second\squared} & Acceleration due to gravity \\
+    $v$ &  3.0 & \si{\meter\per\second} & Forward speed \\
+    Rear Wheel [R] & & \\
+    \midrule
+    $m_R$ &  3.11 & \si{\kilogram} & mass \\
+    $r_R$ &  0.34096 & \si{\meter} & Rear wheel radius \\
+    $x_R$ & 0 & \si{\meter} & Rear wheel mass center \\
+    $y_R$ & 0 & \si{\meter} & Rear wheel mass center \\
+    $z_R$ & -0.34096 & \si{\meter} & Rear wheel mass center \\
+    $k_{Raa}$ &  0.17050 & \si{\meter} & Rear wheel central principal radii of gyration \\
+    $k_{Rbb}$ &  0.17050 & \si{\meter} & Rear wheel central principal radii of gyration  \\
+    $k_{Ryy}$ &  0.22136 & \si{\meter} & Rear wheel central principal radii of gyration \\
+    Front Wheel [F] & & \\
+    \midrule
+    $m_F$ &  2.02 & \si{\kilogram} & Mass \\
+    $r_F$ &  0.34353 & \si{\meter} & Radius \\
+    $x_F$ &  1.1210 & \si{\meter} & Mass center \\
+    $y_F$ & 0.0 & \si{\meter} & Mass center \\
+    $z_F$ & -0.34353 & \si{\meter} & Mass center \\
+    $k_{Faa}$ &  0.20917 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Fbb}$ &  0.20917 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Fyy}$ &  0.27179 & \si{\meter} & Central principal radius of gyration \\
+    \midrule
+    $l_P$ &  1.7280 & \si{\meter} & Body length \\
+    $w_P$ &  0.48300 & \si{\meter} & Body width \\
+    $m_P$ &  83.500 & \si{\kilogram} & Mass \\
+    $x_P$ &  0.31577 & \si{\meter} & Mass center \\
+    $y_P$ & 0.0 & \si{\meter} & Mass center \\
+    $z_P$ & -1.0990 & \si{\meter} & Mass center \\
+    $k_{Paa}$ &  0.36797 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Pbb}$ &  0.15276 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Pyy}$ &  0.36717 & \si{\meter} & Central principal radius of gyration \\
+    $\alpha_P$ & 0.18618 & \si{\radian} & Principal axis angle \\
+    \midrule
+    $m_H$ & 3.2200 & \si{\kilogram} & Mass \\
+    $x_H$ & 0.86695 & \si{\meter} & Mass center \\
+    $y_H$ & 0.0 & \si{\meter} & Mass center \\
+    $z_H$ & -0.74824 & \si{\meter} & Mass center \\
+    $k_{Haa}$ & 0.29556 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Hbb}$ & 0.14493 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Hyy}$ & 0.27630 & \si{\meter} & Central principal radius of gyration \\
+    $\alpha_H$ & 0.36995 & \si{\radian} & Principal axis angle \\
+    \midrule
+    $m_D$ &  9.8600 & \si{\kilogram} & Mass \\
+    $x_D$ &  0.27595 & \si{\meter} & Mass center \\
+    $y_D$ & 0 & \si{\meter} & Mass center \\
+    $z_D$ & -0.53784 & \si{\meter} & Mass center \\
+    $k_{Daa}$ &  0.28587 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Dbb}$ &  0.22079 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Dyy}$ &  0.36539 & \si{\meter} & Central principal radius of gyration \\
+    $\alpha_D$ &  1.1722 & \si{\radian} & Principal axis angle \\
+    \bottomrule
   \end{tabular}
-\end{center}
+\end{table}
 
-\appendix
+These parameters can be transformed into the benchmark parameterization
+r adily, but not vice versa.
 
-\section{Free Parameters and Constraints}
+We search for the optimal values of a subset of 23 of the principal parameters.
 
-\subsection{Rear Frame [D]}
+\begin{align}
+  \mathbf{p} =
+    [w \quad
+     c \quad
+     \lambda \quad
+     m_D \quad
+     x_D \quad
+     z_D \quad
+     k_{Daa} \quad
+     k_{Dbb} \quad
+     \alpha_D \quad
+     x_P \quad
+     z_P \quad
+     \alpha_P \quad
+     m_H \quad
+     x_H \quad
+     z_H \quad
+     k_{Haa} \quad
+     k_{Hbb} \quad
+     k_{Hyy} \quad
+     \alpha_H \quad
+     r_R \quad
+     m_R \quad
+     r_F \quad
+     m_F]
+\end{align}
 
-There are 5 free parameters associated with the rear frame's inertial
+\subsection*{Constraints}
+%
+The optimal principal parameters are subject to a set of constraints designed
+to ensure a physically realizable bicycle is obtained.
+
+\begin{table}
+  \caption{Inequality constraints}
+  \begin{tabular}{lll}
+    \toprule
+    Constraint & Equation & Description \\
+    \midrule
+    $c_1$    & $\sqrt{I_{Hxx}^2+I_{Hzz}^2} \geq I_{Hyy}$           & Narrow front frame. \\
+    $c_2$    & $0 \geq z_P + l_P/2 \cos{\alpha_P}$                 & Person cannot penetrate ground. \\
+    $c_3$    & $0 \geq z_P + w_P/2 \sin{\alpha_P}$                 & Person cannot penetrate ground. \\
+    $c_4$    & $0 \geq z_P - l_P/2 \cos{\alpha_P}$                 & Person cannot penetrate ground. \\
+    $c_5$    & $0 \geq z_P - w_P/2 \sin{\alpha_P}$                 & Person cannot penetrate ground. \\
+    $c_6$    & $x_T \geq |z_T|/4$                                  & Maximum acceleration of $1/4g$. \\
+    $c_7$    & $w-x_T \geq 3/4|z_T|$                               & Maximum deceleration of $3/4g$. \\
+    $c_8$    & $2k_{Hyy} \geq \sqrt{(x_H - w)^2 + (z_H + r_F)^2}$  & Minimal inertial spread. \\
+    $c_9$    & $2k_{Dyy} \geq \sqrt{(x_D - 0)^2 + (z_D + r_R)^2}$  & Minimal inertial spread. \\
+    $c_{10}$ & $w \geq r_F +r_R$                                   & Non-overlapping wheels. \\
+    $c_{11}$ & $25\si{\kg} \geq m_D + m_H + m_R + m_F$             & Maximum bicycle mass. \\
+    $c_{12}$ & $-z_D \geq 1.4 k_{Dyy}$                             & Rear frame cannot penetrate ground. \\
+    $c_{13}$ & $-z_H \geq 1.4 k_{Hyy}$                             & Front frame cannot penetrate ground. \\
+    $c_{14,\ldots,21}$ & $0 \geq s_1,\ldots,s_8$                   & Closed loop stability. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}
+  \caption{Equality constraints}
+  \begin{tabular}{lll}
+    \toprule
+    Constraint & Equation & Description \\
+    \midrule
+    $g_1$ & $I_{Dyy} = \sqrt{I_{Dxx}^2 + I_{Dzz}^2}$ & Rear frame is planar. \\
+    $g_2$ & $k_{Ryy} = r_R$  & Rear wheel is a ring \\
+    $g_3$ & $k_{Raa} = k_{Ryy}/2$ & Rear wheel is a ring \\
+    $g_4$ & $k_{Rbb} = k_{Ryy}/2$ & Rear wheel is a ring \\
+    $g_5$ & $k_{Fyy} = r_F$  & Front wheel is a ring \\
+    $g_6$ & $k_{Faa} = k_{Fyy}/2$ & Front wheel is a ring \\
+    $g_7$ & $k_{Fbb} = k_{Fyy}/2$ & Front wheel is a ring \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}
+  \caption{Parameter Bounds}
+  \begin{tabular}{ccccc}
+    \toprule
+    Min & & Parmeter & & Max\\
+    \midrule
+    $-\infty$ & $\leq$ & $w       $  &  $\leq$  &  $\infty$ \\
+    $-\infty$ & $\leq$ & $c       $  &  $\leq$  &  $\infty$ \\
+    $-\pi/2 $ & $\leq$ & $\lambda $  &  $\leq$  &  $\pi/2$ \\
+    $1.0    $ & $\leq$ & $m_D     $  &  $\leq$  &  $\infty$ \\
+    $-\infty$ & $\leq$ & $x_D     $  &  $\leq$  &  $\infty$ \\
+    $-\infty$ & $\leq$ & $z_D     $  &  $\leq$  &  $0.0$    \\
+    $0.0    $ & $\leq$ & $k_{Daa} $  &  $\leq$  &  $\infty$ \\
+    $0.0    $ & $\leq$ & $k_{Dbb} $  &  $\leq$  &  $\infty$ \\
+    $-\pi/2 $ & $\leq$ & $\alpha_D$  &  $\leq$  &  $\pi/2$  \\
+    $-\infty$ & $\leq$ & $x_P     $  &  $\leq$  &  $\infty$ \\
+    $-\infty$ & $\leq$ & $z_P     $  &  $\leq$  &  $0.0$    \\
+    $-\pi/2 $ & $\leq$ & $\alpha_P$  &  $\leq$  &  $\pi/2$ \\
+    $0.25   $ & $\leq$ & $m_H     $  &  $\leq$  &  $\infty$ \\
+    $-\infty$ & $\leq$ & $x_H     $  &  $\leq$  &  $\infty$ \\
+    $-\infty$ & $\leq$ & $z_H     $  &  $\leq$  &  $0.0$ \\
+    $0.0    $ & $\leq$ & $k_{Haa} $  &  $\leq$  &  $\infty$ \\
+    $0.0    $ & $\leq$ & $k_{Hbb} $  &  $\leq$  &  $\infty$ \\
+    $0.0    $ & $\leq$ & $k_{Hyy} $  &  $\leq$  &  $\infty$ \\
+    $-\pi/2 $ & $\leq$ & $\alpha_H$  &  $\leq$  &  $\pi/2$ \\
+    $0.127  $ & $\leq$ & $r_R     $  &  $\leq$  &  $\infty$ \\
+    $1.0    $ & $\leq$ & $m_R     $  &  $\leq$  &  $\infty$ \\
+    $0.127  $ & $\leq$ & $r_F     $  &  $\leq$  &  $\infty$ \\
+    $1.0    $ & $\leq$ & $m_F     $  &  $\leq$  &  $\infty$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection*{Rear Frame [D]}
+
+There are five free parameters associated with the rear frame's inertial
 characteristics:
 
 \begin{description}
   \item[$m_D$] Mass of the rear frame.
   \item[$x_D$] Location along the $X$ axis of the rear frame center of mass.
   \item[$z_D$] Location along the $Z$ axis of the rear frame center of mass.
-  \item[$k_{Dxx}$] Central radius of gyration with respect to the $X$ axis
-    where $k_{Dxx}^2=I_{Dxx} / m_D$.
-  \item[$k_{Dzz}$] Central radius of gyration with respect to the $Z$ axis
-    where $k_{Dzz}^2=I_{Dzz} / m_D$.
-  \item[$\alpha_D$] Angle between the $X$ axis and the primary principal
-    inertia axis.
+  \item[$k_{Daa}$] Maximum principal central radius of gyration in the $XZ$
+    plane.
+  \item[$k_{Dbb}$] Minimum principal central radius of gyration in the $XZ$
+    plane.
+  \item[$\alpha_D$] Angle between the $X$ axis and the maximum principal axis
+    that lies in the $XZ$ plane.
 \end{description}
 
-Assumptions:
-
-\begin{itemize}
-  \item The body is symmetric with respect to the $XZ$ plane, i.e. $I_{Dxy} =
-    I_{Dyz} = 0$.
-  \item We require that the center of mass not penetrate the ground, i.e. $z_D
-    < 0$.
-  \item We require that the mass be positive, i.e. $m_D > 0$.
-  \item We allow for any angular orientation of the $XZ$ principal directions
-    but limit the angle to $-\frac{\pi}{2} \leq \alpha_D \leq \frac{\pi}{2}$.
-  \item We enforce that the body is planar with $k_{Dyy} = \sqrt{k_{Dxx}^2 +
-    k_{Dyy}^2}$.
-\end{itemize}
+Several constraints are set for the rear frame. We constrain the rear frame to
+be planar, $g_1$ and symmetric with respect to the $XZ$ plane, i.e. $I_{Dxy} =
+I_{Dyz} = 0$. We prevent the rear frame from penetrating the ground by limiting
+the inertial spread with respect to its mass center, $c_{12}$, but also set a
+minimum inertial spread to ensure a frame can span from the rear wheel to the
+mass center of the rear frame, $c_9$. The spread factor in $c_{12}$ of 1.4 is
+based on the ratio of geometrical spread of a typical bicycle frame and its
+radius of gyration. Several parameters are bounded. We require the rear frame
+mass to be positive, the center of mass not penetrate the ground, and we allow
+for any angular orientation of the $XZ$ principal directions but limit the
+angle to $-\frac{\pi}{2} \leq \alpha_D \leq \frac{\pi}{2}$.
 
 \subsection{Person [P]}
 
 We assume that the person's joint configurations are such that they are in a
 nominal configuration for pedaling, i.e. an average normal everyday riding
-position. The person is assumed to be symmetric about the $XZ$ plane. There are
-four fixed parameters that enforce this assumption:
+position on a typical bicycle. The person is assumed to be symmetric about the
+$XZ$ plane. We allow the rider to be rotated about the $Y$ axis and positioned
+anywhere within the plane of symmetry above the ground. Three free parameters
+are associated with these assumptions:
+
+\begin{description}
+  \item[$x_P$] Location along the $X$ axis of the person's center of mass.
+  \item[$z_P$] Location along the $Z$ axis of the person's center of mass.
+  \item[$\alpha_P$] Angle between the $X$ axis and the primary principal
+    inertia axis of the person.
+\end{description}
+
+There are four fixed parameters that enforce this assumption:
 
 \begin{description}
   \item[$m_P$] The mass of the person which is fixed at $XX \si{kg}$.
@@ -77,30 +393,12 @@ four fixed parameters that enforce this assumption:
   \item[$y_P$] Is zero.
 \end{description}
 
-We allow the rider to be rotated about the $Y$ axis and positioned anywhere
-within the plane of symmetry. Three free parameters are associated with these
-assumptions:
-
-\begin{description}
-  \item[$\alpha_P$] Angle between the $X$ axis and the primary principal
-    inertia axis of the person.
-  \item[$x_P$] Location along the $X$ axis of the person's center of mass.
-  \item[$z_P$] Location along the $Z$ axis of the person's center of mass.
-\end{description}
-
 To prevent the rider from being positioned and oriented such that their body is
 not penetrating the the ground we introduce two dimensions that define a cross
 whose apex is at the center of mass of the person and the cross axes are
 parallel to the principal axes in the $XZ$ plane. $l_P / 2$ is the distance
 along the principal axis to the tip of the toes and $w_P$ is the distance along
-the second principal axes to the tip of the hands.
-
-\begin{align}
-  z_P + l_P / 2 \cos{\alpha_P} & \leq 0 \\
-  z_P + w_P / 2 \sin{\alpha_P} & \leq 0 \\
-  z_P - l_P / 2 \cos{\alpha_P} & \leq 0 \\
-  z_P - w_P / 2 \sin{\alpha_P} & \leq 0
-\end{align}
+the second principal axes to the tip of the hands. Constraints $c_2,\ldots,c_5$.
 
 \subsection{Front Frame}
 
@@ -109,64 +407,43 @@ There are seven free parameters:
 
 \begin{description}
   \item[$m_H$] The mass of the rear frame.
-  \item[$k_{Hxx}$] Central radius of gyration with respect to the $X$ axis
+  \item[$x_B$] Location along the $X$ axis of the rear frame's center of mass.
+  \item[$z_H$] Location along the $Z$ axis of the rear frame's center of mass.
+  \item[$k_{Haa}$] Central radius of gyration with respect to the $X$ axis
     where $k_{Hxx}^2=I_{Hxx} / m_H$.
   \item[$k_{Hyy}$] Central radius of gyration with respect to the $X$ axis
     where $k_{Hyy}^2=I_{Hyy} / m_H$.
-  \item[$k_{Hzz}$] Central radius of gyration with respect to the $X$ axis
+  \item[$k_{Hbb}$] Central radius of gyration with respect to the $X$ axis
     where $k_{Hzz}^2=I_{Hzz} / m_H$.
   \item[$\alpha_H$] Angle between the $X$ axis and the primary principal
     inertia axis.
-  \item[$x_B$] Location along the $X$ axis of the rear frame's center of mass.
-  \item[$z_H$] Location along the $Z$ axis of the rear frame's center of mass.
 \end{description}
 
-Assumptions:
+We allow for any angular orientation of the $XZ$ principal directions but limit
+the angle to $-\frac{\pi}{2} \leq \alpha_H \leq \frac{\pi}{2}$.  We prevent the
+rear frame from penetrating the ground by limiting the inertial spread with
+respect to its mass center, $c_{13}$, but also set a minimum inertial spread to
+ensure a frame can span from the rear wheel to the mass center of the rear
+frame, $c_8$. The spread factor in $c_{13}$ of 1.4 is based on the ratio of
+geometrical spread of a typical bicycle frame and its radius of gyration. The
+front frame is not planar but is narrow with respect to the $XZ$ plane, which
+is enforced by constraint $c_1$.
 
-\begin{itemize}
-  \item We allow for any angular orientation of the $XZ$ principal directions
-    but limit the angle to $-\frac{\pi}{2} \leq \alpha_H \leq \frac{\pi}{2}$.
-\end{itemize}
+\subsection{Front [F] and Rear [R] Wheels}
 
+We enforce the assumption that both wheels have moments of inertia of that of a
+simple ring, $g_2 \ldots g_7$ and that mass and radius should be greater than
+some minimal size based on small bicycle wheel.
 
-\subsection{Rear Wheel [R]}
+\subsection{Total Bike [T]}
 
-We enforce the assumption that the wheel should be wheel-like, i.e. $I_{Ryy} =
-m_R r_R^2$ and $I_{Rxx} = I_{Rzz} = I_{Ryy} / 2$ thus there are two free
-parameters:
+\subsubsection{Parameters}
 
-\begin{description}
-  \item[$r_R$] Outer radius of the rear wheel.
-  \item[$m_R$] Mass of the rear wheel.
-\end{description}
+There are three remaing parameters associated with the fundamental geometry of
+the bicycle: wheelbase $w$, trail $c$, and steer axis tilt $\lambda$ all the
+same as defined in~\cite{Meijaard2007}.
 
-We also enforce that the mass and radius should be positive with:
-
-\begin{align}
-  m_R \geq 0 \\
-  r_R \geq 0
-\end{align}
-
-\subsection{Front Wheel}
-
-Same as rear wheel.
-
-\subsection{Total Bike}
-
-There are three remaing free parameters associated with the fundamental
-geometry of the bicycle:
-
-\begin{description}
-  \item[$w$] Wheelbase
-  \item[$c$] Trail
-  \item[$\lambda$] Steer axis tilt
-\end{description}
-
-To prevent the wheels from overlapping we introduce:
-
-\begin{align}
-  w > r_F + r_R
-\end{align}
+\subsubsection{Bounds}
 
 The trail can take on any real value as well as the steer axis tilt except the
 bound the angle to a minimal range:
@@ -175,23 +452,25 @@ bound the angle to a minimal range:
   -\frac{\pi}{2} \leq \lambda \leq \frac{\pi}{2}
 \end{align}
 
-We require that the bicycle be liftable by an average person with:
+
+\subsubsection{Constraints}
+
+We introduce a constraint $c_{10}$ that prevents the wheels from physically
+overlapping and require that the bicycle be liftable by an average person,
+$c_{11}$. Finally, we require that the bicycle not topple forward during hard
+breaking or backward during hard acceleration.
 
 \begin{align}
-  m_T = m_H + m_D + m_P + m_F + m_R \leq m_P + 25 \si{kg}
+  -\frac{3g}{4} < \textrm{acceleration} < \frac{g}{4}
 \end{align}
 
-Finally, we require that the bicycle not topple forward during hard breaking
-and backward during hard acceleration where:
+This translates to two constraints, $c_6,c_7$ that bound the total center of
+mass $(x_T,z_T)$ in a triangle in the $XZ$ plane.
 
-\begin{align}
-  -g < a < \frac{g}{4}
-\end{align}
-
-This translates to two constraints that bound the total center of mass in a triangle in teh $XZ$ plane:
-
-\begin{align} \frac{x_T}{|z_T|} < \frac{1}{4} \\ \frac{x_T - w}{|z_T|} < -1
-\end{align}
+Lastly, we constrain the eight closed loop eigenvalues associated with the
+controller in ~\cite{Hess2012} to be stable, i.e. have negative real parts.
+These are expressed in constraints $c_{14},\ldots,c_{21}$. Closed loop
+stability is required for the HQM to provide a meaningful result.
 
 \subsection{Summary}
 
@@ -327,5 +606,14 @@ and these constraints:
   \frac{x_T - w}{|z_T|} < -1 \\
   real(\mathbf{s}) < 0
 \end{align}
+
+
+\bibliographystyle{acm}
+\bibliography{BMD2019}
+
+
+\section*{Solving}
+\section*{Results}
+\section*{Discussion and Conclusion}
 
 \end{document}
