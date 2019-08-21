@@ -15,20 +15,19 @@
 
 %%%%%%%%%%%%%%%% authors %%%%%%%%%%%%%%%
 \begin{flushleft}
-  {\fontsize{12}{14}{Jason K. Moore, Mont Hubbard, and Ronald A. Hess}\\}
+  {\fontsize{12}{14}{Jason K. Moore and Mont Hubbard}\\}
   \textit{Mechanical and Aerospace Engineering\\
           University of California, Davis\\
           One Shields Avenue, Davis, CA, USA 95817\\
-          e-mail: jkm@ucdavis.edu, mhubbard@ucdavis.edu, rahess@ucdavis.edu}
+          e-mail: jkm@ucdavis.edu, mhubbard@ucdavis.edu}
 \end{flushleft}
 
 % - Abstract
 % - Introduction
-% - Problem Definition
-%   - Parameterization
-%   - Bounds and Constraints
-%   - Free Parameters
-%   - Optimization
+% - Parameterization
+% - Bounds and Constraints
+% - Free Parameters
+% - Optimization
 % - Solutions
 %   - Parameters
 %   - Eigenvalues
@@ -36,26 +35,6 @@
 % - Discussion and Conclusion
 
 \section*{Abstract}
-%
-Physical design features of ground vehicles can affect their lateral handling
-qualities. Geometry, mass, and mass distribution of the vehicle's primary
-components as well as tire characteristics are primary contributors to poor and
-good handling due to their important influence on the vehicle's dynamics. In
-past work, we have presented a theoretical and computational framework for
-assessing the lateral task-independent handling qualities of simplified single
-track vehicle designs~\cite{Hess2012,Moore2012}. In subsequent work, we showed
-that minimizing our handling quality metric (HQM) can produce theoretically
-optimal handling designs when only four geometric parameters are explored as
-the optimization variables~\cite{Moore2016}. The present work's goal is to
-expand this optimization problem to 24 geometry, mass, and inertial parameters
-as the optimization variables so that a broader search space of optimal bicycle
-designs is considered. This task is complicated by the fact that we desire to
-limit the search space to physically realizable designs. Doing so introduces 35
-linear and non-linear constraint equations on the optimization variables. We
-formulate a constrained optimization problem and use nonlinear programming to
-discover optimal, yet realizable, bicycle designs.
-
-\section{Introduction}
 %
 We introduced a method of optimizing four geometric parameters of a bicycle's
 design to minimize the so called Handling Quality Metric
@@ -65,32 +44,49 @@ Whipple-Carvallo bicycle model under constraints that guarantee a physically
 realizable bicycle. This improves over the prior work by expanding the search
 space with many more parameters and the guarntee of realizability.
 
-\section{Problem Definition}
+\section{Introduction}
 %
-We search for 24 optimization variables that minimize the Handling Quality
-Metric defined in~\cite{Hess2012}.
+Physical design features of ground vehicles can affect their lateral handling
+qualities. Geometry, mass, and mass distribution of the vehicle's primary
+components as well as tire characteristics are primary contributors to poor and
+good handling due to their important influence on the vehicle's dynamics. In
+past work, we have presented a theoretical and computational framework for
+assessing the lateral task-independent handling qualities of simplified single
+track vehicle designs~\cite{Hess2012,Moore2012}. In subsequent work, we showed
+that minimizing our proposed handling quality metric (HQM) can produce theoretically
+optimal handling designs when only four geometric parameters are explored as
+the optimization variables~\cite{Moore2016}. The present work's goal is to
+expand this optimization problem to all of the geometry, mass, and inertial
+parameters present in the linear Whipple-Carvallo bicycle model~\cite{Meijaard2007}.
+This broadens the search space considerably but we constrain it so that only
+realizable optimal bicycle designs are discovered. To do so, we formulate a
+constrained optimization problem and use derivative-free optimization to
+discover optimal, yet realizable, bicycle designs.
 
-\subsection{Bicycle Model Parameters}
+\section{Bicycle Model Parameterization}
 %
-Our problem formulation relies on a new parameterization that reflects both a
-reformulation of and addition to the benchmark parameterization of the linear
-Whipple-Carvallo bicycle model~\cite{Meijaard2007}. This parameterization
-differs from the benchmark parameterization in that the person and rear frame
-are treated as separate but fixed rigid bodies each with their on inertial
-parameters and that the inertial parameters of all bodies are expressed in
-terms of central principal radii of gyration so that the mass is decoupled from
-the inertia. We also introduce two simple dimensional parameters that define
-the geometric extents of the person. Table~\ref{tab:parameters} provides the
-parameters and the initial values which are derived from the measurements of a
-Batuvus Browser Bicycle and the rider, Jason, presented in~\cite{Moore2012}.
-This allows the position and orientation of the rider to be specified
-independtly of the rear frame but does not introduce any more than the
-benchmark's four rigid bodies.
+Our problem formulation relies on a new bicycle model parameterization that
+reflects both a reformulation of and addition to the benchmark parameterization
+of the linear Whipple-Carvallo bicycle model~\cite{Meijaard2007}. We call this
+the ``principal parameterizatoin'' as opposed to the ``benchmark
+parameterization''. This parameterization differs from the benchmark
+parameterization in three ways.  Firstly, the person and rear frame are treated
+as separate rigid bodies each with their on inertial parameters. Secondly, we
+express the inertial parameters of each rigid body in terms of central
+principal radii of gyration to decouple the mass from the inertia terms.
+Lastly, we introduce two simple dimensional parameters that define the
+geometric extents of the person which are used to constrain the location of the
+person's body. Table~\ref{tab:parameters} provides the parameters and the
+reference values which are derived from the measurements of a Batavus Browser
+Bicycle and the rider Jason presented in~\cite{Moore2012}. This
+parameterization can be transformed into the benchmark parameterization
+readily, but not vice versa.
 %
 \begin{table}
-  \caption{Full set of 47 parameters and their default values derived from the
-  measurements in~\cite{Moore2012}.}
+  \caption{Full set of 47 principal parameters and their default values derived
+  from the measurements in~\cite{Moore2012}.}
   \label{tab:parameters}
+  \centering
   \begin{tabular}{llll}
     \toprule
     Variable & Value & Units & Description \\
@@ -156,109 +152,65 @@ benchmark's four rigid bodies.
   \end{tabular}
 \end{table}
 
-\subsection{Bounds and Constraints}
+\section{Bounds and Constraints}
 %
 The optimal principal parameters are subject to a set of constraints designed
-to ensure a physically realizable bicycle is obtained. We formulate bounds on
-the variables as well as equality and inequality constraints among the
-variables to ensure a physically realizable bicycle. Below the constraints are
-defined and grouped by the associated rigid body or collection thereof:
+to ensure that a physically realizable bicycle is obtained form the opimization
+procedure. These constraints are made up of bounds on the free parameters and
+both equality and inequality constraints among the parameters. Below the basic
+constraint concepts presented and grouped by the associated rigid body or
+collection thereof:
 %
 \begin{description}
-  \item[Vehicle] The resulting combination of the five rigid bodies.
+  \item[Total] The resulting combination of the five rigid bodies.
     \begin{itemize}
-      \itemsep0em
-      \item The physical extents of the bicycle and rider must exist above the
+      \item The physical extents of the rigid bodies must exist above the
         ground plane.
-      \item Both bicycle and rider are symmetric about the sagittal
+      \item Both bicycle and rider are symmetric about the rider's sagittal
         plane.
       \item The mass of each bicycle rigid body is positive, greater than a
         minimum value, and the total mass is below a reasonably lift-able
         amount.
-      \item The wheels cannot overlap, i.e. wheelbase > front radius + rear
-        radius.
+      \item The wheels cannot overlap.
       \item The bicycle cannot topple forward during hard braking or backward
-        during hard acceleration, i.e. -1 g < acceleration < 1 g.
+        during hard acceleration.
     \end{itemize}
 
   \item[Wheels] Both front and rear wheels have identical constraints.
     \begin{itemize}
-      \itemsep0em
-      \item Wheel radius must be greater than a minimum value.
-      \item Wheels are inertially wheel-like, i.e.  $I_{rot}=mr^2,
-        I_{rad}=I_{rot}/2$.
+      \item Wheel radius and mass must be greater than a minimum value.
+      \item Wheels are inertially wheel-like, i.e. symmetric about each plane
+        and most of the mass is at the rim.
     \end{itemize}
 
-  \item[Frames] Both front and rear frames have identical constraints.
+  \item[Frames] Front frame (handlebar + fork) and rear frame
     \begin{itemize}
-      \itemsep0em
-      \item A pair of principal directions lie in the roll/yaw
-        plane to maintain symmetry and one of these axes is within $\pm \pi/4$
-        rad of the ground plane.
       \item The mass and inertia of the frames are positive and large enough to
         be constructed from materials in a space frame of specified minimal
         density.
-      \item The frames are planar in nature, i.e.
-        $k_{lateral}^2=k_{longitudinal}^2+k_{vertical}^2$, where $k$ is the
-        radius of gyration.
+      \item The rear frame is planar in nature and the front frame's moments of
+        inertia are consitently dependent.
     \end{itemize}
 
   \item[Rider] A single rigid body represents the rider.
     \begin{itemize}
-      \itemsep0em
       \item Rider mass is that of an average person.
       \item The rider's joint angles are fixed in a nominal configuration
         typical of upright bicycling and the resulting mass distribution is
         derived from standard body segment estimation methods.
-      \item One rider principal axis is parallel with the bicycle pitch axis to
-        enforce symmetry.
     \end{itemize}
 
 \end{description}
 
+These bounds, equality, and inequality constraints are presented mathematically
+in tables \ref{tab:bounds}, \ref{tab:equality-constraints},
+\ref{tab:inequality-constraints} respectively and explained in more detail in
+the following sections.
+%
 \begin{table}
-  \caption{Inequality constraints}
-  \begin{tabular}{lll}
-    \toprule
-    Constraint & Equation & Description \\
-    \midrule
-    $c_1$    & $\sqrt{I_{Hxx}^2+I_{Hzz}^2} \geq I_{Hyy}$           & Narrow front frame. \\
-    $c_2$    & $0 \geq z_P + l_P/2 \cos{\alpha_P}$                 & Person cannot penetrate ground. \\
-    $c_3$    & $0 \geq z_P + w_P/2 \sin{\alpha_P}$                 & Person cannot penetrate ground. \\
-    $c_4$    & $0 \geq z_P - l_P/2 \cos{\alpha_P}$                 & Person cannot penetrate ground. \\
-    $c_5$    & $0 \geq z_P - w_P/2 \sin{\alpha_P}$                 & Person cannot penetrate ground. \\
-    $c_6$    & $x_T \geq |z_T|/4$                                  & Maximum acceleration of $1/4g$. \\
-    $c_7$    & $w-x_T \geq 3/4|z_T|$                               & Maximum deceleration of $3/4g$. \\
-    $c_8$    & $2k_{Hyy} \geq \sqrt{(x_H - w)^2 + (z_H + r_F)^2}$  & Minimal inertial spread. \\
-    $c_9$    & $2k_{Dyy} \geq \sqrt{(x_D - 0)^2 + (z_D + r_R)^2}$  & Minimal inertial spread. \\
-    $c_{10}$ & $w \geq r_F +r_R$                                   & Non-overlapping wheels. \\
-    $c_{11}$ & $25\si{\kg} \geq m_D + m_H + m_R + m_F$             & Maximum bicycle mass. \\
-    $c_{12}$ & $-z_D \geq 1.4 k_{Dyy}$                             & Rear frame cannot penetrate ground. \\
-    $c_{13}$ & $-z_H \geq 1.4 k_{Hyy}$                             & Front frame cannot penetrate ground. \\
-    $c_{14,\ldots,21}$ & $0 \geq s_1,\ldots,s_8$                   & Closed loop stability. \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\begin{table}
-  \caption{Equality constraints}
-  \begin{tabular}{lll}
-    \toprule
-    Constraint & Equation & Description \\
-    \midrule
-    $g_1$ & $I_{Dyy} = \sqrt{I_{Dxx}^2 + I_{Dzz}^2}$ & Rear frame is planar. \\
-    $g_2$ & $k_{Ryy} = r_R$  & Rear wheel is a ring \\
-    $g_3$ & $k_{Raa} = k_{Ryy}/2$ & Rear wheel is a ring \\
-    $g_4$ & $k_{Rbb} = k_{Ryy}/2$ & Rear wheel is a ring \\
-    $g_5$ & $k_{Fyy} = r_F$  & Front wheel is a ring \\
-    $g_6$ & $k_{Faa} = k_{Fyy}/2$ & Front wheel is a ring \\
-    $g_7$ & $k_{Fbb} = k_{Fyy}/2$ & Front wheel is a ring \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\begin{table}
-  \caption{Parameter Bounds}
+  \caption{Free parameter upper and lower bounds}
+  \label{tab:bounds}
+  \centering
   \begin{tabular}{ccccc}
     \toprule
     Min & & Parmeter & & Max\\
@@ -289,8 +241,53 @@ defined and grouped by the associated rigid body or collection thereof:
     \bottomrule
   \end{tabular}
 \end{table}
+%
+\begin{table}
+  \caption{Equality constraints}
+  \label{tab:equality-constraints}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    Constraint & Equation & Description \\
+    \midrule
+    $g_1$ & $I_{Dyy} = \sqrt{I_{Dxx}^2 + I_{Dzz}^2}$ & Rear frame is planar. \\
+    $g_2$ & $k_{Ryy} = r_R$  & Rear wheel is a ring \\
+    $g_3$ & $k_{Raa} = k_{Ryy}/2$ & Rear wheel is a ring \\
+    $g_4$ & $k_{Rbb} = k_{Ryy}/2$ & Rear wheel is a ring \\
+    $g_5$ & $k_{Fyy} = r_F$  & Front wheel is a ring \\
+    $g_6$ & $k_{Faa} = k_{Fyy}/2$ & Front wheel is a ring \\
+    $g_7$ & $k_{Fbb} = k_{Fyy}/2$ & Front wheel is a ring \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+%
+\begin{table}
+  \caption{Inequality constraints}
+  \label{tab:inequality-constraints}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    Constraint & Equation & Description \\
+    \midrule
+    $c_1$    & $\sqrt{I_{Hxx}^2+I_{Hzz}^2} \geq I_{Hyy}$           & Consistent moments of inertia. \\
+    $c_2$    & $0 \geq z_P + l_P/2 \cos{\alpha_P}$                 & Person cannot penetrate ground. \\
+    $c_3$    & $0 \geq z_P + w_P/2 \sin{\alpha_P}$                 & Person cannot penetrate ground. \\
+    $c_4$    & $0 \geq z_P - l_P/2 \cos{\alpha_P}$                 & Person cannot penetrate ground. \\
+    $c_5$    & $0 \geq z_P - w_P/2 \sin{\alpha_P}$                 & Person cannot penetrate ground. \\
+    $c_6$    & $x_T \geq |z_T|/4$                                  & Maximum acceleration of $1/4g$. \\
+    $c_7$    & $w-x_T \geq 3/4|z_T|$                               & Maximum deceleration of $3/4g$. \\
+    $c_8$    & $2k_{Hyy} \geq \sqrt{(x_H - w)^2 + (z_H + r_F)^2}$  & Minimal inertial spread. \\
+    $c_9$    & $2k_{Dyy} \geq \sqrt{(x_D - 0)^2 + (z_D + r_R)^2}$  & Minimal inertial spread. \\
+    $c_{10}$ & $w \geq r_F +r_R$                                   & Non-overlapping wheels. \\
+    $c_{11}$ & $25\si{\kg} \geq m_D + m_H + m_R + m_F$             & Maximum bicycle mass. \\
+    $c_{12}$ & $-z_D \geq 1.4 k_{Dyy}$                             & Rear frame cannot penetrate ground. \\
+    $c_{13}$ & $-z_H \geq 1.4 k_{Hyy}$                             & Front frame cannot penetrate ground. \\
+    $c_{14,\ldots,21}$ & $0 \geq s_1,\ldots,s_8$                   & Closed loop stability. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
-\subsection*{Rear Frame [D]}
+\subsubsection*{Rear Frame [D]}
 %
 Several constraints are set for the rear frame. We constrain the rear frame to
 be planar, $g_1$, and symmetric with respect to the $XZ$ plane. We prevent the
@@ -323,7 +320,7 @@ the second principal axes to the tip of the hands. Constraints
 $c_2,\ldots,c_5$.
 
 \subsection{Front Frame}
-
+%
 The front frame is symmetric about the $XZ$ plane so $I_{Hxy}, I_{Hyz} = 0$. We
 allow for any angular orientation of the $XZ$ principal directions but limit
 the angle to $-\frac{\pi}{2} \leq \alpha_H \leq \frac{\pi}{2}$.  We prevent the
@@ -336,13 +333,13 @@ front frame is not planar but is narrow with respect to the $XZ$ plane, which
 is enforced by constraint $c_1$.
 
 \subsection{Front [F] and Rear [R] Wheels}
-
+%
 We enforce the assumption that both wheels have moments of inertia of that of a
 simple ring, $g_2 \ldots g_7$ and that mass and radius should be greater than a
 minimal size based on small purchable spoked wheel with tire.
 
 \subsection{Total Bike [T]}
-
+%
 The trail and wheelbase can take on any real values. The steer axis tilt is
 limted to 180 degrees. We introduce a constraint $c_{10}$ that prevents the
 wheels from physically overlapping and require that the bicycle be liftable by
@@ -360,60 +357,11 @@ eight closed loop eigenvalues associated with the controller in
 expressed in constraints $c_{14},\ldots,c_{21}$. Closed loop stability is
 required for the HQM to provide a meaningful result.
 
-\subsection{Free parameters}
+\section{Free parameters}
 %
-These constraints leave 23 free parameters for the optimizer to These
-parameters can be transformed into the benchmark parameterization r adily, but
-not vice versa.
-We search for the optimal values of a subset of 23 of the principal parameters.
-
-$\mathbf{p}\in\mathbb{R}^{23}$
-
-There are five free parameters associated with the rear frame's inertial
-characteristics:
-
-\begin{description}
-  \item[$m_D$] Mass of the rear frame.
-  \item[$x_D$] Location along the $X$ axis of the rear frame center of mass.
-  \item[$z_D$] Location along the $Z$ axis of the rear frame center of mass.
-  \item[$k_{Daa}$] Maximum principal central radius of gyration in the $XZ$
-    plane.
-  \item[$k_{Dbb}$] Minimum principal central radius of gyration in the $XZ$
-    plane.
-  \item[$\alpha_D$] Angle between the $X$ axis and the maximum principal axis
-    that lies in the $XZ$ plane.
-\end{description}
- Three free parameters
-are associated with these assumptions:
-
-\begin{description}
-  \item[$x_P$] Location along the $X$ axis of the person's center of mass.
-  \item[$z_P$] Location along the $Z$ axis of the person's center of mass.
-  \item[$\alpha_P$] Angle between the $X$ axis and the primary principal
-    inertia axis of the person.
-\end{description}
-
-There are seven free parameters:
-
-\begin{description}
-  \item[$m_H$] The mass of the rear frame.
-  \item[$x_B$] Location along the $X$ axis of the rear frame's center of mass.
-  \item[$z_H$] Location along the $Z$ axis of the rear frame's center of mass.
-  \item[$k_{Haa}$] Central radius of gyration with respect to the $X$ axis
-    where $k_{Hxx}^2=I_{Hxx} / m_H$.
-  \item[$k_{Hyy}$] Central radius of gyration with respect to the $X$ axis
-    where $k_{Hyy}^2=I_{Hyy} / m_H$.
-  \item[$k_{Hbb}$] Central radius of gyration with respect to the $X$ axis
-    where $k_{Hzz}^2=I_{Hzz} / m_H$.
-  \item[$\alpha_H$] Angle between the $X$ axis and the primary principal
-    inertia axis.
-\end{description}
-
-
-There are three remaing parameters associated with the fundamental geometry of
-the bicycle: wheelbase $w$, trail $c$, and steer axis tilt $\lambda$ all the
-same as defined in~\cite{Meijaard2007}.
-
+The above constraints leaves 23 of the 47 parameters free for optimizing which
+we collect in the vector $\mathbf{p}\in\mathbb{R}^{23}$ and define as:
+%
 \begin{align}
   \begin{split}
     \mathbf{p} = [ &
@@ -443,89 +391,102 @@ same as defined in~\cite{Meijaard2007}.
   \end{split}
 \end{align}
 
-There are four fixed parameters that enforce this assumption:
-
-\begin{description}
-  \item[$m_P$] The mass of the person which is fixed at $XX \si{kg}$.
-  \item[$k_{Pxx}$] Central radius of gyration with respect to the $X$ axis
-    where $I_{Pxx} = m_P k_{Pxx}^2$.
-  \item[$k_{Pyy}$] Central radius of gyration with respect to the $Y$ axis
-    where $I_{Pyy} = m_P k_{Pyy}^2=$.
-  \item[$k_{Pzz}$] Central radius of gyration with respect to the $Z$ axis
-    where $I_{Pzz} = m_P k_{Pzz}^2=$.
-  \item[$I_{Bxy}, I_{Byz}$] Products of inertia are zero.
-  \item[$y_P$] Is zero.
-\end{description}
-\subsection{Summary}
-
-The above definitions represent a constrained optimization in 23 free
-parameters with 17 constraints. This bounds the space of bicycle designs to be
-physically realizable and excludes bicycles that don't have the inherent
-characteristics of a bicycle.
-
-\begin{align}
-  \mathbf{p} =
-  \begin{bmatrix}
-    % primary geometry
-    w \\
-    c \\
-    \lambda
-    % front frame
-    m_D \\
-    x_D \\
-    z_D \\
-    k_{Dxx} \\
-    k_{Dzz} \\
-    \alpha_D \\
-    % person
-    x_P \\
-    z_P \\
-    \alpha_P \\
-    % front frame
-    m_H \\
-    x_H \\
-    z_H \\
-    k_{Hxx} \\
-    k_{Hyy} \\
-    k_{Hzz} \\
-    I_{Hxz} \\
-    \alpha_H \\
-    % rear wheel
-    r_R \\
-    m_R \\
-    % front wheel
-    r_F \\
-    m_F \\
-  \end{bmatrix}
-\end{align}
-
-
-
-
-
-\bibliographystyle{acm}
-\bibliography{BMD2019}
-
-
-
-\subsection*{Optimization}
+\section{Optimization}
 %
-The constraint statements above translate into upper and lower bounds on 12 of
-the 24 variables $\mathbf{p}^U,\mathbf{p}^L$ and 14 linear and 21 nonlinear
-constraint $\mathbf{g}(\mathbf{p})$ among the variables and thus can be
-expressed in the standard non-linear programming form.
+Our objective in the optimization is to minimize the peak HQM value subject to
+the bounds, $\mathbf{p}^L,\mathbf{p}^U$, and the constraints
+$\mathbf{g}(\mathbf{p}),\mathbf{c}(\mathbf{p})$ . Given a set of bicycle model
+parameter values we generate a bandwidth limited human-like controller using
+the methods in ~\cite{Moore2012}. Once the closed loop stable controller is
+constructed, the HQM can be computed as per the definition in \cite{Hess2012}
+and the scaler peak value returned as the objective $J$. This problem is
+presented as a non-linear programming problem in the following equation.
 %
 \begin{equation}
   \begin{aligned}
-    & \underset{\mathbf{p}}{\text{minimize}} & & max(\textrm{HQM}(\mathbf{p})) \\
+    & \underset{\mathbf{p}}{\text{minimize}} & & J(\mathbf{p})=max(\textrm{HQM}(\mathbf{p})) \\
     & \text{subject to} & & \\
-    & & & \mathbf{p}^L \leq \mathbf{p} \leq \mathbf{p}^U \\
-    & & & \mathbf{g}^L \leq \mathbf{g}(\mathbf{p}) \leq \mathbf{g}^U \\
+    & & & \mathbf{g}(\mathbf{p}) \leq \mathbf{0} \\
+    & & & \mathbf{c}(\mathbf{p}) = \mathbf{0} \\
+    & & & \mathbf{p}^L \leq \mathbf{p} \leq \mathbf{p}^U
   \end{aligned}
 \end{equation}
 
-\section*{Solving}
-\section*{Results}
-\section*{Discussion and Conclusion}
+We make use of the derivative-free optimizer CMA-ES~\cite{Hansen1996} to find
+solutions to this problem. The optimization supports parameter bounds and
+equality constraints but does not support inequality constraints. To get around
+this limitation we move the inequality constraints into the objective function
+an penalize the objective if the constraints are violated with the following
+rules:
+%
+\begin{align}
+  J(\mathbf{p}) =
+  \begin{cases}
+    max(\textrm{HQM}(\mathbf{p})) & \textrm{if} \quad any(\mathbf{g}(\mathbf{p})) < 0 \\
+    30 + ||\mathbf{g}_{+}(\mathbf{p})||/10 & \textrm{if} \quad
+      any(\mathbf{g}(\mathbf{p})) \geq 0 \textrm{ and } ||\mathbf{g}_{+}(\mathbf{p})|| < 30 \\
+    ||\mathbf{g}_{+}(\mathbf{p})|| & \textrm{if} \quad
+      any(\mathbf{g}(\mathbf{p})) \geq 0 \textrm{ and } ||\mathbf{g}_{+}(\mathbf{p})|| \geq 30
+  \end{cases}
+\end{align}
+where $||\mathbf{g}_{+}||$ is the norm of the positive elements of
+$\mathbf{g}$.
+
+This creates a discontinous objective function but in practice the CMS-ES
+algorthim is able to move into the parameter space where all the constraints
+are satisfied and find a (local) minima. For our purposes, this sufficiently
+finds parameter values that produce an optimally handling design.
+
+\section{Results}
+%
+We discover four bicycles for four different design speeds (3, 5, 7, and 9 m/s)
+that have an optimally low HQM, see Table~\ref{tab:hqm} and satisify all
+constraints and parameter boundaries. We belive these bicycles to be physically
+realizable with minor differences. The most striking feature is that all of the
+bicycle are larger that the reference bicycle in some way.  The 3 m/s bicycle
+places both the rider's mass center and the rear frame's mass center close to 3
+meters above the ground plane. The 5 and 7 m/s bicycles have wheelbase values
+that are simlar to the reference bicycle, but 3 and 9 m/s have very large wheel
+bases. The 9 m/s bicycle is very large overall. Only the 5 m/s bicycle is of a
+scale close to a typical bicycle. It is noteable that the 9 m/s bicycle has
+signficant negative trail.
+%
+\begin{figure}
+  \centering
+  \includegraphics[width=6in]{../figures/optimal-geometries.png}
+  \caption{Depcitions of the bicycle geometry and geometric representations of
+    the inertial quanties for the reference bicycle and four optimal solutions
+    at 3, 5, 7, and 9 m/s. Five rigid bodies are shown for each bicycle: front
+    wheel (oragne), rear wheel (purple), rear frame (blue), front frame
+    (green), and person (red). The solid black lines represent the essential
+    bicycle geometry. The dotted black line represents the steer axis. The
+    solid colored curves represent the contours of solid ellipsoids with
+    equivalent inertia as the principal inertia of the associated rigid body.
+    The dotted colored lines represent the extents of the centerial radii of
+    gyration of each rigid body.}
+\end{figure}
+%
+\begin{table}
+  \caption{Peak HQM values for the reference bicycle and the optimal bicycles
+    at each speed.}
+  \label{tab:hqm}
+  \centering
+  \begin{tabular}{llll}
+    \toprule
+    Speed [m/s] & Reference Peak HQM & Optimal Peak HQM & Percent Improvement \\
+    \midrule
+    3 & 13.0753 & 2.0118 & 85\% \\
+    5 & 4.5213  & 0.0115 & 100\% \\
+    7 & 3.0434  & 0.0220 &  99\% \\
+    9 & 2.3377  & 0.8386 &  64\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Discussion and Conclusion}
+%
+
+\bibliographystyle{acm}
+\bibliography{BMD2019}
 
 \end{document}
