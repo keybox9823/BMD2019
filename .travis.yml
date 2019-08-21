@@ -8,9 +8,13 @@ env:
 before_install:
   - sudo apt update
   - sudo apt install -y texlive texlive-latex-extra texlive-science
-  - pip install doctr
+  - pip install doctr numpy scipy matplotlib uncertainties yeadon DynamicistToolKit
+  - git clone --single-branch --branch new-api https://github.com/moorepants/BicycleParameters.git BicycleParameters/
+  - pip install -e BicycleParameters/
 script:
   - set -e
+  - mkdir -P figures/
+  - python src/geometry_plot.py
   - mkdir output/
   - make -C paper/  # build the paper
   - mv paper/paper.pdf output/MooreHubbard2019.pdf
