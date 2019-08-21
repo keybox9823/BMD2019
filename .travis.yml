@@ -10,7 +10,9 @@ before_install:
   - sudo apt install -y texlive texlive-latex-extra texlive-science
   - pip install doctr numpy scipy matplotlib uncertainties yeadon DynamicistToolKit
   - git clone --single-branch --branch new-api https://github.com/moorepants/BicycleParameters.git BicycleParameters/
-  - pip install -e BicycleParameters/
+  - cd BicycleParameters/
+  - python setup.py install
+  - cd -
 script:
   - set -e
   - mkdir -P figures/
