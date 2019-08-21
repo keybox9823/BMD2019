@@ -15,7 +15,7 @@ install:
   - cd -
 script:
   - set -e
-  - mkdir -P figures/
+  - mkdir figures/
   - python src/geometry_plot.py
   - mkdir output/
   - make -C paper/  # build the paper
