@@ -12,12 +12,7 @@ before_install:
 script:
   - set -e
   - mkdir output/
-  - cd paper/
-  - pdflatex paper.tex
-  - bibtex paper.aux
-  - pdflatex paper.tex
-  - pdflatex paper.tex
-  - cd -
+  - make -C paper/  # build the paper
   - mv paper/paper.pdf output/MooreHubbard2019.pdf
   - if [[ -z "$TRAVIS_TAG" ]]; then
       DEPLOY_DIR=".";
