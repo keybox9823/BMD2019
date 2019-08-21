@@ -22,6 +22,19 @@
           e-mail: jkm@ucdavis.edu, mhubbard@ucdavis.edu, rahess@ucdavis.edu}
 \end{flushleft}
 
+% - Abstract
+% - Introduction
+% - Problem Definition
+%   - Optimization
+%   - Parameterization
+%   - Bounds
+%   - Constraints
+% - Solutions
+%   - Parameters
+%   - Eigenvalues
+%   - HQM
+% - Discussion and Conclusion
+
 \section*{Abstract}
 %
 Physical design features of ground vehicles can affect their lateral handling
@@ -53,19 +66,46 @@ realizable bicycle. This improves over the prior work by expanding the search
 space with many more parameters and the guarntee of realizability.
 
 \section*{Problem Definition}
-
+%
 We search for 24 optimization variables that minimize the Handling Quality
-Metric defined in ~\cite{Hess2012}.
+Metric defined in~\cite{Hess2012}.
 
-Our formulation exposes 24 optimization variables
-$\mathbf{p}\in\mathbb{R}^{24}$ that are both reformulations of and additions to
-the parameters of the benchmark bicycle~\cite{Meijaard2007}. We separate the
-rider's inertial parameters from the rear frame of the bicycle for the purposes
-of rider/bicycle relative configuration but do not introduce any more than the
-benchmark's four rigid bodies. The variables are as follows;
+\subsection*{Optimization}
+%
+The constraint statements above translate into upper and lower bounds on 12 of
+the 24 variables $\mathbf{p}^U,\mathbf{p}^L$ and 14 linear and 21 nonlinear
+constraint $\mathbf{g}(\mathbf{p})$ among the variables and thus can be
+expressed in the standard non-linear programming form.
+%
+\begin{equation}
+  \begin{aligned}
+    & \underset{\mathbf{p}}{\text{minimize}} & & max(\textrm{HQM}(\mathbf{p})) \\
+    & \text{subject to} & & \\
+    & & & \mathbf{p}^L \leq \mathbf{p} \leq \mathbf{p}^U \\
+    & & & \mathbf{g}^L \leq \mathbf{g}(\mathbf{p}) \leq \mathbf{g}^U \\
+  \end{aligned}
+\end{equation}
+
+\subsection*{Bicycle Model Parameters}
+%
+Our problem formulation relies on a new parameterization that reflects both a
+reformulation of and addition to the benchmark parameterization of the linear
+Whipple-Carvallo bicycle model~\cite{Meijaard2007}. This parameterization
+differs from the benchmark parameterization in that the person and rear frame
+are treated as separate but fixed rigid bodies each with their on inertial
+parameters and that the inertial parameters of all bodies are expressed in
+terms of central principal radii of gyration so that the mass is decoupled from
+the inertia. We also introduce two simple dimensional parameters that define
+the geometric extents of the person. Table~\ref{tab:parameters} provides the
+parameters and the initial values which are derived from the measurements of a
+Batuvus Browser Bicycle and the rider, Jason, presented in~\cite{Moore2012}.
+This allows the position and orientation of the rider to be specified
+independtly of the rear frame but does not introduce any more than the
+benchmark's four rigid bodies.
+
+The variables are as follows:
 %
 \begin{itemize}
-  \itemsep-0.25em
   \item wheelbase, trail, steer axis tilt, wheel radii
   \item somersault angle of the person (same direction as bicycle pitch)
   \item masses of the front frame, rear frame, front wheel, and rear wheel
@@ -74,13 +114,115 @@ benchmark's four rigid bodies. The variables are as follows;
   \item principal inertia axis pitch angles of the front frame, rear frame, and rider
 \end{itemize}
 
+
+\begin{table}
+  \caption{Parameters and their default values.}
+  \begin{tabular}{llll}
+    \toprule
+    Variable & Value & Units & Description \\
+    \midrule
+    $c$ &  0.068581 & \si{\meter} & Trail \\
+    $w$ &  1.1210 & \si{\meter} & Wheelbase \\
+    $\lambda$ &  0.39968 & \si{\radian} & Steer axis tilt \\
+    $g$ &  9.81 & \si{\meter\per\second\squared} & Acceleration due to gravity \\
+    $v$ &  3.0 & \si{\meter\per\second} & Forward speed \\
+    Rear Wheel [R] & & \\
+    \midrule
+    $m_R$ &  3.11 & \si{\kilogram} & mass \\
+    $r_R$ &  0.34096 & \si{\meter} & Rear wheel radius \\
+    $x_R$ & 0 & \si{\meter} & Rear wheel mass center \\
+    $y_R$ & 0 & \si{\meter} & Rear wheel mass center \\
+    $z_R$ & -0.34096 & \si{\meter} & Rear wheel mass center \\
+    $k_{Raa}$ &  0.17050 & \si{\meter} & Rear wheel central principal radii of gyration \\
+    $k_{Rbb}$ &  0.17050 & \si{\meter} & Rear wheel central principal radii of gyration  \\
+    $k_{Ryy}$ &  0.22136 & \si{\meter} & Rear wheel central principal radii of gyration \\
+    Front Wheel [F] & & \\
+    \midrule
+    $m_F$ &  2.02 & \si{\kilogram} & Mass \\
+    $r_F$ &  0.34353 & \si{\meter} & Radius \\
+    $x_F$ &  1.1210 & \si{\meter} & Mass center \\
+    $y_F$ & 0.0 & \si{\meter} & Mass center \\
+    $z_F$ & -0.34353 & \si{\meter} & Mass center \\
+    $k_{Faa}$ &  0.20917 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Fbb}$ &  0.20917 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Fyy}$ &  0.27179 & \si{\meter} & Central principal radius of gyration \\
+    Person [P] & & \\
+    \midrule
+    $l_P$ &  1.7280 & \si{\meter} & Body length \\
+    $w_P$ &  0.48300 & \si{\meter} & Body width \\
+    $m_P$ &  83.500 & \si{\kilogram} & Mass \\
+    $x_P$ &  0.31577 & \si{\meter} & Mass center \\
+    $y_P$ & 0.0 & \si{\meter} & Mass center \\
+    $z_P$ & -1.0990 & \si{\meter} & Mass center \\
+    $k_{Paa}$ &  0.36797 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Pbb}$ &  0.15276 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Pyy}$ &  0.36717 & \si{\meter} & Central principal radius of gyration \\
+    $\alpha_P$ & 0.18618 & \si{\radian} & Principal axis angle \\
+    Front Frame [H] & & \\
+    \midrule
+    $m_H$ & 3.2200 & \si{\kilogram} & Mass \\
+    $x_H$ & 0.86695 & \si{\meter} & Mass center \\
+    $y_H$ & 0.0 & \si{\meter} & Mass center \\
+    $z_H$ & -0.74824 & \si{\meter} & Mass center \\
+    $k_{Haa}$ & 0.29556 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Hbb}$ & 0.14493 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Hyy}$ & 0.27630 & \si{\meter} & Central principal radius of gyration \\
+    $\alpha_H$ & 0.36995 & \si{\radian} & Principal axis angle \\
+    Rear Frame [D] & & \\
+    \midrule
+    $m_D$ &  9.8600 & \si{\kilogram} & Mass \\
+    $x_D$ &  0.27595 & \si{\meter} & Mass center \\
+    $y_D$ & 0 & \si{\meter} & Mass center \\
+    $z_D$ & -0.53784 & \si{\meter} & Mass center \\
+    $k_{Daa}$ &  0.28587 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Dbb}$ &  0.22079 & \si{\meter} & Central principal radius of gyration \\
+    $k_{Dyy}$ &  0.36539 & \si{\meter} & Central principal radius of gyration \\
+    $\alpha_D$ &  1.1722 & \si{\radian} & Principal axis angle \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+$\mathbf{p}\in\mathbb{R}^{24}$These parameters can be transformed into the benchmark parameterization
+r adily, but not vice versa.
+We search for the optimal values of a subset of 23 of the principal parameters.
+
+\begin{align}
+  \mathbf{p} = &
+    [w \quad
+     c \quad
+     \lambda \quad
+     m_D \quad
+     x_D \quad
+     z_D \quad
+     k_{Daa} \quad
+     k_{Dbb} \quad
+     \alpha_D \quad
+     x_P \quad
+     z_P \quad
+     \alpha_P \quad \\
+ &    m_H \quad
+     x_H \quad
+     z_H \quad
+     k_{Haa} \quad
+     k_{Hbb} \quad
+     k_{Hyy} \quad
+     \alpha_H \quad
+     r_R \quad
+     m_R \quad
+     r_F \quad
+     m_F]
+\end{align}
+
+\subsection*{Bounds and Constraints}
+%
+The optimal principal parameters are subject to a set of constraints designed
+to ensure a physically realizable bicycle is obtained.
 We formulate bounds on the variables as well as equality and inequality
 constraints among the variables to ensure a physically realizable bicycle.
 Below the constraints are defined and grouped by the associated rigid body or
 collection thereof:
 %
 \begin{description}
-
   \item[Vehicle] The resulting combination of the five rigid bodies.
     \begin{itemize}
       \itemsep0em
@@ -132,133 +274,6 @@ collection thereof:
 
 \end{description}
 
-The constraint statements above translate into upper and lower bounds on 12 of
-the 24 variables $\mathbf{p}^U,\mathbf{p}^L$ and 14 linear and 21 nonlinear
-constraint $\mathbf{g}(\mathbf{p})$ among the variables and thus can be
-expressed in the standard non-linear programming form.
-%
-\begin{equation}
-  \begin{aligned}
-    & \underset{\mathbf{p}}{\text{minimize}} & & max(\textrm{HQM}(\mathbf{p})) \\
-    & \text{subject to} & & \\
-    & & & \mathbf{p}^L \leq \mathbf{p} \leq \mathbf{p}^U \\
-    & & & \mathbf{g}^L \leq \mathbf{g}(\mathbf{p}) \leq \mathbf{g}^U \\
-  \end{aligned}
-\end{equation}
-
-\subsection*{Parameters}
-%
-We introduce a new parameterization of the linear Whipple-Carvallo bicycle
-model. This parameterization differs from the benchmark
-parameterization~\cite{Meijaard2007} in that the person and rear frame are
-separate rigid bodies each with their on inertial parameters and that the
-inertial parameters of all bodies are expressed in terms of principal central
-radii of gyration so that the mass is decoupled from the inertia. We also
-introduce two simple dimensional parameters that define the geometric extents
-of the person. Table~\ref{tab:parameters} provides the parameters and the
-initial values which are derived from.
-
-% TODO : Create a table of the parameters and values.
-\begin{table}
-  \caption{Parameters and their default values.}
-  \begin{tabular}{llll}
-    \toprule
-    Variable & Value & Units & Description \\
-    \midrule
-    $c$ &  0.068581 & \si{\meter} & Trail \\
-    $w$ &  1.1210 & \si{\meter} & Wheelbase \\
-    $\lambda$ &  0.39968 & \si{\radian} & Steer axis tilt \\
-    $g$ &  9.81 & \si{\meter\per\second\squared} & Acceleration due to gravity \\
-    $v$ &  3.0 & \si{\meter\per\second} & Forward speed \\
-    Rear Wheel [R] & & \\
-    \midrule
-    $m_R$ &  3.11 & \si{\kilogram} & mass \\
-    $r_R$ &  0.34096 & \si{\meter} & Rear wheel radius \\
-    $x_R$ & 0 & \si{\meter} & Rear wheel mass center \\
-    $y_R$ & 0 & \si{\meter} & Rear wheel mass center \\
-    $z_R$ & -0.34096 & \si{\meter} & Rear wheel mass center \\
-    $k_{Raa}$ &  0.17050 & \si{\meter} & Rear wheel central principal radii of gyration \\
-    $k_{Rbb}$ &  0.17050 & \si{\meter} & Rear wheel central principal radii of gyration  \\
-    $k_{Ryy}$ &  0.22136 & \si{\meter} & Rear wheel central principal radii of gyration \\
-    Front Wheel [F] & & \\
-    \midrule
-    $m_F$ &  2.02 & \si{\kilogram} & Mass \\
-    $r_F$ &  0.34353 & \si{\meter} & Radius \\
-    $x_F$ &  1.1210 & \si{\meter} & Mass center \\
-    $y_F$ & 0.0 & \si{\meter} & Mass center \\
-    $z_F$ & -0.34353 & \si{\meter} & Mass center \\
-    $k_{Faa}$ &  0.20917 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Fbb}$ &  0.20917 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Fyy}$ &  0.27179 & \si{\meter} & Central principal radius of gyration \\
-    \midrule
-    $l_P$ &  1.7280 & \si{\meter} & Body length \\
-    $w_P$ &  0.48300 & \si{\meter} & Body width \\
-    $m_P$ &  83.500 & \si{\kilogram} & Mass \\
-    $x_P$ &  0.31577 & \si{\meter} & Mass center \\
-    $y_P$ & 0.0 & \si{\meter} & Mass center \\
-    $z_P$ & -1.0990 & \si{\meter} & Mass center \\
-    $k_{Paa}$ &  0.36797 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Pbb}$ &  0.15276 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Pyy}$ &  0.36717 & \si{\meter} & Central principal radius of gyration \\
-    $\alpha_P$ & 0.18618 & \si{\radian} & Principal axis angle \\
-    \midrule
-    $m_H$ & 3.2200 & \si{\kilogram} & Mass \\
-    $x_H$ & 0.86695 & \si{\meter} & Mass center \\
-    $y_H$ & 0.0 & \si{\meter} & Mass center \\
-    $z_H$ & -0.74824 & \si{\meter} & Mass center \\
-    $k_{Haa}$ & 0.29556 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Hbb}$ & 0.14493 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Hyy}$ & 0.27630 & \si{\meter} & Central principal radius of gyration \\
-    $\alpha_H$ & 0.36995 & \si{\radian} & Principal axis angle \\
-    \midrule
-    $m_D$ &  9.8600 & \si{\kilogram} & Mass \\
-    $x_D$ &  0.27595 & \si{\meter} & Mass center \\
-    $y_D$ & 0 & \si{\meter} & Mass center \\
-    $z_D$ & -0.53784 & \si{\meter} & Mass center \\
-    $k_{Daa}$ &  0.28587 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Dbb}$ &  0.22079 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Dyy}$ &  0.36539 & \si{\meter} & Central principal radius of gyration \\
-    $\alpha_D$ &  1.1722 & \si{\radian} & Principal axis angle \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-These parameters can be transformed into the benchmark parameterization
-r adily, but not vice versa.
-
-We search for the optimal values of a subset of 23 of the principal parameters.
-
-\begin{align}
-  \mathbf{p} =
-    [w \quad
-     c \quad
-     \lambda \quad
-     m_D \quad
-     x_D \quad
-     z_D \quad
-     k_{Daa} \quad
-     k_{Dbb} \quad
-     \alpha_D \quad
-     x_P \quad
-     z_P \quad
-     \alpha_P \quad
-     m_H \quad
-     x_H \quad
-     z_H \quad
-     k_{Haa} \quad
-     k_{Hbb} \quad
-     k_{Hyy} \quad
-     \alpha_H \quad
-     r_R \quad
-     m_R \quad
-     r_F \quad
-     m_F]
-\end{align}
-
-\subsection*{Constraints}
-%
-The optimal principal parameters are subject to a set of constraints designed
-to ensure a physically realizable bicycle is obtained.
 
 \begin{table}
   \caption{Inequality constraints}
@@ -334,8 +349,10 @@ to ensure a physically realizable bicycle is obtained.
   \end{tabular}
 \end{table}
 
-\subsection*{Rear Frame [D]}
+\section*{Rigid Body Definitions}
 
+\subsection*{Rear Frame [D]}
+%
 There are five free parameters associated with the rear frame's inertial
 characteristics:
 
@@ -515,97 +532,8 @@ characteristics of a bicycle.
   \end{bmatrix}
 \end{align}
 
-with these additional parameters that have fixed values:
 
-\begin{align}
-  I_{Dxy} = I_{Dyz} = 0 \\
-  y_D = 0 \\
-  % 
-  l_P = ? \si{m}\\
-  w_P = ? \si{m} \\
-  m_P = 83.5 \si{kg} \\
-  y_P = 0 \si{\meter} \\
-  I_{Pxx} = 10.98524 \si{\kg\meter^2} \\
-  I_{Pyy} = 11.2571 \si{\kg\meter^2}\\
-  I_{Pzz} = 2.26922 \si{\kg\meter^2}\\
-  I_{Pxy} = I_{Pyz} = 0 \si{\kg\meter^2}\\
-  I_{Pxz} = -1.70211 \si{\kg\meter^2}\\
-  % 
-  I_{Hxy} = I_{Hyz} = 0 \\
-  y_H = 0 \\
-  %
-  I_{Rxy} = I_{Ryz} = I_{Rxz} = 0 \\
-  %
-  I_{Fxy} = I_{Fyz} = I_{Fxz} = 0 \\
-\end{align}
 
-with these conversions from our parameters to the benchmark parameters:
-
-\begin{align}
-  I_{Dxx} = m_D k_{Dxx}^2 \\
-  I_{Dyy} = \sqrt{I_{Dxx}^2 + I_{Dzz}^2} \\
-  I_{Dzz} = m_D k_{Dzz}^2 \\
-  I_{Dxz} = f(I_{Dxx}, I_{Dzz}, \alpha_D)  \\
-  %
-  m_B = m_D + m_P \\
-  x_B = \frac{m_D x_D + m_P x_P}{m_B} \\
-  z_B = \frac{m_D z_D + m_P z_P}{m_B} \\
-  I_{Bxx} = f(m_B, I_P, I_D, x_D, z_D, x_P, z_P, x_B, z_B) \\
-  I_{Byy} = f(m_B, I_P, I_D, x_D, z_D, x_P, z_P, x_B, z_B) \\
-  I_{Bzz} = f(m_B, I_P, I_D, x_D, z_D, x_P, z_P, x_B, z_B) \\
-  I_{Bxy} = 0 \\
-  I_{Byz} = 0 \\
-  I_{Bxz} = f(m_B, I_P, I_D, x_D, z_D, x_P, z_P, x_B, z_B) \\
-  % 
-  I_{Hxx} = m_H k_{Hxx}^2 \\
-  I_{Hyy} = m_H k_{Hyy}^2\\
-  I_{Hzz} = m_H k_{Hzz}^2 \\
-  I_{Hxz} = f(I_{Hxx}, I_{Hzz}, \alpha_H)  \\
-  %
-  I_{Ryy} = m_R r_R^2 \\
-  I_{Rxx} = I_{Ryy} / 2 \\
-  I_{Rzz} = I_{Ryy} / 2 \\
-  %
-  I_{Fyy} = m_F r_F^2 \\
-  I_{Fxx} = I_{Fyy} / 2 \\
-  I_{Fzz} = I_{Fyy} / 2 \\
-  %
-  m_T = m_H + m_B + m_F + m_R \\
-  x_T = \frac{m_H x_H + m_B x_B + m_F w}{m_T} \\
-  z_T = \frac{m_H z_H + m_B z_B + m_F r_F + m_R r_R}{m_T} 
-\end{align}
-
-with these parameter bounds:
-
-\begin{align}
-  m_R > 0 \\
-  m_F > 0 \\
-  m_H > 0 \\
-  m_D > 0 \\
-  r_R > r_{min} \\
-  r_F > r_{min} \\
-  z_H < 0 \\
-  z_D < 0 \\
-  -\frac{\pi}{2} \leq \alpha_H \leq \frac{\pi}{2} \\
-  -\frac{\pi}{2} \leq \alpha_P \leq \frac{\pi}{2} \\
-  -\frac{\pi}{2} \leq \alpha_D \leq \frac{\pi}{2} \\
-  -\frac{\pi}{2} \leq \lambda \leq \frac{\pi}{2}
-\end{align}
-
-and these constraints:
-
-\begin{align}
-  I_{Hyy} \leq \sqrt{I_{Hxx}^2 + I_{Hzz}^2} \\
-  z_P + l_P / 2 \cos{\alpha_P} & \leq 0 \\
-  z_P + w_P / 2 \sin{\alpha_P} & \leq 0 \\
-  z_P - l_P / 2 \cos{\alpha_P} & \leq 0 \\
-  z_P - w_P / 2 \sin{\alpha_P} & \leq 0 \\
-  w > r_F + r_R \\
-  m_{Tmin} + m_P \leq m_T \leq 25 \si{kg} + m_P \\
-  \frac{x_T}{|z_T|} < \frac{1}{4} \\
-  \frac{x_T - w}{|z_T|} < -1 \\
-  real(\mathbf{s}) < 0
-\end{align}
 
 
 \bibliographystyle{acm}
