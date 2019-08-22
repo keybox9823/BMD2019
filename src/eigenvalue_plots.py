@@ -30,7 +30,7 @@ for ax, speed in zip(axes.flatten()[2:], speeds):
     ben_par_set = par_set.to_benchmark()
     model = MinimalLinearWhippleCarvalloModel(ben_par_set)
     model.plot_eigenvalue_parts(v=speed_range, ax=ax)
-    ax.axvline(speed, linestyle='--')
+    ax.axvline(speed, color='black', linestyle='--')
     ax.set_title('{} m/s'.format(speed))
     ax.set_ylim((-10, 10))
     ax.set_ylabel('')
