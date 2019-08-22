@@ -17,6 +17,7 @@ script:
   - set -e
   - mkdir figures/
   - python src/geometry_plot.py
+  - python src/eigenvalue_plots.py
   - mkdir output/
   - make -C paper/  # build the paper
   - mv paper/paper.pdf output/MooreHubbard2019.pdf
