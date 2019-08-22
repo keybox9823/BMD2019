@@ -450,6 +450,25 @@ that are simlar to the reference bicycle, but 3 and 9 m/s have very large wheel
 bases. The 9 m/s bicycle is very large overall. Only the 5 m/s bicycle is of a
 scale close to a typical bicycle. It is noteable that the 9 m/s bicycle has
 signficant negative trail.
+
+3
+- Rider is over 3 m in the air and leaned forward.
+- 3 m wheel base with 0.5 meter positive trail
+- wheels are over double the diameter of browser wheels
+
+5 m/s
+- rider is laid back a 0.5 meter off ground
+- < 1 m wheelbase
+
+7 m/s
+- miminal rotatoinal inertia about the steer axis
+- tall slender fork/handlebar
+- no trail
+- half sized wheels (~12 inches)
+- normal wheelbase
+- rider tipped forward and low (0.6 m)
+- vertical steer axis
+- 3 m high frame center of mass
 %
 \begin{figure}
   \centering
@@ -488,6 +507,65 @@ signficant negative trail.
   \includegraphics[width=6in]{../figures/optimal-eigenvalues.png}
   \caption{}
 \end{figure}
+%
+\begin{table}
+  \caption{Optimal principal parameter values for each design speed.}
+  \label{tab:optimal-values}
+  \centering
+  \begin{tabular}{lllll}
+    \toprule
+    Parameter & 3 m/s & 5 m/s & 7 m/s & 9 m/s \\
+    \midrule
+alphaD & 0.66300  & 0.91544    & 1.1228    & 1.076700 \\
+alphaH & 0.57150  & -1.2647 &    1.5708    & 0.23760 \\
+alphaP & -0.66130 & 1.1497 &     -0.83627  & 1.5584 \\
+c      & 0.68780  & -0.0050384 & 0.0010500 & -0.48397 \\
+g      & 9.8100   & 9.8100 &     9.8100 &    9.8100 \\
+kDaa   & 1.4491   & 1.2179 &     1.3242 &    0.86084 \\
+kDbb   & 0.72360  & 1.3868 &     1.2903 &    2.0139 \\
+kDyy   & 1.4711   & 1.5585 &     1.5550 &    2.0305 \\
+kFaa   & 0.35495  & 0.12585 &    0.063500 &  1.0314 \\
+kFbb   & 0.35495  & 0.12585 &    0.063500 &  1.0314 \\
+kFyy   & 0.70990  & 0.25170 &    0.12700 &   2.0628 \\
+kHaa   & 0.18620  & 0.049106 &   0.0 &       2.8463 \\
+kHbb   & 1.2578   & 1.1451 &     2.0055 &    0.16848 \\
+kHyy   & 0.63610  & 0.38324 &    0.81835 &   0.66922 \\
+kPaa   & 0.36797  & 0.36797 &    0.36797 &   0.36797 \\
+kPbb   & 0.15276  & 0.15276 &    0.15276 &   0.15276 \\
+kPyy   & 0.36717  & 0.36717 &    0.36717 &   0.36717 \\
+kRaa   & 0.47910  & 0.25306 &    0.073095 &  1.5135 \\
+kRbb   & 0.47910  & 0.25306 &    0.073095 &  1.5135 \\
+kRyy   & 0.95820  & 0.50612 &    0.14619 &   3.0270 \\
+lP     & 1.7280   & 1.7280 &     1.7280 &    1.7280 \\
+lam    & -0.21250 & 0.27137 &    -0.027560 & 0.23941 \\
+mD     & 3.2233   & 11.534 &     10.315 &    7.0223 \\
+mF     & 1.6211   & 4.4038 &     2.6441 &    5.5058 \\
+mH     & 0.25000  & 0.25000 &    0.49309 &   3.5435 \\
+mP     & 83.500   & 83.500 &     83.500 &    83.500 \\
+mR     & 12.625   & 8.3601 &     6.3080 &    2.2534 \\
+rF     & 0.70990  & 0.25170 &    0.12700 &   2.0628 \\
+rR     & 0.95820  & 0.50612 &    0.14619 &   3.0270 \\
+v      & 3.0      & 5.0 &        7.0 &       9.0 \\
+w      & 2.8655   & 0.84711 &    1.1570 &    5.5573 \\
+wP     & 0.48300  & 0.48300 &    0.48300 &   0.48300 \\
+xD     & 0.95820  & 0.28749 &    0.42710 &   1.0204 \\
+xF     & 2.8655   & 0.84711 &    1.1570 &    5.5573 \\
+xH     & 2.3561   & 0.53227 &    1.1449 &    5.6145 \\
+xP     & 0.76460  & 0.27642 &    0.52614 &   1.0791 \\
+xR     & 0.0      & 0.0 &        0.0 &       0.0 \\
+yD     & 0.0      & 0.0 &        0.0 &       0.0 \\
+yF     & 0.0      & 0.0 &        0.0 &       0.0 \\
+yH     & 0.0      & 0.0 &        0.0 &       0.0 \\
+yP     & 0.0      & 0.0 &        0.0 &       0.0 \\
+yR     & 0.0      & 0.0 &        0.0 &       0.0 \\
+zD     & -2.6050  & -2.7190 &    -2.9764 &   -4.0653 \\
+zF     & -0.70990 & -0.25170 &   -0.12700 &  -2.0628 \\
+zH     & -1.2977  & -0.78065 &   -1.3399 &   -1.7755 \\
+zP     & -3.1937  & -0.45256 &   -0.58632 &  -2.6623 \\
+zR     & -0.95820 & -0.50612 &   -0.14619 &  -3.0270 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \section{Discussion and Conclusion}
 %
