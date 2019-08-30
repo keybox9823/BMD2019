@@ -8,9 +8,7 @@
 
 \begin{flushleft}
 {\fontsize{16pt}{20pt}\selectfont%
-  Expanded Optimization for Discovering\\}
-{\fontsize{16pt}{20pt}\selectfont%
-  Optimal Lateral Handling Bicycles}
+  Expanded Optimization for Discovering Optimal Lateral Handling Bicycles}
 \end{flushleft}
 
 %%%%%%%%%%%%%%%% authors %%%%%%%%%%%%%%%
@@ -36,32 +34,35 @@
 
 \section*{Abstract}
 %
-We introduced a method of optimizing four geometric parameters of a bicycle's
-design to minimize the so called Handling Quality Metric
-(HQM)~\cite{Moore2016}. Here we expand that method to optimize all X geometric
-and inertial parameters of the benchmark parameterimization of the linear
-Whipple-Carvallo bicycle model under constraints that guarantee a physically
-realizable bicycle. This improves over the prior work by expanding the search
-space with many more parameters and the guarntee of realizability.
+Previously, we introduced a method of optimizing four primary geometric
+parameters of a bicycle's design to minimize its Handling Quality Metric. Here
+we expand that method to optimize 23 geometric and inertial parameters in the
+benchmark parameterimization of the linear Whipple-Carvallo bicycle model. To
+ensure physically realizable bicycle designs we include 7 equality constraints,
+21 inequality constraints, and maximal and minamal bounds on each free
+opmization parameter. This improves over the prior work by expanding the search
+space with many more parameters and the guarntee of realizability. We close by
+presenting five bicycle designs that have optimal later handling qualities. The
+bicycles are not generally self-stable and have some ununusal characteristics.
 
 \section{Introduction}
 %
 Physical design features of ground vehicles can affect their lateral handling
-qualities. Geometry, mass, and mass distribution of the vehicle's primary
-components as well as tire characteristics are primary contributors to poor and
-good handling due to their important influence on the vehicle's dynamics. In
-past work, we have presented a theoretical and computational framework for
-assessing the lateral task-independent handling qualities of simplified single
-track vehicle designs~\cite{Hess2012,Moore2012}. In subsequent work, we showed
-that minimizing our proposed handling quality metric (HQM) can produce theoretically
+qualities. Geometry, mass, and mass distribution of the vehicle's components as
+well as tire characteristics are primary contributors to poor and good handling
+due to their important influence on the vehicle's dynamics. In past work, we
+have presented a theoretical and computational framework for assessing the
+lateral task-independent handling qualities of simplified single track vehicle
+designs~\cite{Hess2012,Moore2012}. In subsequent work, we showed that
+minimizing our proposed handling quality metric (HQM) can produce theoretically
 optimal handling designs when only four geometric parameters are explored as
 the optimization variables~\cite{Moore2016}. The present work's goal is to
 expand this optimization problem to all of the geometry, mass, and inertial
-parameters present in the linear Whipple-Carvallo bicycle model~\cite{Meijaard2007}.
-This broadens the search space considerably but we constrain it so that only
-realizable optimal bicycle designs are discovered. To do so, we formulate a
-constrained optimization problem and use derivative-free optimization to
-discover optimal, yet realizable, bicycle designs.
+parameters present in the linear Whipple-Carvallo bicycle
+model~\cite{Meijaard2007}.  This broadens the search space considerably but we
+constrain it so that only realizable optimal bicycle designs are discovered. To
+do so, we formulate a constrained optimization problem and use derivative-free
+optimization to discover optimal, yet realizable, bicycle designs.
 
 \section{Bicycle Model Parameterization}
 %
@@ -69,85 +70,92 @@ Our problem formulation relies on a new bicycle model parameterization that
 reflects both a reformulation of and addition to the benchmark parameterization
 of the linear Whipple-Carvallo bicycle model~\cite{Meijaard2007}. We call this
 the ``principal parameterizatoin'' as opposed to the ``benchmark
-parameterization''. This parameterization differs from the benchmark
-parameterization in three ways.  Firstly, the person and rear frame are treated
-as separate rigid bodies each with their on inertial parameters. Secondly, we
-express the inertial parameters of each rigid body in terms of central
-principal radii of gyration to decouple the mass from the inertia terms.
-Lastly, we introduce two simple dimensional parameters that define the
-geometric extents of the person which are used to constrain the location of the
-person's body. Table~\ref{tab:parameters} provides the parameters and the
-reference values which are derived from the measurements of a Batavus Browser
-Bicycle and the rider Jason presented in~\cite{Moore2012}. This
-parameterization can be transformed into the benchmark parameterization
-readily, but not vice versa.
+parameterization'' in~\cite{Meijaard2007}. This parameterization differs from
+the benchmark parameterization in three ways. Firstly, the person and rear
+frame are treated as separate rigid bodies each with their on inertial
+parameters. Secondly, we express the inertial parameters of each rigid body in
+terms of central principal radii of gyration to decouple the mass from the
+inertia terms.  Lastly, we introduce two simple dimensional parameters that
+define the geometric extents of the person which are used to constrain the
+location of the person's body. Table~\ref{tab:parameters} provides the
+parameters and the reference values which are derived from the measurements of
+a Batavus Browser Bicycle and the rider ``Jason'' presented
+in~\cite{Moore2012}. This parameterization can be transformed into the
+benchmark parameterization readily, but not vice versa.
 %
 \begin{table}
   \caption{Full set of 47 principal parameters and their default values derived
-  from the measurements in~\cite{Moore2012}.}
+    from the measurements in~\cite{Moore2012} of the Batavus Browser bicycle
+    and rider ``Jason''.}
   \label{tab:parameters}
   \centering
   \begin{tabular}{llll}
     \toprule
     Variable & Value & Units & Description \\
     \midrule
-    $c$ &  0.068581 & \si{\meter} & Trail \\
-    $w$ &  1.1210 & \si{\meter} & Wheelbase \\
-    $\lambda$ &  0.39968 & \si{\radian} & Steer axis tilt \\
-    $g$ &  9.81 & \si{\meter\per\second\squared} & Acceleration due to gravity \\
-    $v$ &  3.0 & \si{\meter\per\second} & Forward speed \\
+    % 5
+    $c$       &  0.068581           & \si{\meter} & Trail \\
+    $w$       &  1.1210             & \si{\meter} & Wheelbase \\
+    $\lambda$ & 0.39968             & \si{\radian} & Steer axis tilt \\
+    $g$       &  9.81               & \si{\meter\per\second\squared} & Acceleration due to gravity \\
+    $v$       &  3.0, 5.0, 7.0, 9.0 & \si{\meter\per\second} & Forward speed \\
     Rear Wheel [R] & & \\
     \midrule
-    $m_R$ &  3.11 & \si{\kilogram} & mass \\
-    $r_R$ &  0.34096 & \si{\meter} & Rear wheel radius \\
-    $x_R$ & 0 & \si{\meter} & Rear wheel mass center \\
-    $y_R$ & 0 & \si{\meter} & Rear wheel mass center \\
-    $z_R$ & -0.34096 & \si{\meter} & Rear wheel mass center \\
-    $k_{Raa}$ &  0.17050 & \si{\meter} & Rear wheel central principal radii of gyration \\
-    $k_{Rbb}$ &  0.17050 & \si{\meter} & Rear wheel central principal radii of gyration  \\
-    $k_{Ryy}$ &  0.22136 & \si{\meter} & Rear wheel central principal radii of gyration \\
+    % 8
+    $m_R$     & 3.11 & \si{\kilogram}  & Mass \\
+    $r_R$     & 0.34096 & \si{\meter}  & Radius \\
+    $x_R$     & 0.0 & \si{\meter}      & $X$ mass center coordinate \\
+    $y_R$     & 0.0 & \si{\meter}      & $Y$ mass center coordinate \\
+    $z_R$     & -0.34096 & \si{\meter} & $Z$ mass center coordinate \\
+    $k_{Raa}$ & 0.17050 & \si{\meter}  & Central principal radii of gyration about $A_R$ \\
+    $k_{Rbb}$ & 0.17050 & \si{\meter}  & Central principal radii of gyration about $B_R$ \\
+    $k_{Ryy}$ & 0.22136 & \si{\meter}  & Central principal radii of gyration about $Y$ \\
     Front Wheel [F] & & \\
     \midrule
-    $m_F$ &  2.02 & \si{\kilogram} & Mass \\
-    $r_F$ &  0.34353 & \si{\meter} & Radius \\
-    $x_F$ &  1.1210 & \si{\meter} & Mass center \\
-    $y_F$ & 0.0 & \si{\meter} & Mass center \\
-    $z_F$ & -0.34353 & \si{\meter} & Mass center \\
-    $k_{Faa}$ &  0.20917 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Fbb}$ &  0.20917 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Fyy}$ &  0.27179 & \si{\meter} & Central principal radius of gyration \\
+    % 8
+    $m_F$     & 2.02 & \si{\kilogram} & Mass \\
+    $r_F$     & 0.34353 & \si{\meter} & Radius \\
+    $x_F$     & 1.1210 & \si{\meter} & $X$ mass center coordinate \\
+    $y_F$     & 0.0 & \si{\meter} & $Y$ mass center coordinate \\
+    $z_F$     & -0.34353 & \si{\meter} & $Z$ mass center coordinate \\
+    $k_{Faa}$ &  0.20917 & \si{\meter} & Central principal radii of gyration about $A_F$ \\
+    $k_{Fbb}$ &  0.20917 & \si{\meter} & Central principal radii of gyration about $B_F$ \\
+    $k_{Fyy}$ &  0.27179 & \si{\meter} & Central principal radii of gyration about $Y$ \\
     Person [P] & & \\
     \midrule
-    $l_P$ &  1.7280 & \si{\meter} & Body length \\
-    $w_P$ &  0.48300 & \si{\meter} & Body width \\
-    $m_P$ &  83.500 & \si{\kilogram} & Mass \\
-    $x_P$ &  0.31577 & \si{\meter} & Mass center \\
-    $y_P$ & 0.0 & \si{\meter} & Mass center \\
-    $z_P$ & -1.0990 & \si{\meter} & Mass center \\
-    $k_{Paa}$ &  0.36797 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Pbb}$ &  0.15276 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Pyy}$ &  0.36717 & \si{\meter} & Central principal radius of gyration \\
-    $\alpha_P$ & 0.18618 & \si{\radian} & Principal axis angle \\
+    % 10
+    $l_P$      &  1.728   & \si{\meter} & Body length \\
+    $w_P$      &  0.483   & \si{\meter} & Body width \\
+    $m_P$      &  83.5    & \si{\kilogram} & Mass \\
+    $x_P$      &  0.31577 & \si{\meter} & $X$ mass center coordinate \\
+    $y_P$      & 0.0      & \si{\meter} & $Y$ mass center coordinate \\
+    $z_P$      & -1.0990  & \si{\meter} & $Z$ mass center coordinate \\
+    $k_{Paa}$  &  0.36797 & \si{\meter} & Central principal radii of gyration about $A_P$ \\
+    $k_{Pbb}$  &  0.15276 & \si{\meter} & Central principal radii of gyration about $B_P$ \\
+    $k_{Pyy}$  &  0.36717 & \si{\meter} & Central principal radii of gyration about $Y$ \\
+    $\alpha_P$ & 0.18618 & \si{\radian} & Angle about $Y$ between $A_P$ and $X$ \\
     Front Frame [H] & & \\
     \midrule
-    $m_H$ & 3.2200 & \si{\kilogram} & Mass \\
-    $x_H$ & 0.86695 & \si{\meter} & Mass center \\
-    $y_H$ & 0.0 & \si{\meter} & Mass center \\
-    $z_H$ & -0.74824 & \si{\meter} & Mass center \\
-    $k_{Haa}$ & 0.29556 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Hbb}$ & 0.14493 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Hyy}$ & 0.27630 & \si{\meter} & Central principal radius of gyration \\
-    $\alpha_H$ & 0.36995 & \si{\radian} & Principal axis angle \\
+    % 8
+    $m_H$ & 3.2200 & \si{\kilogram}     & Mass \\
+    $x_H$ & 0.86695 & \si{\meter}       & $X$ mass center coordinate \\
+    $y_H$ & 0.0 & \si{\meter}           & $Y$ mass center coordinate \\
+    $z_H$ & -0.74824 & \si{\meter}      & $Z$ mass center coordinate \\
+    $k_{Haa}$ & 0.29556 & \si{\meter}   & Central principal radii of gyration about $A_H$ \\
+    $k_{Hbb}$ & 0.14493 & \si{\meter}   & Central principal radii of gyration about $B_H$ \\
+    $k_{Hyy}$ & 0.27630 & \si{\meter}   & Central principal radii of gyration about $Y$ \\
+    $\alpha_H$ & 0.36995 & \si{\radian} & Angle about $Y$ between $A_H$ and $X$ \\
     Rear Frame [D] & & \\
     \midrule
-    $m_D$ &  9.8600 & \si{\kilogram} & Mass \\
-    $x_D$ &  0.27595 & \si{\meter} & Mass center \\
-    $y_D$ & 0 & \si{\meter} & Mass center \\
-    $z_D$ & -0.53784 & \si{\meter} & Mass center \\
-    $k_{Daa}$ &  0.28587 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Dbb}$ &  0.22079 & \si{\meter} & Central principal radius of gyration \\
-    $k_{Dyy}$ &  0.36539 & \si{\meter} & Central principal radius of gyration \\
-    $\alpha_D$ &  1.1722 & \si{\radian} & Principal axis angle \\
+    % 8
+    $m_D$ &  9.8600 & \si{\kilogram}    & Mass \\
+    $x_D$ &  0.27595 & \si{\meter}      & $X$ mass center coordinate \\
+    $y_D$ & 0 & \si{\meter}             & $Y$ mass center coordinate \\
+    $z_D$ & -0.53784 & \si{\meter}      & $Z$ mass center coordinate \\
+    $k_{Daa}$ &  0.28587 & \si{\meter}  & Central principal radii of gyration about $A_D$ \\
+    $k_{Dbb}$ &  0.22079 & \si{\meter}  & Central principal radii of gyration about $B_D$ \\
+    $k_{Dyy}$ &  0.36539 & \si{\meter}  & Central principal radii of gyration about $Y$ \\
+    $\alpha_D$ &  1.1722 & \si{\radian} & Angle about $Y$ between $A_D$ and $X$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -453,22 +461,28 @@ signficant negative trail.
 
 3
 - Rider is over 3 m in the air and leaned forward.
-- 3 m wheel base with 0.5 meter positive trail
+- 3 m wheel base with 0.7 meter positive trail
 - wheels are over double the diameter of browser wheels
+- minimum front frame mass
 
 5 m/s
 - rider is laid back a 0.5 meter off ground
 - < 1 m wheelbase
+- essentially zero trail (5 mm negative)
+- minimum front frame mass
 
 7 m/s
 - miminal rotatoinal inertia about the steer axis
 - tall slender fork/handlebar
-- no trail
+- no trail (1 mm postive)
 - half sized wheels (~12 inches)
-- normal wheelbase
+- normal wheelbase (1.157)
 - rider tipped forward and low (0.6 m)
 - vertical steer axis
 - 3 m high frame center of mass
+
+9
+- very large 5.6 m wheelbase
 %
 \begin{figure}
   \centering
@@ -512,57 +526,44 @@ signficant negative trail.
   \caption{Optimal principal parameter values for each design speed.}
   \label{tab:optimal-values}
   \centering
-  \begin{tabular}{lllll}
+  \begin{tabular}{lSSSS}
     \toprule
-    Parameter & 3 m/s & 5 m/s & 7 m/s & 9 m/s \\
+    Parameter & 3~\si{\meter\per\second} & 5~\si{\meter\per\second} & 7~\si{\meter\per\second} & 9~\si{\meter\per\second} \\
     \midrule
-alphaD & 0.66300  & 0.91544    & 1.1228    & 1.076700 \\
-alphaH & 0.57150  & -1.2647 &    1.5708    & 0.23760 \\
-alphaP & -0.66130 & 1.1497 &     -0.83627  & 1.5584 \\
-c      & 0.68780  & -0.0050384 & 0.0010500 & -0.48397 \\
-g      & 9.8100   & 9.8100 &     9.8100 &    9.8100 \\
-kDaa   & 1.4491   & 1.2179 &     1.3242 &    0.86084 \\
-kDbb   & 0.72360  & 1.3868 &     1.2903 &    2.0139 \\
-kDyy   & 1.4711   & 1.5585 &     1.5550 &    2.0305 \\
-kFaa   & 0.35495  & 0.12585 &    0.063500 &  1.0314 \\
-kFbb   & 0.35495  & 0.12585 &    0.063500 &  1.0314 \\
-kFyy   & 0.70990  & 0.25170 &    0.12700 &   2.0628 \\
-kHaa   & 0.18620  & 0.049106 &   0.0 &       2.8463 \\
-kHbb   & 1.2578   & 1.1451 &     2.0055 &    0.16848 \\
-kHyy   & 0.63610  & 0.38324 &    0.81835 &   0.66922 \\
-kPaa   & 0.36797  & 0.36797 &    0.36797 &   0.36797 \\
-kPbb   & 0.15276  & 0.15276 &    0.15276 &   0.15276 \\
-kPyy   & 0.36717  & 0.36717 &    0.36717 &   0.36717 \\
-kRaa   & 0.47910  & 0.25306 &    0.073095 &  1.5135 \\
-kRbb   & 0.47910  & 0.25306 &    0.073095 &  1.5135 \\
-kRyy   & 0.95820  & 0.50612 &    0.14619 &   3.0270 \\
-lP     & 1.7280   & 1.7280 &     1.7280 &    1.7280 \\
-lam    & -0.21250 & 0.27137 &    -0.027560 & 0.23941 \\
-mD     & 3.2233   & 11.534 &     10.315 &    7.0223 \\
-mF     & 1.6211   & 4.4038 &     2.6441 &    5.5058 \\
-mH     & 0.25000  & 0.25000 &    0.49309 &   3.5435 \\
-mP     & 83.500   & 83.500 &     83.500 &    83.500 \\
-mR     & 12.625   & 8.3601 &     6.3080 &    2.2534 \\
-rF     & 0.70990  & 0.25170 &    0.12700 &   2.0628 \\
-rR     & 0.95820  & 0.50612 &    0.14619 &   3.0270 \\
-v      & 3.0      & 5.0 &        7.0 &       9.0 \\
-w      & 2.8655   & 0.84711 &    1.1570 &    5.5573 \\
-wP     & 0.48300  & 0.48300 &    0.48300 &   0.48300 \\
-xD     & 0.95820  & 0.28749 &    0.42710 &   1.0204 \\
-xF     & 2.8655   & 0.84711 &    1.1570 &    5.5573 \\
-xH     & 2.3561   & 0.53227 &    1.1449 &    5.6145 \\
-xP     & 0.76460  & 0.27642 &    0.52614 &   1.0791 \\
-xR     & 0.0      & 0.0 &        0.0 &       0.0 \\
-yD     & 0.0      & 0.0 &        0.0 &       0.0 \\
-yF     & 0.0      & 0.0 &        0.0 &       0.0 \\
-yH     & 0.0      & 0.0 &        0.0 &       0.0 \\
-yP     & 0.0      & 0.0 &        0.0 &       0.0 \\
-yR     & 0.0      & 0.0 &        0.0 &       0.0 \\
-zD     & -2.6050  & -2.7190 &    -2.9764 &   -4.0653 \\
-zF     & -0.70990 & -0.25170 &   -0.12700 &  -2.0628 \\
-zH     & -1.2977  & -0.78065 &   -1.3399 &   -1.7755 \\
-zP     & -3.1937  & -0.45256 &   -0.58632 &  -2.6623 \\
-zR     & -0.95820 & -0.50612 &   -0.14619 &  -3.0270 \\
+    $c$       & 0.688  & -0.005 & 0.001  & -0.484 \\
+    $w$       & 2.866  & 0.847  & 1.157  & 5.557  \\
+    $\lambda$ & -0.213 & 0.271  & -0.028 & 0.239  \\
+    \midrule
+    $m_D$ & 3.22   &  11.53 & 10.32  & 7.02 \\
+    $x_D$ & 0.958  &  0.287 &  0.427 & 1.020 \\
+    $z_D$ & -2.605 & -2.719 & -2.976 & -4.065 \\
+    $\alpha_D$ & 0.663  & 0.915  & 1.123  & 1.077 \\
+    % Should aa be larger than bb?
+    $k_{Daa}$  & 1.449  & 1.218  &  1.324 & 0.861 \\
+    $k_{Dbb}$  & 0.724  & 1.387  &  1.290 & 2.014 \\
+    $k_{Dyy}$  & 1.471  & 1.559  &  1.555 & 2.031 \\
+    \midrule
+    $m_H$  & 0.25  & 0.25 &    0.49 &   3.54 \\
+    $x_H$     & 2.356   & 0.532 &    1.145 &    5.615 \\
+    $z_H$     & -1.298  & -0.781 &   -1.340 &   -1.776 \\
+    $\alpha_H$ & 0.572  & -1.265 & 1.571  & 0.238 \\
+    $k_{Haa}$ & 0.186  & 0.0491 &   0.000 &       2.846 \\
+    $k_{Hbb}$ & 1.259   & 1.145 &     2.006 &    0.168 \\
+    $k_{Hyy}$ & 0.636  & 0.383 &    0.818 &   0.669 \\
+    \midrule
+    $m_F$     & 1.62  & 4.40  & 2.64  & 5.51  \\
+    $r_F$     & 0.710 & 0.252 & 0.127 & 2.063 \\
+    $k_{Faa}$ & 0.355 & 0.126 & 0.064 & 1.031 \\
+    $k_{Fyy}$ & 0.710 & 0.252 & 0.127 & 2.063 \\
+    \midrule
+    $x_P$      & 0.765  & 0.276  &  0.526 & 1.079 \\
+    $z_P$      & -3.194 & -0.453 & -0.586 &-2.662 \\
+    $\alpha_P$ & -0.661 & 1.150  & -0.836 & 1.558 \\
+    \midrule
+    $m_R$   & 12.63  & 8.36  &  6.31 & 2.25 \\
+    $r_R$   & 0.958  & 0.506 & 0.146 & 3.027 \\
+    $k_Raa$ & 0.479  & 0.253 & 0.073 & 1.514 \\
+    $k_Ryy$ & 0.958  & 0.506 & 0.146 & 3.027 \\
     \bottomrule
   \end{tabular}
 \end{table}
