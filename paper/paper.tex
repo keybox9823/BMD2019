@@ -163,49 +163,50 @@ benchmark parameterization readily, but not vice versa.
 \section{Bounds and Constraints}
 %
 The optimal principal parameters are subject to a set of constraints designed
-to ensure that a physically realizable bicycle is obtained form the opimization
+to ensure that a physically realizable bicycle is obtained from the opimization
 procedure. These constraints are made up of bounds on the free parameters and
 both equality and inequality constraints among the parameters. Below the basic
 constraint concepts presented and grouped by the associated rigid body or
 collection thereof:
 %
 \begin{description}
-  \item[Total] The resulting combination of the five rigid bodies.
+  \item[Total $T$] The resulting combination of the five rigid bodies.
     \begin{itemize}
-      \item The physical extents of the rigid bodies must exist above the
-        ground plane.
+      \item The likely physical extents of the rigid bodies must exist above
+        the ground plane.
       \item Both bicycle and rider are symmetric about the rider's sagittal
         plane.
-      \item The mass of each bicycle rigid body is positive, greater than a
-        minimum value, and the total mass is below a reasonably lift-able
-        amount.
+      \item The total mass is below a reasonably human lift-able amount.
       \item The wheels cannot overlap.
       \item The bicycle cannot topple forward during hard braking or backward
         during hard acceleration.
+      \item The closed loop path tracking system~\cite{Hess2012} must be
+        stable. This is required to obtain a valid HQM value.
     \end{itemize}
 
-  \item[Wheels] Both front and rear wheels have identical constraints.
-    \begin{itemize}
-      \item Wheel radius and mass must be greater than a minimum value.
-      \item Wheels are inertially wheel-like, i.e. symmetric about each plane
-        and most of the mass is at the rim.
-    \end{itemize}
-
-  \item[Frames] Front frame (handlebar + fork) and rear frame
-    \begin{itemize}
-      \item The mass and inertia of the frames are positive and large enough to
-        be constructed from materials in a space frame of specified minimal
-        density.
-      \item The rear frame is planar in nature and the front frame's moments of
-        inertia are consitently dependent.
-    \end{itemize}
-
-  \item[Rider] A single rigid body represents the rider.
+  \item[Rider $P$] A single rigid body represents the rider.
     \begin{itemize}
       \item Rider mass is that of an average person.
       \item The rider's joint angles are fixed in a nominal configuration
         typical of upright bicycling and the resulting mass distribution is
         derived from standard body segment estimation methods.
+      \item The rider cannot penetrate the ground.
+    \end{itemize}
+
+  \item[Frames $H$, $D$] Front frame (handlebar + fork) and rear frame
+    \begin{itemize}
+      \item The rear frame is planar in nature and the front frame's moments of
+        inertia are consistently dependent.
+      \item The mass and inertia of the frames are positive and large enough to
+        be constructed from a steel space frame.
+    \end{itemize}
+
+  \item[Wheels $F$, $R$] Both front and rear wheels have identical constraints.
+    \begin{itemize}
+      \item Wheel radius and mass must positive and be greater than a minimum
+        value.
+      \item Wheels are inertially wheel-like, i.e. symmetric about each plane
+        and most of the mass is at the rim.
     \end{itemize}
 
 \end{description}
@@ -221,7 +222,7 @@ the following sections.
   \centering
   \begin{tabular}{ccccc}
     \toprule
-    Min & & Parmeter & & Max\\
+    Min & & Parameter & & Max\\
     \midrule
     $-\infty$ & $\leq$ & $w       $  &  $\leq$  &  $\infty$ \\
     $-\infty$ & $\leq$ & $c       $  &  $\leq$  &  $\infty$ \\
@@ -295,7 +296,37 @@ the following sections.
   \end{tabular}
 \end{table}
 
-\subsubsection*{Rear Frame [D]}
+\subsection{Person [P]}
+%
+We assume that the person's joint configurations are such that they are in a
+nominal configuration for pedaling, i.e. an average normal everyday riding
+position on a typical bicycle, i.e. they stayed in the same configuration as
+they were seated on the Batavus Browser bicycle. The person is assumed to be
+symmetric about the $XZ$ plane. We allow the rider to be rotated about the $Y$
+axis and positioned anywhere within the plane of symmetry above the ground.
+
+To prevent the rider from being positioned and oriented such that their body is
+not penetrating the ground we introduce two dimensions that define a cross
+whose apex is at the center of mass of the person and the cross axes are
+parallel to the principal axes in the $XZ$ plane. $l_P / 2$ is the distance
+along the principal axis to the tip of the toes and $w_P$ is the distance along
+the second principal axes to the tip of the hands. Constraints
+$c_2,\ldots,c_5$.
+
+\subsection{Front Frame [H]}
+%
+The front frame is symmetric about the $XZ$ plane so $I_{Hxy}, I_{Hyz} = 0$. We
+allow for any angular orientation of the $XZ$ principal directions but limit
+the angle to $-\frac{\pi}{2} \leq \alpha_H \leq \frac{\pi}{2}$.  We prevent the
+rear frame from penetrating the ground by limiting the inertial spread with
+respect to its mass center, $c_{13}$, but also set a minimum inertial spread to
+ensure a frame can span from the rear wheel to the mass center of the rear
+frame, $c_8$. The spread factor in $c_{13}$ of 1.4 is based on the ratio of
+geometrical spread of a typical bicycle frame and its radius of gyration. The
+front frame is not planar but is narrow with respect to the $XZ$ plane, which
+is enforced by constraint $c_1$.
+
+\subsection{Rear Frame [D]}
 %
 Several constraints are set for the rear frame. We constrain the rear frame to
 be planar, $g_1$, and symmetric with respect to the $XZ$ plane. We prevent the
@@ -310,47 +341,17 @@ orientation of the $XZ$ principal directions but limit the angle to
 $-\frac{\pi}{2} \leq \alpha_D \leq \frac{\pi}{2}$ as angle beyond that are
 redundant.
 
-\subsection{Person [P]}
-
-We assume that the person's joint configurations are such that they are in a
-nominal configuration for pedaling, i.e. an average normal everyday riding
-position on a typical bicycle, i.e. they stayed in the same configuration as
-they were seated on the Batavus Browser bicycle. The person is assumed to be
-symmetric about the $XZ$ plane. We allow the rider to be rotated about the $Y$
-axis and positioned anywhere within the plane of symmetry above the ground.
-
-To prevent the rider from being positioned and oriented such that their body is
-not penetrating the the ground we introduce two dimensions that define a cross
-whose apex is at the center of mass of the person and the cross axes are
-parallel to the principal axes in the $XZ$ plane. $l_P / 2$ is the distance
-along the principal axis to the tip of the toes and $w_P$ is the distance along
-the second principal axes to the tip of the hands. Constraints
-$c_2,\ldots,c_5$.
-
-\subsection{Front Frame}
-%
-The front frame is symmetric about the $XZ$ plane so $I_{Hxy}, I_{Hyz} = 0$. We
-allow for any angular orientation of the $XZ$ principal directions but limit
-the angle to $-\frac{\pi}{2} \leq \alpha_H \leq \frac{\pi}{2}$.  We prevent the
-rear frame from penetrating the ground by limiting the inertial spread with
-respect to its mass center, $c_{13}$, but also set a minimum inertial spread to
-ensure a frame can span from the rear wheel to the mass center of the rear
-frame, $c_8$. The spread factor in $c_{13}$ of 1.4 is based on the ratio of
-geometrical spread of a typical bicycle frame and its radius of gyration. The
-front frame is not planar but is narrow with respect to the $XZ$ plane, which
-is enforced by constraint $c_1$.
-
 \subsection{Front [F] and Rear [R] Wheels}
 %
 We enforce the assumption that both wheels have moments of inertia of that of a
 simple ring, $g_2 \ldots g_7$ and that mass and radius should be greater than a
-minimal size based on small purchable spoked wheel with tire.
+minimal size based on small purchasable spoked wheel with tire.
 
 \subsection{Total Bike [T]}
 %
 The trail and wheelbase can take on any real values. The steer axis tilt is
-limted to 180 degrees. We introduce a constraint $c_{10}$ that prevents the
-wheels from physically overlapping and require that the bicycle be liftable by
+limited to 180 degrees. We introduce a constraint $c_{10}$ that prevents the
+wheels from physically overlapping and require that the bicycle be lift-able by
 an average person, $c_{11}$. Finally, we require that the bicycle not topple
 forward during hard breaking or backward during hard acceleration.
 
@@ -365,7 +366,7 @@ eight closed loop eigenvalues associated with the controller in
 expressed in constraints $c_{14},\ldots,c_{21}$. Closed loop stability is
 required for the HQM to provide a meaningful result.
 
-\section{Free parameters}
+\section{Optimization}
 %
 The above constraints leaves 23 of the 47 parameters free for optimizing which
 we collect in the vector $\mathbf{p}\in\mathbb{R}^{23}$ and define as:
@@ -399,8 +400,6 @@ we collect in the vector $\mathbf{p}\in\mathbb{R}^{23}$ and define as:
   \end{split}
 \end{align}
 
-\section{Optimization}
-%
 Our objective in the optimization is to minimize the peak HQM value subject to
 the bounds, $\mathbf{p}^L,\mathbf{p}^U$, and the constraints
 $\mathbf{g}(\mathbf{p}),\mathbf{c}(\mathbf{p})$ . Given a set of bicycle model
