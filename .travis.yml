@@ -7,7 +7,7 @@ env:
     - secure: "fAU9qCv7ANQf4Aw9sk09SaMoDRXt/7qLFRuHT/kROmXL97L2wplmweFRC85TVKhL5jto0EnJzL8TEN5DwzoiaKBFVgZU1iAgHp1M0+N/aojPbWFcpM5Gmw9vkxU8tYJVs62HfQiEQBjVwVt9lzxuemXIAVKR6B2+TaUdCyBOcxKyVPCoeXnr0U1Pzy3U1B25uHsnxNlE5FBnTWrAh3bMzDTdk5+g4ypFISg9csNKIuznkEFf+gYJRLu7WBhE3K9DQhnCy/PV148Uw/pJGyKoBDRnQD55zlnBb8xh9FqB8NmRgj7KyAcFsfNrVRTovSxJHWDMJ2lZQrsnRFlGLXaYVdXViDMJJcomjUfycIkrdsbbLryxEdrFNN4D8PcokDaLMuZza30R9piePTtgacTQLahD/HcnKM49iOdOsNxTYl9pQwHXUXOQvRj1K38bE0gcUoL81epQyqeby7QOGiMTqTDjMonH4TLYvyvZ62Kinc4wx6qxevxn3gc4VZzDLo23vcfTCB2+M7O5wH0+5vJ28WJI6geY9OPUhaTrz01xMGXojwZihlPujMdK8KVHX80dgYxH6ztOCeqYXkK7Zf0685XD3J2kwe9piFSZlI4+kAkfV2Ufv5vGiq90dN+k3kxu8E72M9JXVYnewdrmX9sMsO7JQrM2lUl7Jnx5q/enlAQ="
 install:
   - sudo apt update
-  - sudo apt install -y texlive texlive-latex-extra texlive-science
+  - sudo apt install -y texlive texlive-latex-extra texlive-science inkscape
   - pip install doctr numpy scipy matplotlib uncertainties yeadon DynamicistToolKit
   - git clone --single-branch --branch new-api https://github.com/moorepants/BicycleParameters.git BicycleParameters/
   - cd BicycleParameters/
@@ -16,6 +16,7 @@ install:
 script:
   - set -e
   - mkdir figures/
+  - inkscape -C -e figures/reference-geometry.png figures/reference-geometry-modified.svg -d 300
   - python src/geometry_plot.py
   - python src/eigenvalue_plots.py
   - mkdir output/
