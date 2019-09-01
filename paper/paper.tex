@@ -28,15 +28,20 @@
 \section*{ABSTRACT}
 %
 Previously, we introduced a method of optimizing four primary geometric
-parameters of a bicycle's design to minimize its Handling Quality Metric. Here
-we expand that method to optimize 23 geometric and inertial parameters in the
-benchmark parameterimization of the linear Whipple-Carvallo bicycle model. To
-ensure physically realizable bicycle designs we include 7 equality constraints,
-21 inequality constraints, and maximal and minamal bounds on each free
-opmization parameter. This improves over the prior work by expanding the search
-space with many more parameters and the guarntee of realizability. We close by
-presenting five bicycle designs that have optimal later handling qualities. The
-bicycles are not generally self-stable and have some ununusal characteristics.
+parameters of a bicycle's design to maximize its lateral handling qualities.
+Here we expand that method to optimize over all of the geometric and inertial
+parameters in the linear Whipple-Carvallo bicycle model. To ensure physically
+realizable bicycle designs we include 7 equality constraints, 21 inequality
+constraints, and maximal and minimal bounds on each free optimization
+parameter. This improves over the prior work by expanding the search space with
+many more parameters and the guarantee of physical realizability. We present
+four bicycle designs discovered by the optimization procedure that have optimal
+later handling qualities. The bicycles are similar in design to familiar
+bicycle designs but are not generally self-stable and exhibit unusual
+characteristics such as large positive and negative trail, large size relative
+to the rider, and minimal steering inertia. The method is a useful tool for
+generating atypical bicycle designs that exhibit desired dynamical qualities
+and could be broadly applied to other vehicle designs.
 %
 \begin{keywords}
   bicycle,
@@ -61,29 +66,33 @@ optimal handling designs when only four geometric parameters are explored as
 the optimization variables~\cite{Moore2016}. The present work's goal is to
 expand this optimization problem to all of the geometry, mass, and inertial
 parameters present in the linear Whipple-Carvallo bicycle
-model~\cite{Meijaard2007}.  This broadens the search space considerably but we
+model~\cite{Meijaard2007}. This broadens the search space considerably but we
 constrain it so that only realizable optimal bicycle designs are discovered. To
 do so, we formulate a constrained optimization problem and use derivative-free
-optimization to discover optimal, yet realizable, bicycle designs.
+optimization to discover optimal, yet realizable, bicycle designs. We close by
+discussing the characteristics of the discovered designs.
 
 \section{BICYCLE MODEL PARAMETERIZATION}
 %
 Our problem formulation relies on a new bicycle model parameterization that
-reflects both a reformulation of and addition to the benchmark parameterization
-of the linear Whipple-Carvallo bicycle model~\cite{Meijaard2007}. We call this
-the ``principal parameterization'' as opposed to the ``benchmark
-parameterization'' in~\cite{Meijaard2007}. This parameterization differs from
-the benchmark parameterization in three ways. Firstly, the person and rear
-frame are treated as separate rigid bodies each with their on inertial
-parameters. Secondly, we express the inertial parameters of each rigid body in
-terms of central principal radii of gyration to decouple the mass from the
-inertia terms.  Lastly, we introduce two simple dimensional parameters that
-define the geometric extents of the person which are used to constrain the
-location of the person's body. Table~\ref{tab:parameters} provides the
-parameters and the reference values which are derived from the measurements of
-a Batavus Browser Bicycle and the rider ``Jason'' presented
-in~\cite{Moore2012}. This parameterization can be transformed into the
-benchmark parameterization readily, but not vice versa.
+reflects both a reformulation of and extension to the benchmark
+parameterization of the linear Whipple-Carvallo bicycle
+model~\cite{Meijaard2007}. We call this the ``principal parameterization'' as
+opposed to the ``benchmark parameterization'' in~\cite{Meijaard2007}. This
+parameterization differs from the benchmark parameterization in three ways.
+Firstly, the person and rear frame are treated as separate rigid bodies each
+with their own inertial parameters. Secondly, we express the inertial
+parameters of each rigid body in terms of central principal radii of gyration
+to decouple the mass from the inertia terms. Lastly, we introduce two simple
+dimensional parameters that define the geometric extents of the person which
+are used to constrain the location of the person's body in the optimization
+problem. Table~\ref{tab:parameters} provides the parameters and the reference
+values which are derived from the measurements of a Batavus Browser Bicycle and
+the rider ``Jason'' presented in~\cite{Moore2012}. This represents a typical
+bicycle and rider. The principal parameterization can be transformed into the
+benchmark parameterization readily, but not vice versa. Note that the benchmark
+parameter variables names are also used in the paper for convenience and are
+defined in~\cite{Meijaard2007}.
 %
 \begin{figure}
   \centering
@@ -91,19 +100,19 @@ benchmark parameterization readily, but not vice versa.
   \caption{Depiction of the principal parameters of the Batavus Browser
     with rider ``Jason''. The solid black lines represent the essential bicycle
     geometry. The dotted black line represents the steer axis. The inertial
-    properties of the five rigid bodies: front wheel (orange), rear wheel
+    properties of the five rigid bodies, front wheel (orange), rear wheel
     (purple), rear frame (blue), front frame (green), and person (red) are
     shown with the mass center and the extents of the centroidal principal
-    radii of gyration of each rigid body. The primary principal angles,
-    $\alpha_{D,P,H}$, are defined as the angle about the $y$ axis from $x$ to
-    the maximum principal axes in the $XZ$ plane.}
+    radii of gyration of each rigid body as colored solid lines. The primary
+    principal angles, $\alpha_{D,P,H}$, are defined as the angle about the $y$
+    axis from $x$ to the maximum principal axes in the $XZ$ plane.}
 \end{figure}
 %
 \begin{table}
   \caption{Full set of 47 principal parameters and their default values derived
     from the measurements in~\cite{Moore2012} of the Batavus Browser bicycle
-    and rider ``Jason''. Note that the benchmark parameters are also used in
-    the paper and are defined in~\cite{Meijaard2007}.}
+    and rider ``Jason''. The $A$ and $B$ axes are the maximal and minimal
+    principal axes in the $XZ$ plane, respectively.}
   \label{tab:parameters}
   \small
   \centering
@@ -112,8 +121,8 @@ benchmark parameterization readily, but not vice versa.
     Variable & Value & Units & Description \\
     \midrule
     % 5
-    $c$       &  0.068581           & \si{\meter} & Trail \\
-    $w$       &  1.1210             & \si{\meter} & Wheelbase \\
+    $c$       &  0.069           & \si{\meter} & Trail \\
+    $w$       &  1.121             & \si{\meter} & Wheelbase \\
     $\lambda$ & 0.39968             & \si{\radian} & Steer axis tilt \\
     $g$       &  9.81               & \si{\meter\per\second\squared} & Acceleration due to gravity \\
     $v$       &  3.0, 5.0, 7.0, 9.0 & \si{\meter\per\second} & Forward speed \\
@@ -121,64 +130,64 @@ benchmark parameterization readily, but not vice versa.
     \midrule
     % 8
     $m_R$     & 3.11 & \si{\kilogram}  & Mass \\
-    $r_R$     & 0.34096 & \si{\meter}  & Radius \\
-    $x_R$     & 0.0 & \si{\meter}      & $X$ mass center coordinate \\
-    $y_R$     & 0.0 & \si{\meter}      & $Y$ mass center coordinate \\
-    $z_R$     & -0.34096 & \si{\meter} & $Z$ mass center coordinate \\
-    $k_{Raa}$ & 0.17050 & \si{\meter}  & Central principal radii of gyration about $A_R$ \\
-    $k_{Rbb}$ & 0.17050 & \si{\meter}  & Central principal radii of gyration about $B_R$ \\
-    $k_{Ryy}$ & 0.22136 & \si{\meter}  & Central principal radii of gyration about $Y$ \\
+    $r_R$     & 0.341 & \si{\meter}  & Radius \\
+    $x_R$     & 0.000 & \si{\meter}      & $X$ mass center coordinate \\
+    $y_R$     & 0.000 & \si{\meter}      & $Y$ mass center coordinate \\
+    $z_R$     & -0.341 & \si{\meter} & $Z$ mass center coordinate \\
+    $k_{Raa}$ & 0.171 & \si{\meter}  & Central principal radii of gyration about $A_R$ \\
+    $k_{Rbb}$ & 0.171 & \si{\meter}  & Central principal radii of gyration about $B_R$ \\
+    $k_{Ryy}$ & 0.221 & \si{\meter}  & Central principal radii of gyration about $Y$ \\
     Front Wheel [F] & & \\
     \midrule
     % 8
     $m_F$     & 2.02 & \si{\kilogram} & Mass \\
-    $r_F$     & 0.34353 & \si{\meter} & Radius \\
-    $x_F$     & 1.1210 & \si{\meter} & $X$ mass center coordinate \\
-    $y_F$     & 0.0 & \si{\meter} & $Y$ mass center coordinate \\
-    $z_F$     & -0.34353 & \si{\meter} & $Z$ mass center coordinate \\
-    $k_{Faa}$ &  0.20917 & \si{\meter} & Central principal radii of gyration about $A_F$ \\
-    $k_{Fbb}$ &  0.20917 & \si{\meter} & Central principal radii of gyration about $B_F$ \\
-    $k_{Fyy}$ &  0.27179 & \si{\meter} & Central principal radii of gyration about $Y$ \\
+    $r_F$     & 0.344 & \si{\meter} & Radius \\
+    $x_F$     & 1.121 & \si{\meter} & $X$ mass center coordinate \\
+    $y_F$     & 0.000 & \si{\meter} & $Y$ mass center coordinate \\
+    $z_F$     & -0.344 & \si{\meter} & $Z$ mass center coordinate \\
+    $k_{Faa}$ &  0.209 & \si{\meter} & Central principal radii of gyration about $A_F$ \\
+    $k_{Fbb}$ &  0.209 & \si{\meter} & Central principal radii of gyration about $B_F$ \\
+    $k_{Fyy}$ &  0.272 & \si{\meter} & Central principal radii of gyration about $Y$ \\
     Person [P] & & \\
     \midrule
     % 10
     $l_P$      &  1.728   & \si{\meter} & Body length \\
     $w_P$      &  0.483   & \si{\meter} & Body width \\
-    $m_P$      &  83.5    & \si{\kilogram} & Mass \\
-    $x_P$      &  0.31577 & \si{\meter} & $X$ mass center coordinate \\
-    $y_P$      & 0.0      & \si{\meter} & $Y$ mass center coordinate \\
-    $z_P$      & -1.0990  & \si{\meter} & $Z$ mass center coordinate \\
-    $k_{Paa}$  &  0.36797 & \si{\meter} & Central principal radii of gyration about $A_P$ \\
-    $k_{Pbb}$  &  0.15276 & \si{\meter} & Central principal radii of gyration about $B_P$ \\
-    $k_{Pyy}$  &  0.36717 & \si{\meter} & Central principal radii of gyration about $Y$ \\
-    $\alpha_P$ & 0.18618 & \si{\radian} & Angle about $Y$ between $A_P$ and $X$ \\
+    $m_P$      &  83.50    & \si{\kilogram} & Mass \\
+    $x_P$      &  0.316 & \si{\meter} & $X$ mass center coordinate \\
+    $y_P$      & 0.000      & \si{\meter} & $Y$ mass center coordinate \\
+    $z_P$      & -1.099  & \si{\meter} & $Z$ mass center coordinate \\
+    $k_{Paa}$  &  0.368 & \si{\meter} & Central principal radii of gyration about $A_P$ \\
+    $k_{Pbb}$  &  0.153 & \si{\meter} & Central principal radii of gyration about $B_P$ \\
+    $k_{Pyy}$  &  0.367 & \si{\meter} & Central principal radii of gyration about $Y$ \\
+    $\alpha_P$ & 0.18618 & \si{\radian} & Angle about $Y$ between $X$ and $A_P$ \\
     Front Frame [H] & & \\
     \midrule
     % 8
-    $m_H$ & 3.2200 & \si{\kilogram}     & Mass \\
-    $x_H$ & 0.86695 & \si{\meter}       & $X$ mass center coordinate \\
-    $y_H$ & 0.0 & \si{\meter}           & $Y$ mass center coordinate \\
-    $z_H$ & -0.74824 & \si{\meter}      & $Z$ mass center coordinate \\
-    $k_{Haa}$ & 0.29556 & \si{\meter}   & Central principal radii of gyration about $A_H$ \\
-    $k_{Hbb}$ & 0.14493 & \si{\meter}   & Central principal radii of gyration about $B_H$ \\
-    $k_{Hyy}$ & 0.27630 & \si{\meter}   & Central principal radii of gyration about $Y$ \\
-    $\alpha_H$ & 0.36995 & \si{\radian} & Angle about $Y$ between $A_H$ and $X$ \\
+    $m_H$ & 3.22 & \si{\kilogram}     & Mass \\
+    $x_H$ & 0.867 & \si{\meter}       & $X$ mass center coordinate \\
+    $y_H$ & 0.000 & \si{\meter}           & $Y$ mass center coordinate \\
+    $z_H$ & -0.748 & \si{\meter}      & $Z$ mass center coordinate \\
+    $k_{Haa}$ & 0.296 & \si{\meter}   & Central principal radii of gyration about $A_H$ \\
+    $k_{Hbb}$ & 0.145 & \si{\meter}   & Central principal radii of gyration about $B_H$ \\
+    $k_{Hyy}$ & 0.276 & \si{\meter}   & Central principal radii of gyration about $Y$ \\
+    $\alpha_H$ & 0.36995 & \si{\radian} & Angle about $Y$ between $X$ and $A_H$ \\
     Rear Frame [D] & & \\
     \midrule
     % 8
-    $m_D$ &  9.8600 & \si{\kilogram}    & Mass \\
-    $x_D$ &  0.27595 & \si{\meter}      & $X$ mass center coordinate \\
-    $y_D$ & 0 & \si{\meter}             & $Y$ mass center coordinate \\
-    $z_D$ & -0.53784 & \si{\meter}      & $Z$ mass center coordinate \\
-    $k_{Daa}$ &  0.28587 & \si{\meter}  & Central principal radii of gyration about $A_D$ \\
-    $k_{Dbb}$ &  0.22079 & \si{\meter}  & Central principal radii of gyration about $B_D$ \\
-    $k_{Dyy}$ &  0.36539 & \si{\meter}  & Central principal radii of gyration about $Y$ \\
-    $\alpha_D$ &  1.1722 & \si{\radian} & Angle about $Y$ between $A_D$ and $X$ \\
+    $m_D$ &  9.86 & \si{\kilogram}    & Mass \\
+    $x_D$ &  0.276 & \si{\meter}      & $X$ mass center coordinate \\
+    $y_D$ & 0.000 & \si{\meter}             & $Y$ mass center coordinate \\
+    $z_D$ & -0.538 & \si{\meter}      & $Z$ mass center coordinate \\
+    $k_{Daa}$ &  0.286 & \si{\meter}  & Central principal radii of gyration about $A_D$ \\
+    $k_{Dbb}$ &  0.221 & \si{\meter}  & Central principal radii of gyration about $B_D$ \\
+    $k_{Dyy}$ &  0.365 & \si{\meter}  & Central principal radii of gyration about $Y$ \\
+    $\alpha_D$ &  1.1722 & \si{\radian} & Angle about $Y$ between $X$ and $A_D$ \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\section*{BOUNDS AND CONSTRAINTS}
+\section{BOUNDS AND CONSTRAINTS}
 %
 The optimal principal parameters are subject to a set of constraints designed
 to ensure that a physically realizable bicycle is obtained from the
@@ -202,9 +211,9 @@ rigid body or collection thereof:
         must be stable. This is required to obtain a valid HQM value.
     \end{itemize}
 
-  \item[Rider $P$] A single rigid body represents the rider.
+  \item[Person $P$] A single rigid body represents the rider.
     \begin{itemize}
-      \item Rider mass is that of an average person.
+      \item Rider mass is that of a typical person.
       \item The rider's joint angles are fixed in a nominal configuration
         typical of upright bicycling and the resulting mass distribution is
         derived from standard body segment estimation methods.
@@ -240,7 +249,7 @@ the following sections.
   \centering
   \begin{tabular}{ccccc}
     \toprule
-    Min & & Parameter & & Max\\
+    Lower & & Parameter & & Upper \\
     \midrule
     $-\infty$ & $\leq$ & $w       $  &  $\leq$  &  $\infty$ \\
     $-\infty$ & $\leq$ & $c       $  &  $\leq$  &  $\infty$ \\
@@ -254,7 +263,7 @@ the following sections.
     $-\infty$ & $\leq$ & $x_P     $  &  $\leq$  &  $\infty$ \\
     $-\infty$ & $\leq$ & $z_P     $  &  $\leq$  &  $0.0$    \\
     $-\pi/2 $ & $\leq$ & $\alpha_P$  &  $\leq$  &  $\pi/2$ \\
-    $0.25   $ & $\leq$ & $m_H     $  &  $\leq$  &  $\infty$ \\
+    $0.25\si{\kilogram} $ & $\leq$ & $m_H     $  &  $\leq$  &  $\infty$ \\
     $-\infty$ & $\leq$ & $x_H     $  &  $\leq$  &  $\infty$ \\
     $-\infty$ & $\leq$ & $z_H     $  &  $\leq$  &  $0.0$ \\
     $0.0    $ & $\leq$ & $k_{Haa} $  &  $\leq$  &  $\infty$ \\
@@ -324,12 +333,12 @@ about the $XZ$ plane. We allow the rider to be rotated about the $Y$ axis and
 positioned anywhere within the plane of symmetry above the ground.
 
 To prevent the rider from being positioned and oriented such that their body is
-not penetrating the ground we introduce two dimensions that define a cross
-whose apex is at the center of mass of the person and the cross axes are
-parallel to the principal axes in the $XZ$ plane. $l_P / 2$ is the distance
-along the principal axis to the tip of the toes and $w_P / 2$ is the distance
-along the second principal axes to the tip of the hands. The constraints
-$c_2,\ldots,c_5$ are derived from these rules.
+penetrating the ground we introduce two dimensions that define a cross whose
+apex is at the center of mass of the person and the cross axes are parallel to
+the principal axes in the $XZ$ plane. $l_P / 2$ is the distance along the
+principal axis to the tip of the toes and $w_P / 2$ is the distance along the
+second principal axes to the tip of the hands. The constraints $c_2,\ldots,c_5$
+are derived from these rules.
 
 \subsection{Front Frame [H]}
 %
