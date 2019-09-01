@@ -6,21 +6,26 @@
 
 \begin{document}
 
-\begin{flushleft}
-{\fontsize{16pt}{20pt}\selectfont%
-  Expanded Optimization for Discovering Optimal Lateral Handling Bicycles}
-\end{flushleft}
+\begin{center}
+\fontsize{14}{20}{\bf Expanded Optimization for Discovering \\[3pt]
+                      Optimal Lateral Handling Bicycles}
+\end{center}
 
 %%%%%%%%%%%%%%%% authors %%%%%%%%%%%%%%%
-\begin{flushleft}
-  {\fontsize{12}{14}{Jason K. Moore and Mont Hubbard}\\}
-  \textit{Mechanical and Aerospace Engineering\\
-          University of California, Davis\\
-          One Shields Avenue, Davis, CA, USA 95817\\
-          e-mail: jkm@ucdavis.edu, mhubbard@ucdavis.edu}
-\end{flushleft}
+\begin{center}
+  \normalsize{\bf{Jason K. Moore$^{*}$, Mont Hubbard$^\dag$}}
+\end{center}
 
-\section*{Abstract}
+\begin{center}
+  \begin{tabular}{c}
+    Department of Mechanical and Aerospace Engineering\\
+    University of California, Davis\\
+    One Shields Avenue, Davis, CA, USA 95817\\
+    e-mail: jkm@ucdavis.edu$^{*}$, mhubbard@ucdavis.edu$^\dag$
+  \end{tabular}
+\end{center}
+
+\section*{ABSTRACT}
 %
 Previously, we introduced a method of optimizing four primary geometric
 parameters of a bicycle's design to minimize its Handling Quality Metric. Here
@@ -32,8 +37,17 @@ opmization parameter. This improves over the prior work by expanding the search
 space with many more parameters and the guarntee of realizability. We close by
 presenting five bicycle designs that have optimal later handling qualities. The
 bicycles are not generally self-stable and have some ununusal characteristics.
+%
+\begin{keywords}
+  bicycle,
+  dynamics,
+  handling qualities,
+  control,
+  optimization,
+  design
+\end{keywords}
 
-\section{Introduction}
+\section{INTRODUCTION}
 %
 Physical design features of ground vehicles can affect their lateral handling
 qualities. Geometry, mass, and mass distribution of the vehicle's components as
@@ -52,7 +66,7 @@ constrain it so that only realizable optimal bicycle designs are discovered. To
 do so, we formulate a constrained optimization problem and use derivative-free
 optimization to discover optimal, yet realizable, bicycle designs.
 
-\section{Bicycle Model Parameterization}
+\section{BICYCLE MODEL PARAMETERIZATION}
 %
 Our problem formulation relies on a new bicycle model parameterization that
 reflects both a reformulation of and addition to the benchmark parameterization
@@ -164,7 +178,7 @@ benchmark parameterization readily, but not vice versa.
   \end{tabular}
 \end{table}
 
-\section{Bounds and Constraints}
+\section*{BOUNDS AND CONSTRAINTS}
 %
 The optimal principal parameters are subject to a set of constraints designed
 to ensure that a physically realizable bicycle is obtained from the
@@ -371,7 +385,7 @@ to be stable, i.e. have negative real parts. These are expressed in
 constraints $c_{14},\ldots,c_{21}$. Closed loop stability is required for the
 HQM to provide a meaningful result.
 
-\section{Optimization}
+\section{OPTIMIZATION}
 %
 The above constraints leave 23 of the 47 parameters free for optimizing which
 we collect in the vector $\mathbf{p}\in\mathbb{R}^{23}$ and define as:
@@ -450,7 +464,7 @@ algorithm is able to move into the parameter space where all the constraints
 are satisfied and find a (local) minima. For our purposes, this sufficiently
 finds parameter values that produce optimally handling bicycle designs.
 
-\section{Results}
+\section{RESULTS}
 %
 We discover four bicycles for different design speeds (3, 5, 7, and
 9~\si{\meter\per\second}) that have an optimally low HQM, see
@@ -586,7 +600,7 @@ m/s design is higher than the reference design and present at all speeds.
     travel speed. The vertical dashed black line indicates the design speed.}
 \end{figure}
 
-\section{Discussion and Conclusion}
+\section{DISCUSSION AND CONCLUSION}
 %
 We have demonstrated the ability to find optimal parameter values of the linear
 Whipple-Carvallo bicycle model under constraints that enforce a physically
@@ -630,7 +644,7 @@ vehicles opening up many new designs, but as with any optimization it only
 captures a very small set of the variables that a designer has to take into
 account for a vehicle.
 
-\section{Reproducibility}
+\section{REPRODUCIBILITY}
 %
 All of the source code, data, and documents needed to reproduce the presented
 results and this paper can be found at the repository hosted at
