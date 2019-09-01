@@ -1,11 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Class file for the abstract of the Bicycle and Motercycle Dynamics 
-%% Symposium 2019, 9-11 September, University of Padova, Italy
-%% Ben Smith 10092015 REV 2018 by UNIPD team
+%% Class file for the paper of the Bicycle and Motercycle Dynamics 
+%% Symposium 2016, 20-22 October 2016, Milwaukee, Wisconsin, USA
+%% BLS 20160511
+%% MM 20190703 (amended for BMD2019 in Padova)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{bmd2019a}[2018/08/09 BMD2019 abstract class]  
+\ProvidesClass{bmd2019p}[2019/07/03 BMD2019 paper class]  
 \ProcessOptions\relax
 
 \DeclareOption{10pt}{\OptionNotUsed}  
@@ -15,7 +16,7 @@
   
 \ProcessOptions\relax  
   
-\LoadClass[11pt,a4paper,twoside]{article}  
+\LoadClass[11pt,a4paper]{article}  
   
 %\RequirePackage[latin1]{inputenc}   % for unix users
 \RequirePackage[ansinew]{inputenc}  %  for windows users
@@ -25,31 +26,48 @@
 \RequirePackage{times}
 \RequirePackage{graphicx}
 \RequirePackage{verbatim}
-\RequirePackage{hyperref}
+% \RequirePackage{graphicx}
 \RequirePackage{tabularx}
 \RequirePackage{amsmath,amsfonts,amssymb,amsthm,amsbsy,amsmath}
 \RequirePackage{latexsym}
 \RequirePackage{bm}
 \RequirePackage{a4}
-% \RequirePackage{fancyhdr}
+\RequirePackage{fancyhdr}
 \RequirePackage{engord}
 \RequirePackage{epsfig,vmargin,booktabs}
-
+\RequirePackage{color}
+\RequirePackage{hyperref}
+\RequirePackage[all]{hypcap}
+\RequirePackage{url}
+\RequirePackage{ulem}
 
 \setpapersize{A4}  % needs vmargin package
 %\setmarginsrb{left}{top}{right}{bottom}{headh1gt}{headsep}{foothgt}{footskip}
-%\setmarginsrb{30mm}{10mm}{30mm}{10mm}{15mm}{10mm}{0mm}{0mm}
-\setmarginsrb{30mm}{10mm}{30mm}{27mm}{15mm}{5mm}{0mm}{0mm}
+%\setmarginsrb{30mm}{5mm}{30mm}{5mm}{25mm}{0mm}{0mm}{25mm}
+\setmarginsrb{30mm}{10mm}{30mm}{15mm}{17mm}{3mm}{0mm}{15mm}
 % headsep:  Distance from bottom of header to the body of text on a page.
-% footskip: Distance from bottom of body to the bottom of the footer (the footer is the text at the bottom of each page).
+% foorskip: Distance from bottom of body to the bottom of the footer (the footer is the text at the bottom of each page).
 
 
 \parindent=0pt
 %\parskip0pc
 \parskip=2ex
+\renewcommand{\baselinestretch}{0.95}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Hyperlinks
+\hypersetup{colorlinks=true}
+\hypersetup{
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+\urlstyle{same}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% The LABEL extensions for proofing. J. Kaipio, 4.4.1995
 %% CAPTIONS FOR TABLES AND FIGURES
 %%
@@ -103,38 +121,56 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% SECTIONS 
-\renewcommand\section{\@startsection {section}{1}{\z@}{-3.5ex plus -1ex minus-.2ex}{0.2ex}{\normalsize\bf}}
+\renewcommand\section{\@startsection {section}{1}{\z@}{-3.5ex plus -1ex minus-.2ex}{0.2ex}{\normalsize\bfseries}}
+\def\subsection{\@startsection{subsection}{2}{\z@}{-1.75ex plus -1ex minus-.2ex}{0.2ex}{\normalsize\bfseries}}
+\def\subsubsection{\@startsection{subsubsection}{3}{\z@}{-1.75ex plus -1ex minus-.2ex}{0.2ex}{\normalsize\bfseries}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newcommand\keywordssec{\@startsection{paragraph}{4}{\z@}{6pt}{-1.1ex}{\bfseries}}
 
+\def\keywords{
+\begin{normalsize}
+\keywordssec{Keywords:\space}
+}
+\def\endkeywords{\end{normalsize}}
+
+\renewcommand\refname{REFERENCES} 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% My defs....
-% \newcommand{\dd}[1]{\mbox{${\mathrm d}{#1}$}} % d
-% \newcommand{\grad}{\operatorname{grad}}
-% \newcommand{\dev}{\operatorname{dev}}
-% \newcommand{\tr}{\operatorname{tr}}
-% \newcommand{\ov}[1]{\mbox{$\bm{#1}$}}                           % vectors
-% \newcommand{\om}[1]{\mbox{$\bm{#1}$}}                           % matrices
+\newcommand{\dd}[1]{\mbox{${\mathrm d}{#1}$}} % d
+\newcommand{\grad}{\operatorname{grad}}
+\newcommand{\dev}{\operatorname{dev}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\ov}[1]{\mbox{$\bm{#1}$}} 				% vectors
+\newcommand{\om}[1]{\mbox{$\bm{#1}$}} 				% matrices
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\renewcommand{\ps@plain}{%
-  \renewcommand{\@oddhead}{{\parbox[b]{60ex}{\scriptsize%
-    Bicycle and Motorcycle Dynamics 2019\\%
-    Symposium on the Dynamics and Control of Single Track Vehicles,\\%
-    9--11 September 2019, University of Padova, Italy \vspace{5mm}}}}%
-  \renewcommand{\@evenhead}{{\hfill\parbox[b]{60ex}{\scriptsize%
-    \raggedleft Bicycle and Motorcycle Dynamics 2019\\%
-    Symposium on the Dynamics and Control of Single Track Vehicles,\\%
-    9--11 September 2019, University of Padova, Italy \vspace{5mm}}}}%
-  \renewcommand{\@oddfoot}{}%
-  \renewcommand{\@evenfoot}{}%
-}
-\renewcommand{\baselinestretch}{0.91}
+% \renewcommand{\ps@plain}{%
+%   \renewcommand{\@oddhead}{{\parbox[b]{60ex}{\scriptsize%
+%     Bicycle and Motorcycle Dynamics 2016\\%
+%     Symposium on the Dynamics and Control of Single Track Vehicles,\\%
+%     21--23 September 2016, Milwaukee, Wisconsin, USA \vspace{5mm}}}}%
+%   \renewcommand{\@evenhead}{{\hfill\parbox[b]{60ex}{\scriptsize%
+%     \raggedleft Bicycle and Motorcycle Dynamics 2016\\%
+%     Symposium on the Dynamics and Control of Single Track Vehicles,\\%
+%     21--23 September 2016, Milwaukee, Wisconsin, USA \vspace{5mm}}}}%
+%   \renewcommand{\@oddfoot}{}%
+%   \renewcommand{\@evenfoot}{}%
+% }
+% \renewcommand{\baselinestretch}{0.9}
+
 
 \AtBeginDocument{%    
   \pagestyle{plain}
-}  
-  
+  \thispagestyle{fancy}
+  \fancyhf{} % clear all header and footer fields
+  \renewcommand{\headrulewidth}{0pt}
+  \rhead{\footnotesize{Proceedings, Bicycle and Motorcycle Dynamics 2019\\%
+    Symposium on the Dynamics and Control of Single Track Vehicles,\\%
+    9--11 September 2019, University of Padova, Italy\vspace{5mm}}}%
+} 
 \endinput
+
