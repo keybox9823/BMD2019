@@ -69,7 +69,7 @@ optimization to discover optimal, yet realizable, bicycle designs.
 Our problem formulation relies on a new bicycle model parameterization that
 reflects both a reformulation of and addition to the benchmark parameterization
 of the linear Whipple-Carvallo bicycle model~\cite{Meijaard2007}. We call this
-the ``principal parameterizatoin'' as opposed to the ``benchmark
+the ``principal parameterization'' as opposed to the ``benchmark
 parameterization'' in~\cite{Meijaard2007}. This parameterization differs from
 the benchmark parameterization in three ways. Firstly, the person and rear
 frame are treated as separate rigid bodies each with their on inertial
@@ -83,11 +83,27 @@ a Batavus Browser Bicycle and the rider ``Jason'' presented
 in~\cite{Moore2012}. This parameterization can be transformed into the
 benchmark parameterization readily, but not vice versa.
 %
+\begin{figure}
+  \centering
+  \includegraphics[width=4in]{../figures/reference-geometry.png}
+  \caption{Depiction of the principal parameters of the Batavus Browser
+    with rider ``Jason''. The solid black lines represent the essential bicycle
+    geometry. The dotted black line represents the steer axis. The inertial
+    properties of the five rigid bodies: front wheel (orange), rear wheel
+    (purple), rear frame (blue), front frame (green), and person (red) are
+    shown with the mass center and the extents of the centroidal principal
+    radii of gyration of each rigid body. The primary principal angles,
+    $\alpha_{D,P,H}$, are defined as the angle about the $y$ axis from $x$ to
+    the maximum principal axes in the $XZ$ plane.}
+\end{figure}
+%
 \begin{table}
   \caption{Full set of 47 principal parameters and their default values derived
     from the measurements in~\cite{Moore2012} of the Batavus Browser bicycle
-    and rider ``Jason''.}
+    and rider ``Jason''. Note that the benchmark parameters are also used in
+    the paper and are defined in~\cite{Meijaard2007}.}
   \label{tab:parameters}
+  \small
   \centering
   \begin{tabular}{llll}
     \toprule
@@ -163,14 +179,14 @@ benchmark parameterization readily, but not vice versa.
 \section{Bounds and Constraints}
 %
 The optimal principal parameters are subject to a set of constraints designed
-to ensure that a physically realizable bicycle is obtained from the opimization
-procedure. These constraints are made up of bounds on the free parameters and
-both equality and inequality constraints among the parameters. Below the basic
-constraint concepts presented and grouped by the associated rigid body or
-collection thereof:
+to ensure that a physically realizable bicycle is obtained from the
+optimization procedure. These constraints are made up of bounds on the free
+parameters and both equality and inequality constraints among the parameters.
+Below the basic constraint concepts presented and grouped by the associated
+rigid body or collection thereof:
 %
 \begin{description}
-  \item[Total $T$] The resulting combination of the five rigid bodies.
+  \item[Total $T$] The combination of the five rigid bodies.
     \begin{itemize}
       \item The likely physical extents of the rigid bodies must exist above
         the ground plane.
@@ -180,8 +196,8 @@ collection thereof:
       \item The wheels cannot overlap.
       \item The bicycle cannot topple forward during hard braking or backward
         during hard acceleration.
-      \item The closed loop path tracking system~\cite{Hess2012} must be
-        stable. This is required to obtain a valid HQM value.
+      \item The closed-loop path tracking controlled system~\cite{Hess2012}
+        must be stable. This is required to obtain a valid HQM value.
     \end{itemize}
 
   \item[Rider $P$] A single rigid body represents the rider.
@@ -203,8 +219,8 @@ collection thereof:
 
   \item[Wheels $F$, $R$] Both front and rear wheels have identical constraints.
     \begin{itemize}
-      \item Wheel radius and mass must positive and be greater than a minimum
-        value.
+      \item Wheel radius and mass must be positive and be greater than a
+        minimum value.
       \item Wheels are inertially wheel-like, i.e. symmetric about each plane
         and most of the mass is at the rim.
     \end{itemize}
@@ -217,7 +233,7 @@ in tables \ref{tab:bounds}, \ref{tab:equality-constraints},
 the following sections.
 %
 \begin{table}
-  \caption{Free parameter upper and lower bounds}
+  \caption{Parameter lower and upper bounds.}
   \label{tab:bounds}
   \centering
   \begin{tabular}{ccccc}
@@ -227,7 +243,7 @@ the following sections.
     $-\infty$ & $\leq$ & $w       $  &  $\leq$  &  $\infty$ \\
     $-\infty$ & $\leq$ & $c       $  &  $\leq$  &  $\infty$ \\
     $-\pi/2 $ & $\leq$ & $\lambda $  &  $\leq$  &  $\pi/2$ \\
-    $1.0    $ & $\leq$ & $m_D     $  &  $\leq$  &  $\infty$ \\
+    $1.0\si{\kilogram}$ & $\leq$ & $m_D     $  &  $\leq$  &  $\infty$ \\
     $-\infty$ & $\leq$ & $x_D     $  &  $\leq$  &  $\infty$ \\
     $-\infty$ & $\leq$ & $z_D     $  &  $\leq$  &  $0.0$    \\
     $0.0    $ & $\leq$ & $k_{Daa} $  &  $\leq$  &  $\infty$ \\
@@ -243,16 +259,16 @@ the following sections.
     $0.0    $ & $\leq$ & $k_{Hbb} $  &  $\leq$  &  $\infty$ \\
     $0.0    $ & $\leq$ & $k_{Hyy} $  &  $\leq$  &  $\infty$ \\
     $-\pi/2 $ & $\leq$ & $\alpha_H$  &  $\leq$  &  $\pi/2$ \\
-    $0.127  $ & $\leq$ & $r_R     $  &  $\leq$  &  $\infty$ \\
-    $1.0    $ & $\leq$ & $m_R     $  &  $\leq$  &  $\infty$ \\
-    $0.127  $ & $\leq$ & $r_F     $  &  $\leq$  &  $\infty$ \\
-    $1.0    $ & $\leq$ & $m_F     $  &  $\leq$  &  $\infty$ \\
+    $0.127\si{\meter}$ & $\leq$ & $r_R     $  &  $\leq$  &  $\infty$ \\
+    $1.0\si{\kilogram}$ & $\leq$ & $m_R     $  &  $\leq$  &  $\infty$ \\
+    $0.127\si{\meter}$ & $\leq$ & $r_F     $  &  $\leq$  &  $\infty$ \\
+    $1.0\si{\kilogram}$ & $\leq$ & $m_F     $  &  $\leq$  &  $\infty$ \\
     \bottomrule
   \end{tabular}
 \end{table}
 %
 \begin{table}
-  \caption{Equality constraints}
+  \caption{Equality constraints.}
   \label{tab:equality-constraints}
   \centering
   \begin{tabular}{lll}
@@ -271,7 +287,7 @@ the following sections.
 \end{table}
 %
 \begin{table}
-  \caption{Inequality constraints}
+  \caption{Inequality constraints.}
   \label{tab:inequality-constraints}
   \centering
   \begin{tabular}{lll}
@@ -300,24 +316,24 @@ the following sections.
 %
 We assume that the person's joint configurations are such that they are in a
 nominal configuration for pedaling, i.e. an average normal everyday riding
-position on a typical bicycle, i.e. they stayed in the same configuration as
-they were seated on the Batavus Browser bicycle. The person is assumed to be
-symmetric about the $XZ$ plane. We allow the rider to be rotated about the $Y$
-axis and positioned anywhere within the plane of symmetry above the ground.
+position on a typical bicycle. We retain the same configuration as they were
+seated on the Batavus Browser bicycle. The person is assumed to be symmetric
+about the $XZ$ plane. We allow the rider to be rotated about the $Y$ axis and
+positioned anywhere within the plane of symmetry above the ground.
 
 To prevent the rider from being positioned and oriented such that their body is
 not penetrating the ground we introduce two dimensions that define a cross
 whose apex is at the center of mass of the person and the cross axes are
 parallel to the principal axes in the $XZ$ plane. $l_P / 2$ is the distance
-along the principal axis to the tip of the toes and $w_P$ is the distance along
-the second principal axes to the tip of the hands. Constraints
-$c_2,\ldots,c_5$.
+along the principal axis to the tip of the toes and $w_P / 2$ is the distance
+along the second principal axes to the tip of the hands. The constraints
+$c_2,\ldots,c_5$ are derived from these rules.
 
 \subsection{Front Frame [H]}
 %
 The front frame is symmetric about the $XZ$ plane so $I_{Hxy}, I_{Hyz} = 0$. We
 allow for any angular orientation of the $XZ$ principal directions but limit
-the angle to $-\frac{\pi}{2} \leq \alpha_H \leq \frac{\pi}{2}$.  We prevent the
+the angle to $-\frac{\pi}{2} \leq \alpha_H \leq \frac{\pi}{2}$. We prevent the
 rear frame from penetrating the ground by limiting the inertial spread with
 respect to its mass center, $c_{13}$, but also set a minimum inertial spread to
 ensure a frame can span from the rear wheel to the mass center of the rear
@@ -350,25 +366,26 @@ minimal size based on small purchasable spoked wheel with tire.
 \subsection{Total Bike [T]}
 %
 The trail and wheelbase can take on any real values. The steer axis tilt is
-limited to 180 degrees. We introduce a constraint $c_{10}$ that prevents the
-wheels from physically overlapping and require that the bicycle be lift-able by
-an average person, $c_{11}$. Finally, we require that the bicycle not topple
-forward during hard breaking or backward during hard acceleration.
+limited to $\pm90$ degrees. We introduce a constraint $c_{10}$ that prevents
+the wheels from physically overlapping and require that the bicycle be
+lift-able by an average person, $c_{11}$. Finally, we require that the bicycle
+not topple forward during hard breaking or backward during hard acceleration
+with:
 
 \begin{align}
-  -\frac{3g}{4} < \textrm{acceleration} < \frac{g}{4}
+  -\frac{3g}{4} < \textrm{acceleration} < \frac{g}{4}\textrm{.}
 \end{align}
 
 This translates to two constraints, $c_6,c_7$ that bound the total center of
 mass $(x_T,z_T)$ in a triangle in the $XZ$ plane. Lastly, we constrain the
-eight closed loop eigenvalues associated with the controller in
-~\cite{Hess2012} to be stable, i.e. have negative real parts.  These are
-expressed in constraints $c_{14},\ldots,c_{21}$. Closed loop stability is
-required for the HQM to provide a meaningful result.
+eight closed loop eigenvalues associated with the controller in~\cite{Hess2012}
+to be stable, i.e. have negative real parts. These are expressed in
+constraints $c_{14},\ldots,c_{21}$. Closed loop stability is required for the
+HQM to provide a meaningful result.
 
 \section{Optimization}
 %
-The above constraints leaves 23 of the 47 parameters free for optimizing which
+The above constraints leave 23 of the 47 parameters free for optimizing which
 we collect in the vector $\mathbf{p}\in\mathbb{R}^{23}$ and define as:
 %
 \begin{align}
@@ -423,40 +440,129 @@ We make use of the derivative-free optimizer CMA-ES~\cite{Hansen1996} to find
 solutions to this problem. The optimization supports parameter bounds and
 equality constraints but does not support inequality constraints. To get around
 this limitation we move the inequality constraints into the objective function
-an penalize the objective if the constraints are violated with the following
+and penalize the objective if the constraints are violated with the following
 rules:
 %
 \begin{align}
   J(\mathbf{p}) =
   \begin{cases}
-    max(\textrm{HQM}(\mathbf{p})) & \textrm{if} \quad any(\mathbf{g}(\mathbf{p})) < 0 \\
+    max(\textrm{HQM}(\mathbf{p})) & \textrm{if} \quad all(\mathbf{g}(\mathbf{p})) \leq 0 \\
     30 + ||\mathbf{g}_{+}(\mathbf{p})||/10 & \textrm{if} \quad
-      any(\mathbf{g}(\mathbf{p})) \geq 0 \textrm{ and } ||\mathbf{g}_{+}(\mathbf{p})|| < 30 \\
+      any(\mathbf{g}(\mathbf{p})) > 0 \textrm{ and } ||\mathbf{g}_{+}(\mathbf{p})|| < 30 \\
     ||\mathbf{g}_{+}(\mathbf{p})|| & \textrm{if} \quad
-      any(\mathbf{g}(\mathbf{p})) \geq 0 \textrm{ and } ||\mathbf{g}_{+}(\mathbf{p})|| \geq 30
+      any(\mathbf{g}(\mathbf{p})) > 0 \textrm{ and } ||\mathbf{g}_{+}(\mathbf{p})|| \geq 30
   \end{cases}
 \end{align}
-where $||\mathbf{g}_{+}||$ is the norm of the positive elements of
-$\mathbf{g}$.
+where $||\mathbf{g}_{+}||$ is the norm of the vector of positive elements of
+$\mathbf{g}$ and $any,all$ are ``any elements of'' and ``all elements of'',
+respectively.
 
-This creates a discontinous objective function but in practice the CMS-ES
-algorthim is able to move into the parameter space where all the constraints
+This creates a discontinuous objective function but in practice the CMA-ES
+algorithm is able to move into the parameter space where all the constraints
 are satisfied and find a (local) minima. For our purposes, this sufficiently
-finds parameter values that produce an optimally handling design.
+finds parameter values that produce optimally handling bicycle designs.
 
 \section{Results}
 %
-We discover four bicycles for four different design speeds (3, 5, 7, and 9 m/s)
-that have an optimally low HQM, see Table~\ref{tab:hqm} and satisify all
-constraints and parameter boundaries. We belive these bicycles to be physically
-realizable with minor differences. The most striking feature is that all of the
-bicycle are larger that the reference bicycle in some way.  The 3 m/s bicycle
-places both the rider's mass center and the rear frame's mass center close to 3
-meters above the ground plane. The 5 and 7 m/s bicycles have wheelbase values
-that are simlar to the reference bicycle, but 3 and 9 m/s have very large wheel
-bases. The 9 m/s bicycle is very large overall. Only the 5 m/s bicycle is of a
-scale close to a typical bicycle. It is noteable that the 9 m/s bicycle has
-signficant negative trail.
+We discover four bicycles for different design speeds (3, 5, 7, and
+9~\si{\meter\per\second}) that have an optimally low HQM, see
+Table~\ref{tab:hqm}, and satisfy all constraints and parameter bounds. The
+optimal parameters for these four bicycles are presented in
+Table~\ref{tab:optimal-values}.
+%
+\begin{table}
+  \caption{Peak HQM values for the reference bicycle and the optimal bicycles
+    at each design speed.}
+  \label{tab:hqm}
+  \centering
+  \begin{tabular}{llll}
+    \toprule
+    Speed [m/s] & Reference Peak HQM & Optimal Peak HQM & Percent Improvement \\
+    \midrule
+    3 & 13.075 & 2.012 & 85\% \\
+    5 & 4.521  & 0.012 & 100\% \\
+    7 & 3.043  & 0.022 & 99\% \\
+    9 & 2.338  & 0.839 & 64\% \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+%
+\begin{table}
+  \caption{Optimal principal parameter values for each design speed. Values
+    with an asterisk are at a bound.}
+  \label{tab:optimal-values}
+  \centering
+  \begin{tabular}{lSSSS}
+    \toprule
+    $v$ & 3~\si{\meter\per\second} & 5~\si{\meter\per\second} & 7~\si{\meter\per\second} & 9~\si{\meter\per\second} \\
+    \midrule
+    $c$       & 0.688  & -0.005 & 0.001  & -0.484 \\
+    $w$       & 2.866  & 0.847  & 1.157  & 5.557  \\
+    $\lambda$ & -0.213 & 0.271  & -0.028 & 0.239  \\
+    \midrule
+    $m_D$ & 3.22   &  11.53 & 10.32  & 7.02 \\
+    $x_D$ & 0.958  &  0.287 &  0.427 & 1.020 \\
+    $z_D$ & -2.605 & -2.719 & -2.976 & -4.065 \\
+    $\alpha_D$ & 0.663  & 0.915  & 1.123  & 1.077 \\
+    % Should aa be larger than bb?
+    $k_{Daa}$  & 1.449  & 1.218  &  1.324 & 0.861 \\
+    $k_{Dbb}$  & 0.724  & 1.387  &  1.290 & 2.014 \\
+    $k_{Dyy}$  & 1.471  & 1.559  &  1.555 & 2.031 \\
+    \midrule
+    $m_H$  & 0.25*  & 0.25* &    0.49 &   3.54 \\
+    $x_H$     & 2.356   & 0.532 &    1.145 &    5.615 \\
+    $z_H$     & -1.298  & -0.781 &   -1.340 &   -1.776 \\
+    $\alpha_H$ & 0.572  & -1.265 & 1.571  & 0.238 \\
+    $k_{Haa}$ & 0.186  & 0.0491 &   0.000* &       2.846 \\
+    $k_{Hbb}$ & 1.259   & 1.145 &     2.006 &    0.168 \\
+    $k_{Hyy}$ & 0.636  & 0.383 &    0.818 &   0.669 \\
+    \midrule
+    $m_F$     & 1.62  & 4.40  & 2.64  & 5.51  \\
+    $r_F$     & 0.710 & 0.252 & 0.127* & 2.063 \\
+    $k_{Faa}$ & 0.355 & 0.126 & 0.064 & 1.031 \\
+    $k_{Fyy}$ & 0.710 & 0.252 & 0.127 & 2.063 \\
+    \midrule
+    $x_P$      & 0.765  & 0.276  &  0.526 & 1.079 \\
+    $z_P$      & -3.194 & -0.453 & -0.586 &-2.662 \\
+    $\alpha_P$ & -0.661 & 1.150  & -0.836 & 1.558 \\
+    \midrule
+    $m_R$   & 12.63  & 8.36  &  6.31 & 2.25 \\
+    $r_R$   & 0.958  & 0.506 & 0.146 & 3.027 \\
+    $k_{Raa}$ & 0.479  & 0.253 & 0.073 & 1.514 \\
+    $k_{Ryy}$ & 0.958  & 0.506 & 0.146 & 3.027 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The pictorial representation of the bicycles are presented in
+Figure~\ref{fig:optimal-geometries}. The most striking feature is that all of
+the bicycle are larger that the reference bicycle in some way.
+%
+\begin{figure}
+  \centering
+  \includegraphics[width=6in]{../figures/optimal-geometries.png}
+  \label{fig:optimal-geometries}
+  \caption{Depictions of the bicycle geometry and geometric representations of
+    the inertial quantities for the reference bicycle and four optimal solutions
+    at 3, 5, 7, and 9 m/s. Five rigid bodies are shown for each bicycle: front
+    wheel (orange), rear wheel (purple), rear frame (blue), front frame
+    (green), and person (red). The solid black lines represent the essential
+    bicycle geometry. The dotted black line represents the steer axis. The
+    solid colored curves represent the contours of solid ellipsoids with
+    equivalent inertia as the principal inertia of the associated rigid body.
+    The dotted colored lines represent the extents of the centroidal radii of
+    gyration of each rigid body.}
+\end{figure}
+
+We
+belive these bicycles to be physically realizable with minor differences.
+
+  The 3 m/s bicycle places both the rider's mass center and
+the rear frame's mass center close to 3 meters above the ground plane. The 5
+and 7 m/s bicycles have wheelbase values that are simlar to the reference
+bicycle, but 3 and 9 m/s have very large wheel bases. The 9 m/s bicycle is very
+large overall. Only the 5 m/s bicycle is of a scale close to a typical bicycle.
+It is noteable that the 9 m/s bicycle has signficant negative trail.
 
 3
 - Rider is over 3 m in the air and leaned forward.
@@ -485,90 +591,21 @@ signficant negative trail.
 %
 \begin{figure}
   \centering
-  \includegraphics[width=6in]{../figures/optimal-geometries.png}
-  \caption{Depcitions of the bicycle geometry and geometric representations of
-    the inertial quanties for the reference bicycle and four optimal solutions
-    at 3, 5, 7, and 9 m/s. Five rigid bodies are shown for each bicycle: front
-    wheel (oragne), rear wheel (purple), rear frame (blue), front frame
-    (green), and person (red). The solid black lines represent the essential
-    bicycle geometry. The dotted black line represents the steer axis. The
-    solid colored curves represent the contours of solid ellipsoids with
-    equivalent inertia as the principal inertia of the associated rigid body.
-    The dotted colored lines represent the extents of the centerial radii of
-    gyration of each rigid body.}
-\end{figure}
-%
-\begin{table}
-  \caption{Peak HQM values for the reference bicycle and the optimal bicycles
-    at each speed.}
-  \label{tab:hqm}
-  \centering
-  \begin{tabular}{llll}
-    \toprule
-    Speed [m/s] & Reference Peak HQM & Optimal Peak HQM & Percent Improvement \\
-    \midrule
-    3 & 13.0753 & 2.0118 & 85\% \\
-    5 & 4.5213  & 0.0115 & 100\% \\
-    7 & 3.0434  & 0.0220 &  99\% \\
-    9 & 2.3377  & 0.8386 &  64\% \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-%
-\begin{figure}
-  \centering
   \includegraphics[width=6in]{../figures/optimal-eigenvalues.png}
+  \label{fig:optimal-eigenvalues}
   \caption{}
 \end{figure}
-%
-\begin{table}
-  \caption{Optimal principal parameter values for each design speed.}
-  \label{tab:optimal-values}
-  \centering
-  \begin{tabular}{lSSSS}
-    \toprule
-    Parameter & 3~\si{\meter\per\second} & 5~\si{\meter\per\second} & 7~\si{\meter\per\second} & 9~\si{\meter\per\second} \\
-    \midrule
-    $c$       & 0.688  & -0.005 & 0.001  & -0.484 \\
-    $w$       & 2.866  & 0.847  & 1.157  & 5.557  \\
-    $\lambda$ & -0.213 & 0.271  & -0.028 & 0.239  \\
-    \midrule
-    $m_D$ & 3.22   &  11.53 & 10.32  & 7.02 \\
-    $x_D$ & 0.958  &  0.287 &  0.427 & 1.020 \\
-    $z_D$ & -2.605 & -2.719 & -2.976 & -4.065 \\
-    $\alpha_D$ & 0.663  & 0.915  & 1.123  & 1.077 \\
-    % Should aa be larger than bb?
-    $k_{Daa}$  & 1.449  & 1.218  &  1.324 & 0.861 \\
-    $k_{Dbb}$  & 0.724  & 1.387  &  1.290 & 2.014 \\
-    $k_{Dyy}$  & 1.471  & 1.559  &  1.555 & 2.031 \\
-    \midrule
-    $m_H$  & 0.25  & 0.25 &    0.49 &   3.54 \\
-    $x_H$     & 2.356   & 0.532 &    1.145 &    5.615 \\
-    $z_H$     & -1.298  & -0.781 &   -1.340 &   -1.776 \\
-    $\alpha_H$ & 0.572  & -1.265 & 1.571  & 0.238 \\
-    $k_{Haa}$ & 0.186  & 0.0491 &   0.000 &       2.846 \\
-    $k_{Hbb}$ & 1.259   & 1.145 &     2.006 &    0.168 \\
-    $k_{Hyy}$ & 0.636  & 0.383 &    0.818 &   0.669 \\
-    \midrule
-    $m_F$     & 1.62  & 4.40  & 2.64  & 5.51  \\
-    $r_F$     & 0.710 & 0.252 & 0.127 & 2.063 \\
-    $k_{Faa}$ & 0.355 & 0.126 & 0.064 & 1.031 \\
-    $k_{Fyy}$ & 0.710 & 0.252 & 0.127 & 2.063 \\
-    \midrule
-    $x_P$      & 0.765  & 0.276  &  0.526 & 1.079 \\
-    $z_P$      & -3.194 & -0.453 & -0.586 &-2.662 \\
-    $\alpha_P$ & -0.661 & 1.150  & -0.836 & 1.558 \\
-    \midrule
-    $m_R$   & 12.63  & 8.36  &  6.31 & 2.25 \\
-    $r_R$   & 0.958  & 0.506 & 0.146 & 3.027 \\
-    $k_Raa$ & 0.479  & 0.253 & 0.073 & 1.514 \\
-    $k_Ryy$ & 0.958  & 0.506 & 0.146 & 3.027 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
 
 \section{Discussion and Conclusion}
 %
+- need constraints to keep rider out of wheels
+- need more realistic constraints for the frame mass and inertia based on space
+frame
+\section{Reproducibility}
+%
+All of the source code, data, and documents needed to reproduce the presented
+results and this paper can be found at the repository hosted at
+\url{https://github.com/moorepants/BMD2019}.
 
 \bibliographystyle{acm}
 \bibliography{BMD2019}
