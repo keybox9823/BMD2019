@@ -85,7 +85,7 @@ benchmark parameterization readily, but not vice versa.
 %
 \begin{figure}
   \centering
-  \includegraphics[width=4in]{../figures/reference-geometry.png}
+  \includegraphics[width=3in]{../figures/reference-geometry.png}
   \caption{Depiction of the principal parameters of the Batavus Browser
     with rider ``Jason''. The solid black lines represent the essential bicycle
     geometry. The dotted black line represents the steer axis. The inertial
@@ -583,8 +583,12 @@ the bicycle open-loop unstable.
 The parameters of the bicycles can be distilled into open loop eigenvalues for
 a clearer understanding of the dynamics, shown in
 Figure~\ref{fig:optimal-eigenvalues}. The 3 and 9 design speed have a simlar
-eigenvalue pattern as well as the 5 and 7.
-
+eigenvalue pattern as well as the 5 and 7. The 7~\si{\meter\per\second} design
+is self-stable at speeds greater than 1.2~\si{\meter\per\second} but the other
+three designs are not self-stable at any travel speed from
+\SIrange{0}{10}{\meter\per\second}. Both the 5 and 7 designs have a weave mode
+that increases in frequency rapidly with speed. The weave frequency of the 3
+m/s design is higher than the reference design and present at all speeds.
 %
 \begin{figure}
   \centering
@@ -596,11 +600,48 @@ eigenvalue pattern as well as the 5 and 7.
 
 \section{Discussion and Conclusion}
 %
-- need constraints to keep rider out of wheels
-- need more realistic constraints for the frame mass and inertia based on space
-frame
-- need constraints of rear frame that force it to span from rear wheel to
-person to head tube
+We have demonstrated the ability to find optimal parameter values of the linear
+Whipple-Carvallo bicycle model under constraints that enforce a physically
+realizable bicycle with an objective of improving lateral handling qualities.
+We showcase four optimal bicycle designs for a range of target travel speeds.
+The resulting bicycles are similar to the familiar and popular bicycle design
+but have some oddities: very large size relative to the person, large negative
+trail, large positive trail, minimal steer inertia, recumbent rider
+orientation, and both very low and high rider mass center locations. Three of
+the four bicycles are not open-loop self stable for any speed up to
+10~\si{\meter\per\second} and the weave model frequencies are significantly
+larger than the reference bicycle but all bicycles are controllable and have a
+minimal HQM as defined in~\cite{Hess2012}.
+
+The bicycles are reasonably physically realizable but some additional
+constraints could be introduced to further improve this. In the
+5~\si{\meter\per\second} design the person's body overlaps the wheels, which
+would be almost impossible to realize. A constraint that ensures the torso
+cannot occupy the same space as the wheels would solve this. The masses of the
+front and rear frames are low with respect to the geometrical spread a steel
+space frame would have to occupy. The frames also need to be able to span the
+space between the respecitve wheel, mass center of the frame, and the steer
+axis and for the rear frame span to the rider's support locations. We currently
+only expliclty deal with spanning the space between the mass center of the
+frame and the respective wheel. Another more restricting appraoch would be to
+specify a generic geometric structure for the front and rear frames. If done,
+maximal stress and deflections of the frames under load could also be
+minimized.
+
+Each optimizal solution requires approximately 12 hours of computation time on
+a high end consumer desktop machine running on a single thread. The number of
+iterations are typically in the hundreds of thousands for convergence. There
+are many avenues for speeding this up that could likely result in solutions in
+one or two hours on the same machine but this is still slow to be particualrly
+pleasant to utlizie in the process of designing a bicycle. Furthermore, the
+time required to translate the resulting parameters in to an actual bicycle
+design complete with structural destails is extremely time consuming.
+Never-the-less, the method shows promise for optimizing an entire vehicle for
+optimal dynamics. This method can be applied to a whole host of human operated
+vehicles opening up many new designs, but as with any optimization it only
+captures a very small set of the variables that a designer has to take into
+account for a vehicle.
+
 \section{Reproducibility}
 %
 All of the source code, data, and documents needed to reproduce the presented
