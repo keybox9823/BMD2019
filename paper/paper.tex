@@ -103,9 +103,10 @@ defined in~\cite{Meijaard2007}.
     properties of the five rigid bodies, front wheel (orange), rear wheel
     (purple), rear frame (blue), front frame (green), and person (red) are
     shown with the mass center and the extents of the centroidal principal
-    radii of gyration of each rigid body as colored solid lines. The primary
-    principal angles, $\alpha_{D,P,H}$, are defined as the angle about the $y$
-    axis from $x$ to the maximum principal axes in the $XZ$ plane.}
+    radii of gyration of each rigid body as colored solid straight lines and
+    circles. The primary principal angles, $\alpha_{D,P,H}$, are defined as the
+    angle about the $y$ axis from $x$ to the maximum principal axes in the $XZ$
+    plane.}
 \end{figure}
 %
 \begin{table}
@@ -366,8 +367,8 @@ geometrical spread of a typical bicycle frame and its radius of gyration.
 Several rear frame parameters are bounded. We require the rear frame mass to be
 positive, the center of mass not penetrate the ground, and we allow for any
 angular orientation of the principal directions in the $XZ$ plane but limit the
-angle to $-\frac{\pi}{2} \leq \alpha_D \leq \frac{\pi}{2}$ as angle beyond that
-are redundant.
+angle to $-\frac{\pi}{2} \leq \alpha_D \leq \frac{\pi}{2}$ as angles beyond
+that are redundant.
 
 \subsection{Front [F] and Rear [R] Wheels}
 %
@@ -435,8 +436,8 @@ $\mathbf{g}(\mathbf{p}),\mathbf{c}(\mathbf{p})$ . Given a set of bicycle model
 parameter values we generate a bandwidth limited human-like controller using
 the methods in~\cite{Moore2012}. Once the closed-loop stable controller is
 constructed, the HQM can be computed as per the definition in~\cite{Hess2012}
-and the scaler peak value returned as the objective $J$. This problem is
-presented as a non-linear programming problem in the following equation.
+and the scaler peak value returned as the objective function $J$. This problem
+is presented as a non-linear programming problem in the following equation.
 %
 \begin{equation}
   \begin{aligned}
@@ -471,7 +472,7 @@ respectively.
 
 This creates a discontinuous objective function but in practice the CMA-ES
 algorithm is able to move into the parameter space where all the constraints
-are satisfied and find a (local) minima. For our purposes, this sufficiently
+are satisfied and find a local minima. For our purposes, this sufficiently
 finds parameter values that produce optimally handling bicycle designs.
 
 \section{RESULTS}
@@ -558,9 +559,10 @@ presented in Figure~\ref{fig:optimal-geometries}.
     shown for each bicycle: front wheel (orange), rear wheel (purple), rear
     frame (blue), front frame (green), and person (red). The solid black lines
     represent the essential bicycle geometry. The dashed black line represents
-    the steer axis. The dashed colored lines represent the extents of the
-    centroidal radii of gyration of each rigid body and the red diamond shows
-    the physical extents of the persons geometry.}
+    the steer axis. The dashed colored straight lines and circles represent the
+    extents of the centroidal radii of gyration of each rigid body and the red
+    diamond shows the physical extents of the person's length $l_p$ and width
+    $w_p$.}
 \end{figure}
 
 The bicycle optimized for 3~\si{\meter\per\second} is about three times larger
@@ -573,7 +575,7 @@ The bicycle optimized for 5~\si{\meter\per\second} has a similar geometric
 scale as the reference bicycle except that the front wheel is smaller and the
 rear wheel is larger. The person is located low to the ground and tipped back,
 like one might see on a recumbent bicycle. This significantly increases the
-vehicles yaw moment of inertia. The trail is minimal, but surprisingly slightly
+vehicle's yaw moment of inertia. The trail is minimal, but surprisingly slightly
 negative (5~\si{\milli\meter}). The steer axis tilt is slightly shallower than
 the reference bicycle. The mass of the rear frame is similar to the reference
 bicycle but the front frame is at the bound and much lower. The minor principal
@@ -655,11 +657,11 @@ could likely result in solutions in one or two hours on the same computer
 hardware but this is still slow to be particularly convenient to utilize in the
 process of designing a bicycle. Furthermore, the time required to translate the
 resulting parameters into an actual bicycle design complete with structural
-details is extremely time consuming.  Never-the-less, the method shows promise
-for optimizing an entire vehicle for optimal dynamics. This method can be
-applied to a whole host of human operated vehicles opening up many new designs,
-but as with any optimization it only captures a very small set of the variables
-that a designer has to take into account for a vehicle.
+details is extremely time consuming. Nevertheless, the method shows promise for
+optimizing an entire vehicle for optimal dynamics. This method can be applied
+to a whole host of human operated vehicles opening up many new designs, but as
+with any optimization it only captures a very small set of the variables that a
+designer has to take into account for a vehicle.
 
 \section{REPRODUCIBILITY}
 %
