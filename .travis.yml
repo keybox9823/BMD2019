@@ -15,7 +15,7 @@ install:
   - cd -
 script:
   - set -e
-  - mkdir figures/
+  - mkdir -P figures/
   - inkscape -C -e figures/reference-geometry.png figures/reference-geometry-modified.svg -d 300
   - python src/geometry_plot.py
   - python src/eigenvalue_plots.py

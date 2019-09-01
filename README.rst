@@ -17,4 +17,4 @@ Expanded Optimization for Discovering Optimal Lateral Handling Bicycles
 =======================================================================
 
 - Authors: Moore and Hubbard
-- Paper pdf: https://github.com/moorepants/BMD2019/blob/gh-pages/MooreHubbard2019.pdf
+- Paper pdf: https://moorepants.github.io/BMD2019/MooreHubbard2019.pdf
