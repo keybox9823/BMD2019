@@ -343,15 +343,16 @@ are derived from these rules.
 \subsection{Front Frame [H]}
 %
 The front frame is symmetric about the $XZ$ plane so $I_{Hxy}, I_{Hyz} = 0$. We
-allow for any angular orientation of the $XZ$ principal directions but limit
-the angle to $-\frac{\pi}{2} \leq \alpha_H \leq \frac{\pi}{2}$. We prevent the
-rear frame from penetrating the ground by limiting the inertial spread with
-respect to its mass center, $c_{13}$, but also set a minimum inertial spread to
-ensure a frame can span from the rear wheel to the mass center of the rear
-frame, $c_8$. The spread factor in $c_{13}$ of 1.4 is based on the ratio of
-geometrical spread of a typical bicycle frame and its radius of gyration. The
-front frame is not planar but is narrow with respect to the $XZ$ plane, which
-is enforced by constraint $c_1$.
+allow for any angular orientation of the principal directions in the $XZ$ plane
+but limit the angle to $-\frac{\pi}{2} \leq \alpha_H \leq \frac{\pi}{2}$. We
+prevent the rear frame from penetrating the ground by limiting the inertial
+spread with respect to its mass center, $c_{13}$, but also set a minimum
+inertial spread to ensure a frame can span from the rear wheel to the mass
+center of the rear frame, $c_8$. The spread factor in $c_{13}$ of 1.4 is based
+on the ratio of geometrical spread of a typical bicycle frame and its radius of
+gyration. The front frame is not planar due to the need for handlebars
+protruding in the $Y$ direction so we only ensure consistent moments of inertia
+with $c_1$.
 
 \subsection{Rear Frame [D]}
 %
@@ -362,17 +363,17 @@ respect to its mass center, $c_{12}$, but also set a minimum inertial spread to
 ensure a frame can span from the rear wheel to the mass center of the rear
 frame, $c_9$. The spread factor in $c_{12}$ of 1.4 is based on the ratio of
 geometrical spread of a typical bicycle frame and its radius of gyration.
-Several parameters are bounded. We require the rear frame mass to be positive,
-the center of mass not penetrate the ground, and we allow for any angular
-orientation of the $XZ$ principal directions but limit the angle to
-$-\frac{\pi}{2} \leq \alpha_D \leq \frac{\pi}{2}$ as angle beyond that are
-redundant.
+Several rear frame parameters are bounded. We require the rear frame mass to be
+positive, the center of mass not penetrate the ground, and we allow for any
+angular orientation of the principal directions in the $XZ$ plane but limit the
+angle to $-\frac{\pi}{2} \leq \alpha_D \leq \frac{\pi}{2}$ as angle beyond that
+are redundant.
 
 \subsection{Front [F] and Rear [R] Wheels}
 %
 We enforce the assumption that both wheels have moments of inertia of that of a
-simple ring, $g_2 \ldots g_7$ and that mass and radius should be greater than a
-minimal size based on small purchasable spoked wheel with tire.
+simple ring, $g_2 \ldots g_7$ and that the mass and radius should be greater
+than a minimal size based on small purchasable spoked wheel with tire.
 
 \subsection{Total Bike [T]}
 %
@@ -390,9 +391,9 @@ with:
 This translates to two constraints, $c_6,c_7$ that bound the total center of
 mass $(x_T,z_T)$ in a triangle in the $XZ$ plane. Lastly, we constrain the
 eight closed loop eigenvalues associated with the controller in~\cite{Hess2012}
-to be stable, i.e. have negative real parts. These are expressed in
-constraints $c_{14},\ldots,c_{21}$. Closed loop stability is required for the
-HQM to provide a meaningful result.
+to be stable, i.e. have negative real parts. These are expressed in constraints
+$c_{14},\ldots,c_{21}$. Closed-loop stability is required for the HQM to
+provide a meaningful result, see~\cite{Hess2012} for an explanation.
 
 \section{OPTIMIZATION}
 %
@@ -432,8 +433,8 @@ Our objective in the optimization is to minimize the peak HQM value subject to
 the bounds, $\mathbf{p}^L,\mathbf{p}^U$, and the constraints
 $\mathbf{g}(\mathbf{p}),\mathbf{c}(\mathbf{p})$ . Given a set of bicycle model
 parameter values we generate a bandwidth limited human-like controller using
-the methods in ~\cite{Moore2012}. Once the closed loop stable controller is
-constructed, the HQM can be computed as per the definition in \cite{Hess2012}
+the methods in~\cite{Moore2012}. Once the closed-loop stable controller is
+constructed, the HQM can be computed as per the definition in~\cite{Hess2012}
 and the scaler peak value returned as the objective $J$. This problem is
 presented as a non-linear programming problem in the following equation.
 %
