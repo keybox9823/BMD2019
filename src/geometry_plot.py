@@ -7,12 +7,20 @@ speeds = [3, 5, 7, 9]
 
 fig, axes = plt.subplots(nrows=3, ncols=2)
 
+axes[0, 1].axis('off')
+
+
+def plot(par_set, ax):
+    par_set.plot_mass_centers(ax=ax)
+    par_set.plot_principal_radii_of_gyration(ax=ax)
+    par_set.plot_person_diamond(ax=ax)
+    par_set.plot_geometry(ax=ax)
+    return ax
+
 with open('data/principal-browserjason.yml', 'r') as f:
     par_dict = yaml.load(f)['values']
     par_set = PrincipalParameterSet(par_dict)
-    bpar_set = par_set.to_benchmark()
-    bpar_set.plot_all(ax=axes[0, 0])
-    par_set.plot_person_diamond(ax=axes[0, 0])
+    plot(par_set, axes[0, 0])
     axes[0, 0].set_title('Reference')
 
 for ax, speed in zip(axes.flatten()[2:], speeds):
@@ -23,13 +31,10 @@ for ax, speed in zip(axes.flatten()[2:], speeds):
         par_dict = yaml.load(f)['values']
 
     par_set = PrincipalParameterSet(par_dict)
-    bpar_set = par_set.to_benchmark()
-    bpar_set.plot_all(ax=ax)
-    par_set.plot_person_diamond(ax=ax)
+    plot(par_set, ax)
     ax.set_title('{} m/s Design Speed'.format(speed))
-    ax.set_ylabel('')
 
-width = 8.0
+width = 12.0
 fig.set_size_inches((width, 4/3*width))
 fig.tight_layout()
 fig.savefig('figures/optimal-geometries.png', dpi=300)
