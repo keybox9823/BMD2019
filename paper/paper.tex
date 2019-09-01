@@ -123,7 +123,7 @@ defined in~\cite{Meijaard2007}.
     % 5
     $c$       &  0.069           & \si{\meter} & Trail \\
     $w$       &  1.121             & \si{\meter} & Wheelbase \\
-    $\lambda$ & 0.39968             & \si{\radian} & Steer axis tilt \\
+    $\lambda$ & 0.400             & \si{\radian} & Steer axis tilt \\
     $g$       &  9.81               & \si{\meter\per\second\squared} & Acceleration due to gravity \\
     $v$       &  3.0, 5.0, 7.0, 9.0 & \si{\meter\per\second} & Forward speed \\
     Rear Wheel [R] & & \\
@@ -160,7 +160,7 @@ defined in~\cite{Meijaard2007}.
     $k_{Paa}$  &  0.368 & \si{\meter} & Central principal radii of gyration about $A_P$ \\
     $k_{Pbb}$  &  0.153 & \si{\meter} & Central principal radii of gyration about $B_P$ \\
     $k_{Pyy}$  &  0.367 & \si{\meter} & Central principal radii of gyration about $Y$ \\
-    $\alpha_P$ & 0.18618 & \si{\radian} & Angle about $Y$ between $X$ and $A_P$ \\
+    $\alpha_P$ & 0.186 & \si{\radian} & Angle about $Y$ between $X$ and $A_P$ \\
     Front Frame [H] & & \\
     \midrule
     % 8
@@ -171,7 +171,7 @@ defined in~\cite{Meijaard2007}.
     $k_{Haa}$ & 0.296 & \si{\meter}   & Central principal radii of gyration about $A_H$ \\
     $k_{Hbb}$ & 0.145 & \si{\meter}   & Central principal radii of gyration about $B_H$ \\
     $k_{Hyy}$ & 0.276 & \si{\meter}   & Central principal radii of gyration about $Y$ \\
-    $\alpha_H$ & 0.36995 & \si{\radian} & Angle about $Y$ between $X$ and $A_H$ \\
+    $\alpha_H$ & 0.370 & \si{\radian} & Angle about $Y$ between $X$ and $A_H$ \\
     Rear Frame [D] & & \\
     \midrule
     % 8
@@ -182,7 +182,7 @@ defined in~\cite{Meijaard2007}.
     $k_{Daa}$ &  0.286 & \si{\meter}  & Central principal radii of gyration about $A_D$ \\
     $k_{Dbb}$ &  0.221 & \si{\meter}  & Central principal radii of gyration about $B_D$ \\
     $k_{Dyy}$ &  0.365 & \si{\meter}  & Central principal radii of gyration about $Y$ \\
-    $\alpha_D$ &  1.1722 & \si{\radian} & Angle about $Y$ between $X$ and $A_D$ \\
+    $\alpha_D$ &  1.172 & \si{\radian} & Angle about $Y$ between $X$ and $A_D$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -480,7 +480,7 @@ We discover four bicycles for different design speeds (3, 5, 7, and
 9~\si{\meter\per\second}) that have an optimally low HQM, see
 Table~\ref{tab:hqm}, and satisfy all constraints and parameter bounds. The
 optimal parameter values for these four bicycles are presented in
-Table~\ref{tab:optimal-values}. We belive these bicycles to be reasoably
+Table~\ref{tab:optimal-values}. We believe these bicycles to be reasonably
 physically realizable. The pictorial representation of the bicycles are
 presented in Figure~\ref{fig:optimal-geometries}.
 %
@@ -503,7 +503,7 @@ presented in Figure~\ref{fig:optimal-geometries}.
 %
 \begin{table}
   \caption{Optimal principal parameter values for each design speed. Values
-    with an asterisk are at a bound.}
+    with an asterisk are at a parameter bound.}
   \label{tab:optimal-values}
   \centering
   \begin{tabular}{lSSSS}
@@ -553,61 +553,68 @@ presented in Figure~\ref{fig:optimal-geometries}.
   \includegraphics[width=6in]{../figures/optimal-geometries.png}
   \label{fig:optimal-geometries}
   \caption{Depictions of the bicycle geometry and geometric representations of
-    the inertial quantities for the reference bicycle and four optimal solutions
-    at 3, 5, 7, and 9 m/s. Five rigid bodies are shown for each bicycle: front
-    wheel (orange), rear wheel (purple), rear frame (blue), front frame
-    (green), and person (red). The solid black lines represent the essential
-    bicycle geometry. The dotted black line represents the steer axis. The
-    solid colored curves represent the contours of solid ellipsoids with
-    equivalent inertia as the principal inertia of the associated rigid body.
-    The dotted colored lines represent the extents of the centroidal radii of
-    gyration of each rigid body.}
+    the inertial quantities for the reference bicycle and four optimal
+    solutions at 3, 5, 7, and 9~\si{\meter\per\second}. Five rigid bodies are
+    shown for each bicycle: front wheel (orange), rear wheel (purple), rear
+    frame (blue), front frame (green), and person (red). The solid black lines
+    represent the essential bicycle geometry. The dashed black line represents
+    the steer axis. The dashed colored lines represent the extents of the
+    centroidal radii of gyration of each rigid body and the red diamond shows
+    the physical extents of the persons geometry.}
 \end{figure}
 
 The bicycle optimized for 3~\si{\meter\per\second} is about three times larger
 than the reference bicycle. The wheelbase is about 3~\si{\meter} and it has a
-relatively large postive trail (0.7~\si{\meter}). The person is rearward on the
-bike and over 3~\si{\meter} above the ground. The mass of the front frame is
-the minimum posible value and the mass of the rear frame is also small.
+relatively large positive trail (0.7~\si{\meter}). The person is rearward on
+the bike and over 3~\si{\meter} above the ground. The mass of the front frame
+is the minimum possible value and the mass of the rear frame is also small.
 
 The bicycle optimized for 5~\si{\meter\per\second} has a similar geometric
 scale as the reference bicycle except that the front wheel is smaller and the
 rear wheel is larger. The person is located low to the ground and tipped back,
-like one might see on a recumbent bicycle.  This significantly increases the
-vehicles yaw moment of inertia. The trail is miminal, but suprisingly slight
+like one might see on a recumbent bicycle. This significantly increases the
+vehicles yaw moment of inertia. The trail is minimal, but surprisingly slightly
 negative (5~\si{\milli\meter}). The steer axis tilt is slightly shallower than
 the reference bicycle. The mass of the rear frame is similar to the reference
 bicycle but the front frame is at the bound and much lower. The minor principal
 axis of the front frame is almost aligned with the steer axis.
 
-The bicycle optimized for 5~\si{\meter\per\second} is one of the three that is
+The bicycle optimized for 7~\si{\meter\per\second} is one of the three that is
 geometrically smaller than the reference bicycle. The wheelbase is slightly
 larger but the wheels are approximately half the diameter. The rider is low to
-the ground and tipped forward. There is effiectively no trail, the steer axis
-is vertical, and the (very) minimal principal axis is aligned with the steer
-axis making the steering inertia-less. The roll moment of inertia is larger.
+the ground and tipped forward. There is effectively no trail, the steer axis is
+vertical, and the (very) minimal principal axis is aligned with the steer axis
+making the steering effectively inertia-less. The roll moment of inertia is
+larger than the reference bicycle.
 
-The bicycle optimized for 5~\si{\meter\per\second} is much larger than the
+The bicycle optimized for 9~\si{\meter\per\second} is much larger than the
 reference bicycle: wheelbase and rear wheel diameter of 6~\si{\meter}, front
 wheel diameter of 4~\si{\meter}. The trail is large and negative, surely making
-the bicycle open-loop unstable.
+the bicycle open-loop unstable. The person is in a recumbent position and very
+rearward. The mass centers of the person, front and rear frames are very close
+to the respective wheel mass centers. The minor principal axis of the front
+frame is aligned with the steer axis, reducing the steer inertia. The masses of
+the two frames do not seem to be sufficient for such a large steel space frame.
 
-The parameters of the bicycles can be distilled into open loop eigenvalues for
-a clearer understanding of the dynamics, shown in
-Figure~\ref{fig:optimal-eigenvalues}. The 3 and 9 design speed have a simlar
-eigenvalue pattern as well as the 5 and 7. The 7~\si{\meter\per\second} design
-is self-stable at speeds greater than 1.2~\si{\meter\per\second} but the other
+The parameters of the bicycles can also be distilled into open loop eigenvalues
+for a clearer picture of the dynamics, shown in
+Figure~\ref{fig:optimal-eigenvalues}. The 3 and 9~\si{\meter\per\second}
+designs have a similar eigenvalue pattern as does the 5 and
+7~\si{\meter\per\second} designs. The 7~\si{\meter\per\second} design is
+self-stable at speeds greater than 1.2~\si{\meter\per\second} but the other
 three designs are not self-stable at any travel speed from
-\SIrange{0}{10}{\meter\per\second}. Both the 5 and 7 designs have a weave mode
-that increases in frequency rapidly with speed. The weave frequency of the 3
-m/s design is higher than the reference design and present at all speeds.
+\SIrange{0}{10}{\meter\per\second}. Both the 5 and 7~\si{\meter\per\second}
+designs have a weave mode that increases in frequency rapidly with speed. The
+weave frequency of the 3~\si{\meter\per\second} design is higher than the
+reference design and present at all speeds.
 %
 \begin{figure}
   \centering
   \includegraphics[width=6in]{../figures/optimal-eigenvalues.png}
   \label{fig:optimal-eigenvalues}
-  \caption{Real (solid) and imaginary (dashed) parts of the open-loop eigenvlues plotted versus
-    travel speed. The vertical dashed black line indicates the design speed.}
+  \caption{Real (solid) and imaginary (dashed) parts of the open-loop
+    eigenvalues plotted versus travel speed. The vertical dashed black line
+    indicates the design speed.}
 \end{figure}
 
 \section{DISCUSSION AND CONCLUSION}
@@ -632,27 +639,27 @@ would be almost impossible to realize. A constraint that ensures the torso
 cannot occupy the same space as the wheels would solve this. The masses of the
 front and rear frames are low with respect to the geometrical spread a steel
 space frame would have to occupy. The frames also need to be able to span the
-space between the respecitve wheel, mass center of the frame, and the steer
+space between the respective wheel, mass center of the frame, and the steer
 axis and for the rear frame span to the rider's support locations. We currently
-only expliclty deal with spanning the space between the mass center of the
-frame and the respective wheel. Another more restricting appraoch would be to
+only explicitly deal with spanning the space between the mass center of the
+frame and the respective wheel. Another more restricting approach would be to
 specify a generic geometric structure for the front and rear frames. If done,
 maximal stress and deflections of the frames under load could also be
 minimized.
 
-Each optimizal solution requires approximately 12 hours of computation time on
-a high end consumer desktop machine running on a single thread. The number of
-iterations are typically in the hundreds of thousands for convergence. There
-are many avenues for speeding this up that could likely result in solutions in
-one or two hours on the same machine but this is still slow to be particualrly
-pleasant to utlizie in the process of designing a bicycle. Furthermore, the
-time required to translate the resulting parameters in to an actual bicycle
-design complete with structural destails is extremely time consuming.
-Never-the-less, the method shows promise for optimizing an entire vehicle for
-optimal dynamics. This method can be applied to a whole host of human operated
-vehicles opening up many new designs, but as with any optimization it only
-captures a very small set of the variables that a designer has to take into
-account for a vehicle.
+Each optimized solution requires approximately 12 hours of computation time on
+a high-end consumer desktop computer running the optimization procedure
+sequentially. The number of iterations are typically in the hundreds of
+thousands for convergence. There are many avenues for speeding this up that
+could likely result in solutions in one or two hours on the same computer
+hardware but this is still slow to be particularly convenient to utilize in the
+process of designing a bicycle. Furthermore, the time required to translate the
+resulting parameters into an actual bicycle design complete with structural
+details is extremely time consuming.  Never-the-less, the method shows promise
+for optimizing an entire vehicle for optimal dynamics. This method can be
+applied to a whole host of human operated vehicles opening up many new designs,
+but as with any optimization it only captures a very small set of the variables
+that a designer has to take into account for a vehicle.
 
 \section{REPRODUCIBILITY}
 %
