@@ -34,7 +34,7 @@ for ax, speed in zip(axes.flatten()[2:], speeds):
     plot(par_set, ax)
     ax.set_title('{} m/s Design Speed'.format(speed))
 
-width = 12.0
+width = 6.0
 fig.set_size_inches((width, 4/3*width))
 fig.tight_layout()
 fig.savefig('figures/optimal-geometries.png', dpi=300)

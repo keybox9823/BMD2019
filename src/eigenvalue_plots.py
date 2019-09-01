@@ -10,6 +10,8 @@ speed_range = np.linspace(0, 10, num=500)
 
 fig, axes = plt.subplots(nrows=3, ncols=2)
 
+axes[0, 1].axis('off')
+
 with open('data/principal-browserjason.yml', 'r') as f:
     par_dict = yaml.load(f)['values']
     par_set = PrincipalParameterSet(par_dict)
@@ -18,6 +20,7 @@ with open('data/principal-browserjason.yml', 'r') as f:
     model.plot_eigenvalue_parts(v=speed_range, ax=axes[0, 0])
     axes[0, 0].set_ylim((-10, 10))
     axes[0, 0].set_title('Reference')
+    axes[0, 0].set_ylabel('')
 
 for ax, speed in zip(axes.flatten()[2:], speeds):
 
@@ -31,11 +34,13 @@ for ax, speed in zip(axes.flatten()[2:], speeds):
     model = MinimalLinearWhippleCarvalloModel(ben_par_set)
     model.plot_eigenvalue_parts(v=speed_range, ax=ax)
     ax.axvline(speed, color='black', linestyle='--')
-    ax.set_title('{} m/s'.format(speed))
+    ax.set_title('{} m/s Design Speed'.format(speed))
     ax.set_ylim((-10, 10))
     ax.set_ylabel('')
 
-width = 8.0
+axes[1, 0].set_ylabel('Real and Imaginary Parts of the Eigenvalues')
+
+width = 6.0
 fig.set_size_inches((width, 4/3*width))
 fig.tight_layout()
 fig.savefig('figures/optimal-eigenvalues.png', dpi=300)
