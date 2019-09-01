@@ -467,8 +467,10 @@ finds parameter values that produce optimally handling bicycle designs.
 We discover four bicycles for different design speeds (3, 5, 7, and
 9~\si{\meter\per\second}) that have an optimally low HQM, see
 Table~\ref{tab:hqm}, and satisfy all constraints and parameter bounds. The
-optimal parameters for these four bicycles are presented in
-Table~\ref{tab:optimal-values}.
+optimal parameter values for these four bicycles are presented in
+Table~\ref{tab:optimal-values}. We belive these bicycles to be reasoably
+physically realizable. The pictorial representation of the bicycles are
+presented in Figure~\ref{fig:optimal-geometries}.
 %
 \begin{table}
   \caption{Peak HQM values for the reference bicycle and the optimal bicycles
@@ -533,10 +535,6 @@ Table~\ref{tab:optimal-values}.
     \bottomrule
   \end{tabular}
 \end{table}
-
-The pictorial representation of the bicycles are presented in
-Figure~\ref{fig:optimal-geometries}. The most striking feature is that all of
-the bicycle are larger that the reference bicycle in some way.
 %
 \begin{figure}
   \centering
@@ -554,46 +552,46 @@ the bicycle are larger that the reference bicycle in some way.
     gyration of each rigid body.}
 \end{figure}
 
-We
-belive these bicycles to be physically realizable with minor differences.
+The bicycle optimized for 3~\si{\meter\per\second} is about three times larger
+than the reference bicycle. The wheelbase is about 3~\si{\meter} and it has a
+relatively large postive trail (0.7~\si{\meter}). The person is rearward on the
+bike and over 3~\si{\meter} above the ground. The mass of the front frame is
+the minimum posible value and the mass of the rear frame is also small.
 
-  The 3 m/s bicycle places both the rider's mass center and
-the rear frame's mass center close to 3 meters above the ground plane. The 5
-and 7 m/s bicycles have wheelbase values that are simlar to the reference
-bicycle, but 3 and 9 m/s have very large wheel bases. The 9 m/s bicycle is very
-large overall. Only the 5 m/s bicycle is of a scale close to a typical bicycle.
-It is noteable that the 9 m/s bicycle has signficant negative trail.
+The bicycle optimized for 5~\si{\meter\per\second} has a similar geometric
+scale as the reference bicycle except that the front wheel is smaller and the
+rear wheel is larger. The person is located low to the ground and tipped back,
+like one might see on a recumbent bicycle.  This significantly increases the
+vehicles yaw moment of inertia. The trail is miminal, but suprisingly slight
+negative (5~\si{\milli\meter}). The steer axis tilt is slightly shallower than
+the reference bicycle. The mass of the rear frame is similar to the reference
+bicycle but the front frame is at the bound and much lower. The minor principal
+axis of the front frame is almost aligned with the steer axis.
 
-3
-- Rider is over 3 m in the air and leaned forward.
-- 3 m wheel base with 0.7 meter positive trail
-- wheels are over double the diameter of browser wheels
-- minimum front frame mass
+The bicycle optimized for 5~\si{\meter\per\second} is one of the three that is
+geometrically smaller than the reference bicycle. The wheelbase is slightly
+larger but the wheels are approximately half the diameter. The rider is low to
+the ground and tipped forward. There is effiectively no trail, the steer axis
+is vertical, and the (very) minimal principal axis is aligned with the steer
+axis making the steering inertia-less. The roll moment of inertia is larger.
 
-5 m/s
-- rider is laid back a 0.5 meter off ground
-- < 1 m wheelbase
-- essentially zero trail (5 mm negative)
-- minimum front frame mass
+The bicycle optimized for 5~\si{\meter\per\second} is much larger than the
+reference bicycle: wheelbase and rear wheel diameter of 6~\si{\meter}, front
+wheel diameter of 4~\si{\meter}. The trail is large and negative, surely making
+the bicycle open-loop unstable.
 
-7 m/s
-- miminal rotatoinal inertia about the steer axis
-- tall slender fork/handlebar
-- no trail (1 mm postive)
-- half sized wheels (~12 inches)
-- normal wheelbase (1.157)
-- rider tipped forward and low (0.6 m)
-- vertical steer axis
-- 3 m high frame center of mass
+The parameters of the bicycles can be distilled into open loop eigenvalues for
+a clearer understanding of the dynamics, shown in
+Figure~\ref{fig:optimal-eigenvalues}. The 3 and 9 design speed have a simlar
+eigenvalue pattern as well as the 5 and 7.
 
-9
-- very large 5.6 m wheelbase
 %
 \begin{figure}
   \centering
   \includegraphics[width=6in]{../figures/optimal-eigenvalues.png}
   \label{fig:optimal-eigenvalues}
-  \caption{}
+  \caption{Real (solid) and imaginary (dashed) parts of the open-loop eigenvlues plotted versus
+    travel speed. The vertical dashed black line indicates the design speed.}
 \end{figure}
 
 \section{Discussion and Conclusion}
@@ -601,6 +599,8 @@ It is noteable that the 9 m/s bicycle has signficant negative trail.
 - need constraints to keep rider out of wheels
 - need more realistic constraints for the frame mass and inertia based on space
 frame
+- need constraints of rear frame that force it to span from rear wheel to
+person to head tube
 \section{Reproducibility}
 %
 All of the source code, data, and documents needed to reproduce the presented
